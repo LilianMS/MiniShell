@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:04:10 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 17:04:19 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:31:28 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../include/libft.h"
 
 int	ft_abs(int num)
 {

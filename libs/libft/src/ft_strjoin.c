@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 15:28:46 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 23:07:45 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:33:40 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../include/libft.h"
 
 void	ft_strcat(char *dest, const char *src)
 {

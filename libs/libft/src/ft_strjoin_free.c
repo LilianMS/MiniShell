@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 13:57:12 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/02 19:36:14 by lilmende         ###   ########.fr       */
+/*   Created: 2024/10/02 19:30:41 by lilmende          #+#    #+#             */
+/*   Updated: 2024/10/02 19:41:27 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-int	ft_tolower(int c)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
-	if (c >= 'A' && c <= 'Z')
-		c += 32;
-	return (c);
+	char	*new_str;
+
+	new_str = ft_strjoin(s1, s2);
+	free(s1);
+	return (new_str);
 }

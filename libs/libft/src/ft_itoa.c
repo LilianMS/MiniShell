@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 10:41:52 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 15:01:45 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:31:57 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../include/libft.h"
 
 static int	count_digits(int n)
 {

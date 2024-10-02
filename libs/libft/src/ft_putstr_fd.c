@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 16:43:40 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 17:07:31 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:33:06 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../include/libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {

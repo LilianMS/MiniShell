@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:03:29 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 15:15:24 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:33:59 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../include/libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

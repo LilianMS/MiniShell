@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 18:53:40 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 15:20:22 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:34:02 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../include/libft.h"
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {

@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:59:34 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 15:03:59 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:33:02 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../include/libft.h"
 
 void	ft_putnbr_recursive(int n, int fd)
 {

@@ -6,7 +6,7 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:34:19 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/02 19:13:42 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:29:30 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void	ft_strcat(char *dest, const char *src);
 void	ft_strcpy(char *dest, const char *src);
 int		ft_printf(const char *s, ...);
 char	*get_next_line(int fd);
+char	*ft_strjoin_free(char *s1, char *s2);
 
 #endif

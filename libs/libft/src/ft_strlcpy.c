@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 18:42:58 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 15:14:44 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:33:48 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../include/libft.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
