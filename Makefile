@@ -6,13 +6,12 @@
 #    By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/03 15:22:42 by lsampiet         ###   ########.fr        #
+#    Updated: 2024/10/03 15:25:39 by lsampiet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 FLAGS = -Wextra -Wall -Werror -lreadline
-TEST= -g3
 LIBFT = ./libs/libft
 HEADERS = ./includes/minishell.h
 BIN= ./bin/
@@ -52,8 +51,6 @@ $(NAME): $(OBJS)
 	@echo " "
 	@$(CC) $(OBJS) $(LIBS) $(INCLUDES) -o $(NAME)
 
-# test: libft $(NAME) $(TEST)
-
 clean:
 	@make clean -C $(LIBFT)/ --no-print-directory
 	@if ls $(BIN) 1> /dev/null 2>&1; then \
@@ -61,7 +58,11 @@ clean:
 		rm -rf $(BIN); \
 		echo "${YELLOW}Done."; \
 	else \
-		echo "${YELLOW}No objects to delete."; \    --   --
+		echo "${YELLOW}No objects to delete."; \
+	fi \
+
+fclean: clean
+	@make fclean -C $(LIBFT)/ --no-print-directory
 	@echo "${RED}Removing executable..."
 	@rm -rf $(NAME)
 	@echo " ${RED}--    --    --    --    --    --    --    --    --    --    --    --"
