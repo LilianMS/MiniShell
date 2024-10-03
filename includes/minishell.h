@@ -6,7 +6,7 @@
 /*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:31 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/03 12:24:39 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:23:27 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 #include "../libs/libft/includes/libft.h"
 #include "../libs/libft/ft_printf/includes/ft_printf.h"
 #include "../libs/libft/gnl/includes/get_next_line.h"
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <readline/readline.h> 
+#include <readline/history.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 
 typedef struct s_pipex t_pipex;
