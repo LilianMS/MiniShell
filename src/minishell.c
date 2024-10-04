@@ -6,17 +6,39 @@
 /*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:38:49 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/04 17:11:23 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:29:37 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <readline/readline.h>
 
+int	check_quotes(char	*line)
+{
+	int	i;
+	int	quote;
 
-// void	lexical_analysis()
-// {
-	
-// }
+	i = 0;
+	quote = 0;
+	while(line[i])
+	{
+		if(line[i] == '"')
+			quote++;
+		i++;
+	}
+	if(quote == 1)
+	{
+		ft_putstr_fd("Missing double quotes", 2);
+		return (1);
+	}
+	return (0);
+}
+
+void	lexical_analysis(char *line)
+{
+	if(check_quotes(line))
+		exit(EXIT_FAILURE);
+}
 
 int	main(void)
 {
@@ -25,7 +47,12 @@ int	main(void)
 	while (1)
 	{
 		line = readline("minishell> ");
-		add_history(line);
+		// add_history(line);
+		lexical_analysis(line);
+		// if(lexical_analysis(line))
+			// {
+				
+			// }
 		free(line);
 	}
 
