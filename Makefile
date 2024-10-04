@@ -6,18 +6,18 @@
 #    By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/03 15:25:39 by lsampiet         ###   ########.fr        #
+#    Updated: 2024/10/04 19:37:52 by lsampiet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-FLAGS = -Wextra -Wall -Werror -lreadline
+FLAGS = -Wextra -Wall -Werror
 LIBFT = ./libs/libft
 HEADERS = ./includes/minishell.h
 BIN= ./bin/
 SRC_D= ./src/
 CC = cc
-LIBS = $(LIBFT)/libft.a
+LIBS = $(LIBFT)/libft.a -lreadline
 
 SRC= minishell.c
 
@@ -43,13 +43,13 @@ libft:
 
 $(BIN)%.o: $(SRC_D)%.c
 	@mkdir -p $(BIN)
-	@$(CC) $(C_FLAGS) -o $@ -c $< && echo "${YELLOW}Compiling:${RESET} $(notdir $<)"
+	$(CC) $(FLAGS) -o $@ -c $< && echo "${YELLOW}Compiling:${RESET} $(notdir $<)"
 
 $(NAME): $(OBJS)
 	@echo " "
 	@echo "Creating file $(NAME) ..."
 	@echo " "
-	@$(CC) $(OBJS) $(LIBS) $(INCLUDES) -o $(NAME)
+	@$(CC) $(OBJS) $(INCLUDES) -o $(NAME) $(LIBS)
 
 clean:
 	@make clean -C $(LIBFT)/ --no-print-directory
