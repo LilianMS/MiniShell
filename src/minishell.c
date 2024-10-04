@@ -6,12 +6,11 @@
 /*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:38:49 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/04 19:29:37 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/04 19:45:52 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <readline/readline.h>
 
 int	check_quotes(char	*line)
 {
