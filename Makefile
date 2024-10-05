@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+         #
+#    By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/04 19:37:52 by lsampiet         ###   ########.fr        #
+#    Updated: 2024/10/05 20:18:47 by lilmende         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ libft:
 
 $(BIN)%.o: $(SRC_D)%.c
 	@mkdir -p $(BIN)
-	$(CC) $(FLAGS) -o $@ -c $< && echo "${YELLOW}Compiling:${RESET} $(notdir $<)"
+	@$(CC) $(FLAGS) -o $@ -c $< && echo "${YELLOW}Compiling:${RESET} $(notdir $<)"
 
 $(NAME): $(OBJS)
 	@echo " "
@@ -65,9 +65,9 @@ fclean: clean
 	@make fclean -C $(LIBFT)/ --no-print-directory
 	@echo "${RED}Removing executable..."
 	@rm -rf $(NAME)
-	@echo " ${RED}--    --    --    --    --    --    --    --    --    --    --    --"
-	@echo "                          Program Removed ✔️                         "
-	@echo " --    --    --    --    --    --    --    --    --    --    --    --${RESET}"
+	@echo " "
+	@echo " ${RED}    --    Program Removed ✔️    --${RESET}"
+	@echo " "
 
 re: fclean all
 
