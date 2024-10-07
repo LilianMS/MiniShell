@@ -6,20 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 19:21:48 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/05 20:14:21 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:59:58 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
- * @brief Esta função verifica aspas simples e duplas em uma linha de entrada.
- * lógica de alternar um estado de "dentro de aspas" sempre que encontrar uma aspa correspondente.
- * 
- * Inicialize variáveis para rastrear o estado das aspas simples e duplas
- * Percorra cada caractere da linha de entrada.
- * Quando encontrar uma aspa simples, alterne o estado das aspas simples se não estiver dentro de aspas duplas.
- * Quando encontrar uma aspa dupla, alterne o estado das aspas duplas se não estiver dentro de aspas simples.
- * No final, verifique se ambos os estados de aspas estão fechados corretamente.
- */
+#include "../includes/minishell.h"
 
 int	check_quotes(const char *line)
 {
@@ -38,3 +29,16 @@ int	check_quotes(const char *line)
 	}
 	return (!in_single_quote && !in_double_quote);
 }
+
+/**
+ * @brief Esta função verifica aspas simples e duplas em uma linha de entrada.
+ * lógica de alternar um estado de "dentro de aspas" sempre que encontrar uma \
+ 	aspa correspondente.
+ * Inicialize variáveis para rastrear o estado das aspas simples e duplas
+ * Percorra cada caractere da linha de entrada.
+ * Quando encontrar uma aspa simples, alterne o estado das aspas simples se \
+ 	não estiver dentro de aspas duplas.
+ * Quando encontrar uma aspa dupla, alterne o estado das aspas duplas se \
+ 	não estiver dentro de aspas simples.
+ * No final, verifique se ambos os estados de aspas estão fechados corretamente.
+ */
