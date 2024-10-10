@@ -6,14 +6,14 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:39:16 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/10 14:08:00 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:22:37 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int main() {
-	char    *line;
+int main(void) {
+	char	*line;
 
 	while (1) {
 		line = readline("minishell> ");
@@ -24,27 +24,21 @@ int main() {
 		}
 		add_history(line);
 		if (*line) {
-			
 			char *args[] = {line, NULL};
-			
-			// Cria um processo filho para executar o comando
 			pid_t pid = fork();
 			if (pid == 0) {
-				// Processo filho: executa o comando
 				if (execve(args[0], args, NULL) == -1) {
 					perror("minishell");
 				}
 				exit(EXIT_FAILURE);
 			} else if (pid > 0) {
-				// Processo pai: espera o processo filho terminar
 				wait(NULL);
 			} else {
 				perror("fork");
 			}
 		}
-		free(line);
 	}
-
+	free(line);
 	return 0;
 }
 
