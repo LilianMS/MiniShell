@@ -6,7 +6,7 @@
 /*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:38:49 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/10 16:29:59 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:41:39 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	lexical_analysis(char *line)
 	}
 }
 
-// void	init_minishell(t_mini *mini, char *line)
-// {
-// 	mini->input = line;
-// }
+void	init_minishell(t_mini *mini, char *line)
+{
+	mini->input = line;
+}
 
 int	main(void)
 {

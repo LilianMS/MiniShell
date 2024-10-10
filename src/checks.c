@@ -6,16 +6,16 @@
 /*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 19:21:48 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/10 16:25:57 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:39:58 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	m_check_quotes(const char *line)
+int m_check_quotes(const char *line)
 {
-	int	single_q;
-	int	double_q;
+	int single_q;
+	int double_q;
 
 	single_q = 0;
 	double_q = 0;
