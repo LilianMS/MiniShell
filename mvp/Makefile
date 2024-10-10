@@ -6,7 +6,7 @@
 #    By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/10 13:46:09 by lilmende         ###   ########.fr        #
+#    Updated: 2024/10/10 17:25:15 by lilmende         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,10 @@ CYAN    = \033[1;36m
 RESET   = \033[0m
 
 all: libft $(NAME)
-	@echo "${YELLOW}    --    Compiled Program >>> ${GREEN}./$(NAME)${YELLOW}    --"
+	@echo "${YELLOW}    --    Compiled Program >>> ${GREEN}./$(NAME)${YELLOW}    --${RESET}"
 
 libft:
-	@make -C $(LIBFT)/ --no-print-directory 
+	@make -C $(LIBFT)/ --no-print-directory
 
 $(BIN)%.o: $(SRC_D)%.c
 	@mkdir -p $(BIN)
