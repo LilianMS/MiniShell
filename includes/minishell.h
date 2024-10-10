@@ -6,7 +6,7 @@
 /*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:31 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/10 17:27:10 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:54:16 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ struct s_mini
 };
 
 // Lexical Analysis Functions
-// int		m_check_closing_quote(char *line, char specific, int i);
 int	m_check_quotes(const char *line);
 void	lexical_analysis(char *line);
 
