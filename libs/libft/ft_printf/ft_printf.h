@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:34:19 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/03 12:22:52 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/09/01 16:28:01 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include "../../includes/libft.h"
+# include "../includes/libft.h"
+# include <stdarg.h>
 
 int	ft_print_char(int c);
 int	ft_print_str(char *str);

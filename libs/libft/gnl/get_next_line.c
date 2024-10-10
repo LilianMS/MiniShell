@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:22:10 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/03 12:44:05 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/09/01 16:45:08 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/get_next_line.h"
+#include "get_next_line.h"
 
 char	*ft_strread(int fd, char *str)
 {
