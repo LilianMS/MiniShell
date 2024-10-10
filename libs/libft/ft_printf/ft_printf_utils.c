@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:47:25 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/03 12:45:08 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:39:19 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/ft_printf.h"
+#include "./includes/ft_printf.h"
 
 int	ft_print_char(int c)
 {

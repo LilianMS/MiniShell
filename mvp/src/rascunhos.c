@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   MVP.c                                              :+:      :+:    :+:   */
+/*   rascunhos.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:39:16 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/04 17:08:43 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:09:00 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h> //adicionar a flag -lreadline ao comando de compilação.
-#include <readline/history.h>
-#include <sys/types.h> // tipo pid_t
-#include <sys/wait.h>
+#include "../../includes/minishell.h"
 
 int main() {
     char *line;
 
     while (1) {
-        // Exibe o prompt e lê a linha de comando
         line = readline("minishell> ");
-        
-        // Adiciona a linha ao histórico de comandos
-        add_history(line);
-        
-        // Verifica se o comando não é vazio
-        if (line && *line) {
+		if (!line)
+		{
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			break ;
+		}
+		add_history(line);
+		if (*line) {
             // Quebra o comando em argumentos (simplesmente por espaço aqui)
             char *args[] = {line, NULL};
             

@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 11:00:17 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 15:15:19 by lilmende         ###   ########.fr       */
+/*   Created: 2024/10/05 19:21:48 by lilmende          #+#    #+#             */
+/*   Updated: 2024/10/10 13:48:17 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../includes/minishell.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+int	check_quotes(const char *line)
 {
-	char			*result;
-	size_t			len;
-	unsigned int	i;
+	int	in_single_quote;
+	int	in_double_quote;
 
-	if (!s || !f)
-		return (NULL);
-	result = ft_strdup(s);
-	if (!result)
-		return (NULL);
-	len = ft_strlen(s);
-	i = 0;
-	while (i < len)
+	in_single_quote = 0;
+	in_double_quote = 0;
+	while (*line)
 	{
-		result[i] = f(i, result[i]);
-		i++;
+		if (*line == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (*line == '\"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		line++;
 	}
-	return (result);
+	return (!in_single_quote && !in_double_quote);
 }
