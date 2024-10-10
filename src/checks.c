@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 19:21:48 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/06 20:59:58 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:44:04 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	check_quotes(const char *line)
+int	m_check_quotes(const char *line)
 {
 	int	in_single_quote;
 	int	in_double_quote;
@@ -23,7 +23,7 @@ int	check_quotes(const char *line)
 	{
 		if (*line == '\'' && !in_double_quote)
 			in_single_quote = !in_single_quote;
-		else if (*line == '\"' && !in_single_quote)
+		else if (*line == '"' && !in_single_quote)
 			in_double_quote = !in_double_quote;
 		line++;
 	}
