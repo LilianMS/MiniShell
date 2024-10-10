@@ -6,14 +6,14 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 11:20:59 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 16:45:18 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:38:06 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include "../includes/libft.h"
+# include "../../includes/libft.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024

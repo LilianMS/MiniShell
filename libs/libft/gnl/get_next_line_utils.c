@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 09:08:47 by lilmende          #+#    #+#             */
-/*   Updated: 2024/09/01 16:45:52 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:36:26 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "./includes/get_next_line.h"
 
 char	*ft_str_join(char *str, char *buff)
 {
