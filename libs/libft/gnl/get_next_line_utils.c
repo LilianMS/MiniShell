@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 09:08:47 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/03 12:44:05 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:36:26 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/get_next_line.h"
+#include "./includes/get_next_line.h"
 
 char	*ft_str_join(char *str, char *buff)
 {

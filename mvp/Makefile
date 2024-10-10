@@ -6,21 +6,20 @@
 #    By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/10 15:44:25 by lsampiet         ###   ########.fr        #
+#    Updated: 2024/10/10 13:46:09 by lilmende         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 FLAGS = -Wextra -Wall -Werror
-LIBFT = ./libs/libft
-HEADERS = ./includes/minishell.h
-BIN= ./bin/
+LIBFT = ../libs/libft
+HEADERS = ../includes/minishell.h
+BIN= ../bin/
 SRC_D= ./src/
 CC = cc
 LIBS = $(LIBFT)/libft.a -lreadline
 
-SRC= minishell.c \
-	 checks.c \
+SRC= MVP.c
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 

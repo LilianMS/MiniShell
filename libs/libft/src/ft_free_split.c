@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
+/*   ft_free_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/02 19:30:41 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/03 12:42:32 by lsampiet         ###   ########.fr       */
+/*   Created: 2024/10/10 12:53:21 by lilmende          #+#    #+#             */
+/*   Updated: 2024/10/10 12:54:25 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-char	*ft_strjoin_free(char *s1, char *s2)
+void	ft_free_split(char **split)
 {
-	char	*new_str;
+	int	i;
 
-	new_str = ft_strjoin(s1, s2);
-	free(s1);
-	return (new_str);
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }

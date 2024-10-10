@@ -1,3 +1,5 @@
-# MVP.c
+*.o
+*.a
 a.out
-# main_my_readline.c
+rascunhos/
+minishell
