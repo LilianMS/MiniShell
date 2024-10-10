@@ -6,7 +6,7 @@
 #    By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/05 20:18:47 by lilmende         ###   ########.fr        #
+#    Updated: 2024/10/10 15:44:25 by lsampiet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRC_D= ./src/
 CC = cc
 LIBS = $(LIBFT)/libft.a -lreadline
 
-SRC= minishell.c
+SRC= minishell.c \
+	 checks.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 
