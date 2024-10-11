@@ -17,6 +17,8 @@ void	lexical_analysis(char *line)
 	if(!m_check_quotes(line))
 	{
 		ft_putstr_fd("Missing closing quote", 2);
+		free(line);
+		clear_history();
 		exit(EXIT_FAILURE);
 	}
 }
@@ -28,13 +30,17 @@ void	init_minishell(t_mini *mini, char *line)
 
 int	main(void)
 {
-	t_mini	*mini;
 	char *line;
 
-	mini = NULL;
 	while (1)
 	{
 		line = readline("minishell> ");
+		if (!line)
+		{
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			clear_history();
+			break ;
+		}
 		// init_minishell(mini, line);
 		add_history(line);
 		lexical_analysis(line);
