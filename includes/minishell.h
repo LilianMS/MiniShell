@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:31 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/10 18:54:16 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:09:36 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 #define MINISHELL_H
 
 #include "../libs/libft/includes/libft.h"
-#include "../libs/libft/ft_printf/includes/ft_printf.h"
-#include "../libs/libft/gnl/includes/get_next_line.h"
 #include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -33,15 +29,10 @@ struct s_mini
 };
 
 // Lexical Analysis Functions
-int	m_check_quotes(const char *line);
-void	lexical_analysis(char *line);
+int		m_check_quotes(const char *line);
+void	m_lexical_analysis(char *line);
 
-// Pipes and child processes creation functions
+// Parsing Functions
 
-
-// Paths to commands generation functions
-
-
-// Memory cleansing and error functions
 
 #endif

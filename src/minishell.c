@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:38:49 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/10 17:41:39 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:09:58 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	lexical_analysis(char *line)
+void	m_lexical_analysis(char *line)
 {
 	if(!m_check_quotes(line))
 	{
@@ -43,7 +43,7 @@ int	main(void)
 		}
 		// init_minishell(mini, line);
 		add_history(line);
-		lexical_analysis(line);
+		m_lexical_analysis(line);
 		// if(lexical_analysis(line))
 			// {
 				

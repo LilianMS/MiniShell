@@ -6,7 +6,7 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:39:16 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/10 20:22:37 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:06:09 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int main(void) {
 		}
 	}
 	free(line);
+	ft_printf("Exiting minishell\n");
 	return 0;
 }
 
