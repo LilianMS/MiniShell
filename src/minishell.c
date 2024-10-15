@@ -6,7 +6,7 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:38:49 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/14 17:09:58 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:37:17 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	m_lexical_analysis(char *line)
 {
 	if(!m_check_quotes(line))
 	{
-		ft_putstr_fd("Missing closing quote", 2);
+		ft_putendl_fd("minishell: syntax error with open quotes", 2);
 		free(line);
 		clear_history();
 		exit(EXIT_FAILURE);

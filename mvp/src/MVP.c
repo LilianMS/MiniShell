@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:39:16 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/14 17:06:09 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:41:09 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
 int main(void) {
 	char	*line;

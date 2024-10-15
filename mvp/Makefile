@@ -6,7 +6,7 @@
 #    By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/10 17:25:15 by lilmende         ###   ########.fr        #
+#    Updated: 2024/10/15 17:45:11 by lilmende         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC_D= ./src/
 CC = cc
 LIBS = $(LIBFT)/libft.a -lreadline
 
-SRC= MVP.c
+SRC= ras_est_token.c debug.c
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 
