@@ -33,3 +33,21 @@ git push --force
 
 ```
 
+### Exemplos de commit
+
+:monocle_face: fix: corrected by norminette
+
+:zebra: fix: corrected by norminette
+
+:pencil: draft: m_tokenize and todo_notes.md
+
+:sparkles: feat: add ft_strndup in Libft
+
+:broom: cleanup: remove redundant lines
+
+:boom: fix: não tínhamos dado git push nessas alterações
+
+:bug: bug: correct makefile
+
+:books: docs: update README
+
