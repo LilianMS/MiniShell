@@ -1,7 +1,4 @@
 *.o
 *.a
 a.out
-rascunhos/
 minishell
-*rascunho*
-ft_realloc.c
