@@ -142,7 +142,7 @@ char *append_substring(char *word, char *input, int start, int end)
         return NULL;
     }
 
-    strcat(word, substring);
+    ft_strcat(word, substring);
     free(substring);
     return word;
 }
@@ -157,7 +157,7 @@ char *process_expansion(char *input, int *i, char *word, int start)
     word = ft_rrealloc(word, ft_strlen(word) + ft_strlen(expanded_word) + 1);
     if (!word) 
         return NULL;
-    strcat(word, expanded_word);
+    ft_strcat(word, expanded_word);
     free(expanded_word);
 
     return word;
@@ -173,7 +173,7 @@ char *process_quotes(char *input, int *i, char *word, int start)
     word = ft_rrealloc(word, ft_strlen(word) + ft_strlen(quoted_word) + 1);
     if (!word) 
         return NULL;
-    strcat(word, quoted_word);
+    ft_strcat(word, quoted_word);
     free(quoted_word);
 
     return word;
@@ -319,8 +319,8 @@ int main()
 
 //mudei: strdup -> ft_strdup, strlen -> ft_strlen, isspace -> ft_isspace
 
-//mudei: strndup -> ft_strndup,
+//mudei: strndup -> ft_strndup, strcat -> ft_strcat,
 
-//mudar: strcat -> ft_strcat, strcpy -> ft_strcpy, strncpy -> ft_strncpy
+
 
 // refazer realloc !!!

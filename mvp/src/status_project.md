@@ -25,6 +25,8 @@
 
 - [ ] agrupar código para funcionar com MVP
 
+- [ ] implementar << heredoc
+
 - [ ] ajustar Makefile para inserir novos diretórios para separar grupos de funções
 
 - [ ] **Como transitar atual para status do automato?**
