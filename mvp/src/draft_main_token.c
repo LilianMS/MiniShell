@@ -7,10 +7,14 @@
 typedef enum e_token_type
 {
     CMD,
+    ARG,
     PIPE,
     REDIR_IN,
     REDIR_OUT,
-    REDIR_APPEND
+    REDIR_APPEND,
+    VARIABLE,
+    STRING,
+    UNKNOWN
 } t_token_type;
 
 // Estrutura do token
@@ -18,42 +22,8 @@ typedef struct s_token
 {
     char            *value;
     t_token_type    type;
-    struct s_token  *next;
-} t_token;
-
-// Funções auxiliares da libft
-
-size_t ft_strlen(const char *s)
-{
-    size_t len = 0;
-
-    if (!s)
-        return 0;
-    while (s[len])
-        len++;
-    return len;
-}
-
-char *ft_strdup(const char *s)
-{
-    char *dst;
-    dst = malloc(ft_strlen(s) + 1);
-    if (dst == NULL)
-        return NULL;
-    strcpy(dst, s);
-    return dst;
-}
-
-char *ft_strndup(const char *s, size_t n)
-{
-    char *dst;
-    dst = malloc(n + 1);
-    if (!dst)
-        return NULL;
-    strncpy(dst, s, n);
-    dst[n] = '\0';  // Certifique-se de que a string resultante seja terminada em '\0'
-    return dst;
-}
+    struct s_token  *next; // Para formar uma lista encadeada de tokens
+}   t_token;
 
 char *ft_realloc(char *ptr, size_t new_size)
 {
@@ -65,34 +35,6 @@ char *ft_realloc(char *ptr, size_t new_size)
     }
     return new_ptr;
 }
-
-char *ft_strcat(char *dest, const char *src)
-{
-    size_t i = 0;
-    size_t j = 0;
-
-    // Encontra o final da string 'dest'
-    while (dest[i] != '\0')
-        i++;
-
-    // Concatena 'src' no final de 'dest'
-    while (src[j] != '\0') {
-        dest[i] = src[j];
-        i++;
-        j++;
-    }
-
-    dest[i] = '\0';  // Adiciona o terminador nulo no final
-
-    return dest;
-}
-
-int ft_isspace(char c)
-{
-    return isspace(c);
-}
-
-// Funções relacionadas aos tokens
 
 void m_free_tokens(t_token *tokens)
 {
@@ -116,7 +58,7 @@ t_token *m_create_token(char *value, t_token_type type)
     token = malloc(sizeof(t_token));
     if (!token)
         return NULL;
-    token->value = ft_strdup(value);
+    token->value = strdup(value);
     token->type = type;
     token->next = NULL;
     return token;
@@ -146,7 +88,7 @@ int m_is_special_char(char c)
 // Função para pular espaços em branco
 void m_skip_whitespace(char *input, int *i)
 {
-    while (input[*i] && ft_isspace(input[*i]))
+    while (input[*i] && isspace(input[*i]))
         (*i)++;
 }
 
@@ -190,7 +132,7 @@ char *m_handle_quotes(char *input, int *i)
         (*i)++;
     if (input[*i] == quote)  // Fecha a aspa
         (*i)++;
-    return ft_strndup(&input[start], (*i) - start - 1);  // Retorna o conteúdo entre aspas
+    return strndup(&input[start], (*i) - start - 1);  // Retorna o conteúdo entre aspas
 }
 
 // Função para tratar expansões de variáveis
@@ -203,31 +145,29 @@ char *m_handle_expansion(char *input, int *i)
     start = ++(*i); // Avança após o '$'
     while (input[*i] && (isalnum(input[*i]) || input[*i] == '_'))
         (*i)++;
-    var_name = ft_strndup(&input[start], (*i) - start);
+    var_name = strndup(&input[start], (*i) - start);
     var_value = getenv(var_name); // Obtém o valor da variável de ambiente
     free(var_name);
     if (var_value)
-        return ft_strdup(var_value);
+        return strdup(var_value);
     else
-        return ft_strdup(""); // Retorna string vazia se a variável não existir
+        return strdup(""); // Retorna string vazia se a variável não existir
 }
-
-// a partir daqui são funções auxiliares para m_process_word
 
 char *append_substring(char *word, char *input, int start, int end)
 {
-    char *substring = ft_strndup(&input[start], end - start);
+    char *substring = strndup(&input[start], end - start);
     if (!substring) 
         return NULL;
 
-    word = ft_realloc(word, ft_strlen(word) + ft_strlen(substring) + 1);
+    word = ft_realloc(word, strlen(word) + strlen(substring) + 1);
     if (!word) 
     {
         free(substring);
         return NULL;
     }
 
-    ft_strcat(word, substring);
+    strcat(word, substring);
     free(substring);
     return word;
 }
@@ -239,10 +179,10 @@ char *process_expansion(char *input, int *i, char *word, int start)
         word = append_substring(word, input, start, *i);
 
     expanded_word = m_handle_expansion(input, i);
-    word = ft_realloc(word, ft_strlen(word) + ft_strlen(expanded_word) + 1);
+    word = ft_realloc(word, strlen(word) + strlen(expanded_word) + 1);
     if (!word) 
         return NULL;
-    ft_strcat(word, expanded_word);
+    strcat(word, expanded_word);
     free(expanded_word);
 
     return word;
@@ -255,10 +195,10 @@ char *process_quotes(char *input, int *i, char *word, int start)
         word = append_substring(word, input, start, *i);
 
     quoted_word = m_handle_quotes(input, i);
-    word = ft_realloc(word, ft_strlen(word) + ft_strlen(quoted_word) + 1);
+    word = ft_realloc(word, strlen(word) + strlen(quoted_word) + 1);
     if (!word) 
         return NULL;
-    ft_strcat(word, quoted_word);
+    strcat(word, quoted_word);
     free(quoted_word);
 
     return word;
@@ -272,12 +212,12 @@ char *process_remaining_word(char *input, int *i, char *word, int start)
     return word;
 }
 
-void m_process_word(char *input, int *i, t_token **tokens)
+void m_process_word(char *input, int *i, t_token **tokens, int is_first)
 {
-    char *word = ft_strdup(""); 
+    char *word = strdup(""); 
     int start = *i;
 
-    while (input[*i] && !ft_isspace(input[*i]) && !m_is_special_char(input[*i]))
+    while (input[*i] && !isspace(input[*i]) && !m_is_special_char(input[*i]))
     {
         if (input[*i] == '\'' || input[*i] == '\"')
             word = process_quotes(input, i, word, start);
@@ -288,25 +228,31 @@ void m_process_word(char *input, int *i, t_token **tokens)
     }
 
     word = process_remaining_word(input, i, word, start);
-    m_add_token(tokens, m_create_token(word, CMD));
+    t_token_type type = is_first ? CMD : ARG;
+    m_add_token(tokens, m_create_token(word, type));
     free(word);
 }
-
-
 
 // Função principal de tokenização
 t_token *m_tokenize(char *input)
 {
     t_token *tokens = NULL;
     int i = 0;
+    int is_first = 1;
 
     while (input[i])
     {
         m_skip_whitespace(input, &i);
         if (m_is_special_char(input[i]))
+        {
             m_process_operator(input, &i, &tokens);
+            is_first = 1; // Reinicia após operadores
+        }
         else if (input[i])
-            m_process_word(input, &i, &tokens);
+        {
+            m_process_word(input, &i, &tokens, is_first);
+            is_first = 0;
+        }
     }
 
     return tokens;
@@ -327,14 +273,70 @@ void print_tokens(t_token *tokens)
 int main()
 {
     t_token *tokens;
-    char *input = "ls -l | grep .c";
 
-    tokens = m_tokenize(input);
-
+    // Caso 1: Comando simples
+    char *input1 = "ls -l /home";
+    printf("Input: %s\n", input1);
+    tokens = m_tokenize(input1);
     print_tokens(tokens);
     m_free_tokens(tokens);
-    
+    printf("\n");
+
+    // Caso 2: Comando com pipe
+    char *input2 = "ls -l | grep .c";
+    printf("Input: %s\n", input2);
+    tokens = m_tokenize(input2);
+    print_tokens(tokens);
+    m_free_tokens(tokens);
+    printf("\n");
+
+    // Caso 3: Redirecionamento de entrada e saída
+    char *input3 = "cat < input.txt > output.txt";
+    printf("Input: %s\n", input3);
+    tokens = m_tokenize(input3);
+    print_tokens(tokens);
+    m_free_tokens(tokens);
+    printf("\n");
+
+    // Caso 4: Redirecionamento de append
+    char *input4 = "echo \"Hello World\" >> output.txt";
+    printf("Input: %s\n", input4);
+    tokens = m_tokenize(input4);
+    print_tokens(tokens);
+    m_free_tokens(tokens);
+    printf("\n");
+
+    // Caso 5: Comando com variável de ambiente
+    char *input5 = "echo $USER";
+    printf("Input: %s\n", input5);
+    tokens = m_tokenize(input5);
+    print_tokens(tokens);
+    m_free_tokens(tokens);
+    printf("\n");
+
+    // Caso 6: Comando com aspas simples e duplas
+    char *input6 = "echo 'Single quote test' \"Double quote test\"";
+    printf("Input: %s\n", input6);
+    tokens = m_tokenize(input6);
+    print_tokens(tokens);
+    m_free_tokens(tokens);
+    printf("\n");
+
+    // Caso 7: Comando complexo com pipes, redirecionamento e variáveis
+    char *input7 = "grep $USER < input.txt | wc -l > output.txt";
+    printf("Input: %s\n", input7);
+    tokens = m_tokenize(input7);
+    print_tokens(tokens);
+    m_free_tokens(tokens);
+    printf("\n");
+
+    // Caso 8: Comando vazio (só espaços em branco)
+    char *input8 = "   ";
+    printf("Input: \"%s\"\n", input8);
+    tokens = m_tokenize(input8);
+    print_tokens(tokens);
+    m_free_tokens(tokens);
+    printf("\n");
+
     return 0;
 }
-
-// proximo passo testar com minhas funções de libft
