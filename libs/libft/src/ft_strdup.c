@@ -6,7 +6,7 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:16:57 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/16 16:06:23 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/17 10:43:24 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,11 @@ char	*ft_strdup(const char *s)
 char	*ft_strndup(const char *s, size_t n)
 {
 	char	*dst;
-	size_t	len;
-
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dst = malloc(len + 1);
-	if (dst == NULL)
+	
+	dst = malloc(n + 1);
+	if (!dst)
 		return (NULL);
-	ft_strlcpy(dst, s, len + 1);
+	ft_strlcpy(dst, s, n);
+	dst[n] = '\0';
 	return (dst);
 }
