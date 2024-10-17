@@ -1,33 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+#include "../includes/minishell.h"
 
-// Definindo os tipos de tokens
-typedef enum e_token_type
+char *ft_rrealloc(char *ptr, size_t new_size)
 {
-    CMD,
-    ARG,
-    PIPE,
-    REDIR_IN,
-    REDIR_OUT,
-    REDIR_APPEND,
-    VARIABLE,
-    STRING,
-    UNKNOWN
-} t_token_type;
-
-// Estrutura do token
-typedef struct s_token
-{
-    char            *value;
-    t_token_type    type;
-    struct s_token  *next; // Para formar uma lista encadeada de tokens
-}   t_token;
-
-char *ft_realloc(char *ptr, size_t new_size)
-{
-    char *new_ptr = realloc(ptr, new_size);
+    char *new_ptr =(char *)realloc(ptr, new_size); // modificar função
     if (!new_ptr)
     {
         free(ptr);
@@ -58,7 +33,7 @@ t_token *m_create_token(char *value, t_token_type type)
     token = malloc(sizeof(t_token));
     if (!token)
         return NULL;
-    token->value = strdup(value);
+    token->value = ft_strdup(value);
     token->type = type;
     token->next = NULL;
     return token;
@@ -132,7 +107,7 @@ char *m_handle_quotes(char *input, int *i)
         (*i)++;
     if (input[*i] == quote)  // Fecha a aspa
         (*i)++;
-    return strndup(&input[start], (*i) - start - 1);  // Retorna o conteúdo entre aspas
+    return ft_strndup(&input[start], (*i) - start - 1);  // Retorna o conteúdo entre aspas
 }
 
 // Função para tratar expansões de variáveis
@@ -145,29 +120,29 @@ char *m_handle_expansion(char *input, int *i)
     start = ++(*i); // Avança após o '$'
     while (input[*i] && (isalnum(input[*i]) || input[*i] == '_'))
         (*i)++;
-    var_name = strndup(&input[start], (*i) - start);
+    var_name = ft_strndup(&input[start], (*i) - start);
     var_value = getenv(var_name); // Obtém o valor da variável de ambiente
     free(var_name);
     if (var_value)
-        return strdup(var_value);
+        return ft_strdup(var_value);
     else
-        return strdup(""); // Retorna string vazia se a variável não existir
+        return ft_strdup(""); // Retorna string vazia se a variável não existir
 }
 
 char *append_substring(char *word, char *input, int start, int end)
 {
-    char *substring = strndup(&input[start], end - start);
+    char *substring = ft_strndup(&input[start], end - start);
     if (!substring) 
         return NULL;
 
-    word = ft_realloc(word, strlen(word) + strlen(substring) + 1);
+    word = ft_rrealloc(word, ft_strlen(word) + ft_strlen(substring) + 1);
     if (!word) 
     {
         free(substring);
         return NULL;
     }
 
-    strcat(word, substring);
+    ft_strcat(word, substring);
     free(substring);
     return word;
 }
@@ -179,10 +154,10 @@ char *process_expansion(char *input, int *i, char *word, int start)
         word = append_substring(word, input, start, *i);
 
     expanded_word = m_handle_expansion(input, i);
-    word = ft_realloc(word, strlen(word) + strlen(expanded_word) + 1);
+    word = ft_rrealloc(word, ft_strlen(word) + ft_strlen(expanded_word) + 1);
     if (!word) 
         return NULL;
-    strcat(word, expanded_word);
+    ft_strcat(word, expanded_word);
     free(expanded_word);
 
     return word;
@@ -195,10 +170,10 @@ char *process_quotes(char *input, int *i, char *word, int start)
         word = append_substring(word, input, start, *i);
 
     quoted_word = m_handle_quotes(input, i);
-    word = ft_realloc(word, strlen(word) + strlen(quoted_word) + 1);
+    word = ft_rrealloc(word, ft_strlen(word) + ft_strlen(quoted_word) + 1);
     if (!word) 
         return NULL;
-    strcat(word, quoted_word);
+    ft_strcat(word, quoted_word);
     free(quoted_word);
 
     return word;
@@ -214,10 +189,10 @@ char *process_remaining_word(char *input, int *i, char *word, int start)
 
 void m_process_word(char *input, int *i, t_token **tokens, int is_first)
 {
-    char *word = strdup(""); 
+    char *word = ft_strdup(""); 
     int start = *i;
 
-    while (input[*i] && !isspace(input[*i]) && !m_is_special_char(input[*i]))
+    while (input[*i] && !ft_isspace(input[*i]) && !m_is_special_char(input[*i]))
     {
         if (input[*i] == '\'' || input[*i] == '\"')
             word = process_quotes(input, i, word, start);
@@ -340,3 +315,12 @@ int main()
 
     return 0;
 }
+
+
+//mudei: strdup -> ft_strdup, strlen -> ft_strlen, isspace -> ft_isspace
+
+//mudei: strndup -> ft_strndup, strcat -> ft_strcat,
+
+
+
+// refazer realloc !!!
