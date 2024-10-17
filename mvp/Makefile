@@ -6,7 +6,7 @@
 #    By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/17 12:24:47 by lilmende         ###   ########.fr        #
+#    Updated: 2024/10/17 15:25:59 by lilmende         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC_D= ./src/
 CC = cc
 LIBS = $(LIBFT)/libft.a -lreadline
 
-SRC= draft_main_token_1.c
+SRC= draft_main_token_2.c
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 

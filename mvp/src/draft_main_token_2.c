@@ -107,7 +107,7 @@ char *m_handle_quotes(char *input, int *i)
         (*i)++;
     if (input[*i] == quote)  // Fecha a aspa
         (*i)++;
-    return strndup(&input[start], (*i) - start - 1);  // Retorna o conteúdo entre aspas
+    return ft_strndup(&input[start], (*i) - start - 1);  // Retorna o conteúdo entre aspas
 }
 
 // Função para tratar expansões de variáveis
@@ -120,7 +120,7 @@ char *m_handle_expansion(char *input, int *i)
     start = ++(*i); // Avança após o '$'
     while (input[*i] && (isalnum(input[*i]) || input[*i] == '_'))
         (*i)++;
-    var_name = strndup(&input[start], (*i) - start);
+    var_name = ft_strndup(&input[start], (*i) - start);
     var_value = getenv(var_name); // Obtém o valor da variável de ambiente
     free(var_name);
     if (var_value)
@@ -131,7 +131,7 @@ char *m_handle_expansion(char *input, int *i)
 
 char *append_substring(char *word, char *input, int start, int end)
 {
-    char *substring = strndup(&input[start], end - start);
+    char *substring = ft_strndup(&input[start], end - start);
     if (!substring) 
         return NULL;
 
@@ -319,6 +319,8 @@ int main()
 
 //mudei: strdup -> ft_strdup, strlen -> ft_strlen, isspace -> ft_isspace
 
-//mudar: strndup -> ft_strndup, strcat -> ft_strcat, strcpy -> ft_strcpy, strncpy -> ft_strncpy
+//mudei: strndup -> ft_strndup,
+
+//mudar: strcat -> ft_strcat, strcpy -> ft_strcpy, strncpy -> ft_strncpy
 
 // refazer realloc !!!
