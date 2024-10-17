@@ -6,7 +6,7 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:01:17 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/16 12:44:19 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/17 10:50:03 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_realloc(void *ptr, size_t new_size)
 
 	if (!ptr)
 		return (malloc(new_size));
-	if (new_size == 0)
+	if (!new_size == 0)
 	{
 		free(ptr);
 		return (NULL);
