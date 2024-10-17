@@ -2,7 +2,7 @@
 
 char *ft_rrealloc(char *ptr, size_t new_size)
 {
-    char *new_ptr = realloc(ptr, new_size); // modificar função
+    char *new_ptr =(char *)ft_realloc(ptr, new_size); // modificar função
     if (!new_ptr)
     {
         free(ptr);
@@ -189,7 +189,7 @@ char *process_remaining_word(char *input, int *i, char *word, int start)
 
 void m_process_word(char *input, int *i, t_token **tokens, int is_first)
 {
-    char *word = strdup(""); 
+    char *word = ft_strdup(""); 
     int start = *i;
 
     while (input[*i] && !ft_isspace(input[*i]) && !m_is_special_char(input[*i]))
