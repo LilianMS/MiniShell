@@ -6,7 +6,7 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:31 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/15 21:36:47 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:48:08 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,19 @@ void	m_lexical_analysis(char *line);
 // Token Functions
 
 t_token	*m_tokenize(char *input);
+
 t_token	*m_create_token(char *value, t_token_type type);
 void	m_free_tokens(t_token *tokens);
 void	m_add_token(t_token **token_list, t_token *new_token);
 int		m_is_special_char(char c);
 
+void	m_skip_whitespace(char *input, int *i);
+void	m_process_operator(char *input, int *i, t_token **tokens);
+void	m_process_word(char *input, int *i, t_token **tokens);
+
 // Parsing Functions
 
-// Debug Functions
+// ---- Debug Functions
 
 void	print_tokens(t_token *tokens);
 

@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 09:17:16 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/15 21:31:17 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/17 10:08:05 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	m_free_tokens(t_token *tokens)
 {

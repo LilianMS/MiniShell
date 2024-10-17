@@ -6,20 +6,20 @@
 #    By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/16 00:21:37 by lilmende         ###   ########.fr        #
+#    Updated: 2024/10/17 10:07:37 by lilmende         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 FLAGS = -Wextra -Wall -Werror
 LIBFT = ../libs/libft
-HEADERS = ../includes/minishell.h
+HEADERS = ./includes/minishell.h
 BIN= ../bin/
 SRC_D= ./src/
 CC = cc
 LIBS = $(LIBFT)/libft.a -lreadline
 
-SRC= main_ras_token.c debug.c
+SRC= main.c debug.c tokens.c tokens_utils.c
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 

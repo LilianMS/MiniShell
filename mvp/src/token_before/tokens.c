@@ -6,11 +6,11 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 09:17:16 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/16 00:24:04 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/17 10:08:10 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	m_skip_whitespace(char *input, int *i)
 {
@@ -68,7 +68,7 @@ t_token	*m_tokenize(char *input)
 	while (input[i])
 	{
 		m_skip_whitespace(input, &i);
-		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
+		if (m_is_special_char(input[i]))
 			m_process_operator(input, &i, &tokens);
 		else if (input[i])
 			m_process_word(input, &i, &tokens);
