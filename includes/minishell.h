@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:31 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/18 16:07:16 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:11:18 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ struct s_mini
 
 typedef struct s_token
 {
-	char	*value;
+	char	value;
 	int		type;
 	struct	s_token *next;
 	struct	s_token *prev;
@@ -58,8 +58,9 @@ enum e_token_final
 // Lexical Analysis Functions
 int		ft_check_quotes(const char *line);
 void	m_lexical_analysis(char *line);
-t_token	*m_tokenize(t_token **tokens, char *input);
-void	print_tokens(t_token *tokens);
+t_token	**m_tokenize(t_token **tokens, char *input);
+void	print_tokens(t_token **tokens);
+void	m_free_tokens(t_token **tokens);
 
 // Parsing Functions
 
