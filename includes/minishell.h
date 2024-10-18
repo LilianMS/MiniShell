@@ -20,7 +20,7 @@ struct s_mini
 
 typedef struct s_token
 {
-	char	*value;
+	char	value;
 	int		type;
 	struct	s_token *next;
 	struct	s_token *prev;
@@ -48,8 +48,9 @@ enum e_token_final
 // Lexical Analysis Functions
 int		ft_check_quotes(const char *line);
 void	m_lexical_analysis(char *line);
-t_token	*m_tokenize(t_token **tokens, char *input);
-void	print_tokens(t_token *tokens);
+t_token	**m_tokenize(t_token **tokens, char *input);
+void	print_tokens(t_token **tokens);
+void	m_free_tokens(t_token **tokens);
 
 // Parsing Functions
 

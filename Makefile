@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
+#    Updated: 2024/10/18 16:58:54 by lilmende         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+>>>>>>> 7991a03 (:pencil: draft segmentation fault)
 
 NAME = minishell
 FLAGS = -Wextra -Wall -Werror
@@ -10,6 +24,7 @@ LIBS = $(LIBFT)/libft.a -lreadline
 
 SRC= minishell.c \
 	 checks.c \
+	 tokenizer.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 
