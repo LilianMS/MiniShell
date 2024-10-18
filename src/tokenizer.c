@@ -6,7 +6,7 @@
 /*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 15:24:09 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/18 19:34:18 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:32:27 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	m_free_tokens(t_token **tokens)
 		free(current);
 		current = next;
 	}
-	free(tokens);
 }
 
 t_token	*m_create_token(char value, int type)
@@ -82,7 +81,7 @@ void	m_add_token(t_token **token_list, t_token *new_token)
 	}
 }
 
-t_token	**m_tokenize(t_token **tokens, char *input)
+t_token	*m_tokenize(t_token **tokens, char *input)
 {
 	int		i;
 	// char	*lexeme;
@@ -118,7 +117,7 @@ t_token	**m_tokenize(t_token **tokens, char *input)
 		// 	is_first = 0;
 		// }
 	}
-	return (tokens);
+	return (*tokens);
 }
 
 // if (input[i] == '\'' || input[i] == '\"')
