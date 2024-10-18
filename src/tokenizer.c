@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 15:24:09 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/18 17:17:34 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:34:18 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	m_add_token(t_token **token_list, t_token *new_token)
 t_token	**m_tokenize(t_token **tokens, char *input)
 {
 	int		i;
+	// char	*lexeme;
 	// int		is_first;
 
 	i = 0;
@@ -94,11 +95,14 @@ t_token	**m_tokenize(t_token **tokens, char *input)
 		m_skip_whitespace(input, &i);
 		if (m_is_special_char(input[i]))
 		{
+			//função que anda na string e devolve o pedaço inteiro para ser guardado no token. dentro dela temos que identificar o tipo de token e alocar com a strdup;
+			//lexeme = get_lexeme(start, end, *i);
 			m_add_token(tokens, m_create_token(input[i], OPERATOR));
 			i++;
 		}
 		else if (input[i])
 		{
+			// lexeme = get_lexeme(start, end, *i);
 			m_add_token(tokens, m_create_token(input[i], WORD));
 			i++;
 		}
