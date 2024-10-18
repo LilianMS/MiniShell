@@ -7,7 +7,7 @@ int main()
 	// Caso 1: Comando simples
 	char *input1 = "ls -l /home";
 	printf("Input: %s\n", input1);
-	tokens = m_tokenize(input1);projeto-minishell/example_functions/funtions_list.c
+	tokens = m_tokenize(input1);
 	print_tokens(tokens);
 	m_free_tokens(tokens);
 	printf("\n");

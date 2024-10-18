@@ -36,7 +36,7 @@ char	*process_expansion(char *input, int *i, char *word, int start)
 {
 	char	*expanded_word;
 
-	if (*i > start)projeto-minishell/example_functions/funtions_list.c
+	if (*i > start)
 		word = append_substring(word, input, start, *i);
 	expanded_word = m_handle_expansion(input, i);
 	word = ft_rrealloc(word, ft_strlen(word) + ft_strlen(expanded_word) + 1);

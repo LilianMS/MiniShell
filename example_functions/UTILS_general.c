@@ -53,7 +53,7 @@ char	*m_handle_quotes(char *input, int *i)
 		(*i)++;
 	if (input[*i] == quote)  // Fecha a aspa
 		(*i)++;
-	return ft_strndup(&input[start], (*i) - start - 1);  // Retorna o conteúdo entre aspas
+	return ft_strndup(&input[start], (*i) - start - 1); // Retorna o conteúdo entre aspas
 }
 
 // Função para tratar expansões de variáveis

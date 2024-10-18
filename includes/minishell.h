@@ -22,7 +22,8 @@ typedef struct s_token
 {
 	char	*value;
 	int		type;
-	struct s_token *next; // Para formar uma lista encadeada de tokens
+	struct	s_token *next;
+	struct	s_token *prev;
 } t_token;
 
 enum e_token_type
@@ -45,8 +46,10 @@ enum e_token_final
 };
 
 // Lexical Analysis Functions
-int		m_check_quotes(const char *line);
+int		ft_check_quotes(const char *line);
 void	m_lexical_analysis(char *line);
+t_token	*m_tokenize(t_token **tokens, char *input);
+void	print_tokens(t_token *tokens);
 
 // Parsing Functions
 
