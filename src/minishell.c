@@ -5,10 +5,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:38:49 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/18 17:10:29 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:31:39 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 >>>>>>> e6c50bd (:sparkles: feat: new tokenizer file and functions added)
@@ -29,7 +29,7 @@ void	print_tokens(t_token **tokens)
 
 void	m_lexical_analysis(char *line)
 {
-	t_token	**token_list;
+	t_token	*token_list;
 	
 	token_list = NULL;
 	if(!ft_check_quotes(line))
@@ -39,15 +39,15 @@ void	m_lexical_analysis(char *line)
 		clear_history();
 		exit(EXIT_FAILURE);
 	}
-	token_list = m_tokenize(token_list, line);
-	print_tokens(token_list);
-	m_free_tokens(token_list);
+	token_list = m_tokenize(&token_list, line);
+	print_tokens(&token_list);
+	m_free_tokens(&token_list);
 }
 
-void	init_minishell(t_mini *mini, char *line)
-{
-	mini->input = line;
-}
+// void	init_minishell(t_mini *mini, char *line)
+// {
+// 	mini->input = line;
+// }
 
 int	main(void)
 {
