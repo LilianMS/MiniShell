@@ -2,6 +2,12 @@ typedef struct s_mini	t_mini;
 
 typedef enum e_token_type
 {
+	WORD,
+	OPERATOR,
+} t_token_type;
+
+typedef enum e_token_final
+{
 	CMD,
 	ARG,
 	PIPE,
@@ -11,7 +17,7 @@ typedef enum e_token_type
 	VARIABLE,
 	STRING,
 	UNKNOWN
-}	t_token_type;
+}	t_token_final;
 
 typedef struct s_token
 {
