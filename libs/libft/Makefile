@@ -6,7 +6,7 @@
 #    By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/16 11:17:10 by lilmende         ###   ########.fr        #
+#    Updated: 2024/10/18 14:02:58 by lilmende         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,6 @@ SRC = ./src/ft_memset.c \
 		./src/ft_atol.c \
 		./src/ft_isspace.c \
 		./src/ft_free_split.c \
-		./src/ft_realloc.c \
 
 OBJS = ${SRC:%.c=%.o}
 

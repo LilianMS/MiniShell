@@ -1,6 +1,4 @@
 *.o
 *.a
 a.out
-rascunhos/
 minishell
-*rascunho*

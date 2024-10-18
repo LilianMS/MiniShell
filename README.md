@@ -6,7 +6,6 @@ _common core project_
 
 ---
 
-[TODO & NOTES](mvp/src/todo_notes.md)
 
 ##
 
