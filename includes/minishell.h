@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/03 12:15:31 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/18 20:27:08 by lsampiet         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -57,9 +45,10 @@ enum e_token_final
 };
 
 // Lexical Analysis Functions
-int		ft_check_quotes(const char *line);
 void	m_lexical_analysis(char *line);
+int		ft_check_quotes(const char *line);
 t_token	*m_tokenize(t_token **tokens, char *input);
+char	*m_get_lexeme(char *input, int start, int *i);
 void	print_tokens(t_token **tokens);
 void	m_free_tokens(t_token **tokens);
 

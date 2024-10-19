@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/18 15:24:09 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/18 20:32:27 by lsampiet         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
 int	m_is_special_char(char c)
@@ -32,20 +20,20 @@ void	m_free_tokens(t_token **tokens)
 	while (current != NULL)
 	{
 		next = current->next;
-		// free(current->value);
+		free(current->value);
 		free(current);
 		current = next;
 	}
 }
 
-t_token	*m_create_token(char value, int type)
+t_token	*m_create_token(char *value, int type)
 {
 	t_token	*token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return NULL;
-	// token->value = ft_strdup(value);
+	token->value = ft_strdup(value);
 	token->value = value;
 	token->type = type;
 	token->next = NULL;
@@ -84,7 +72,7 @@ void	m_add_token(t_token **token_list, t_token *new_token)
 t_token	*m_tokenize(t_token **tokens, char *input)
 {
 	int		i;
-	// char	*lexeme;
+	char	*lexeme;
 	// int		is_first;
 
 	i = 0;
@@ -94,14 +82,14 @@ t_token	*m_tokenize(t_token **tokens, char *input)
 		m_skip_whitespace(input, &i);
 		if (m_is_special_char(input[i]))
 		{
-			//função que anda na string e devolve o pedaço inteiro para ser guardado no token. dentro dela temos que identificar o tipo de token e alocar com a strdup;
-			//lexeme = get_lexeme(start, end, *i);
+
+			lexeme = m_get_lexeme(start, end, *i);
 			m_add_token(tokens, m_create_token(input[i], OPERATOR));
 			i++;
 		}
 		else if (input[i])
 		{
-			// lexeme = get_lexeme(start, end, *i);
+			lexeme = m_get_lexeme(start, end, *i);
 			m_add_token(tokens, m_create_token(input[i], WORD));
 			i++;
 		}
