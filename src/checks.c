@@ -1,4 +1,3 @@
-
 #include "../includes/minishell.h"
 
 int m_check_quotes(const char *line)

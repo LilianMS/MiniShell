@@ -1,4 +1,3 @@
-
 #include "../includes/minishell.h"
 
 void	m_lexical_analysis(char *line)

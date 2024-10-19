@@ -1,4 +1,3 @@
-
 NAME = minishell
 FLAGS = -Wextra -Wall -Werror
 LIBFT = ./libs/libft
