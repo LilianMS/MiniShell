@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/03 12:38:49 by lsampiet          #+#    #+#             */
-/*   Updated: 2024/10/18 20:31:39 by lsampiet         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
->>>>>>> e6c50bd (:sparkles: feat: new tokenizer file and functions added)
-
-=======
->>>>>>> 6671826 (:pencil: draft: studying for get_lexeme function)
 #include "../includes/minishell.h"
 
 void	print_tokens(t_token **tokens)
