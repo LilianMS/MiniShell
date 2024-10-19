@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 /* ************************************************************************** */
 /*                                                                            */
@@ -13,6 +14,8 @@
 /* ************************************************************************** */
 >>>>>>> e6c50bd (:sparkles: feat: new tokenizer file and functions added)
 
+=======
+>>>>>>> 6671826 (:pencil: draft: studying for get_lexeme function)
 #include "../includes/minishell.h"
 
 void	print_tokens(t_token **tokens)
