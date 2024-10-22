@@ -6,14 +6,14 @@
 #    By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/21 20:44:02 by lsampiet         ###   ########.fr        #
+#    Updated: 2024/10/22 20:04:30 by lsampiet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 FLAGS = -Wextra -Wall -Werror
 LIBFT = ./libs/libft
-HEADERS = ./includes/minishell.h
+HEADERS = ./includes
 BIN= ./bin/
 SRC_D= ./src/
 CC = cc
@@ -22,6 +22,7 @@ LIBS = $(LIBFT)/libft.a -lreadline
 SRC= minishell.c \
 	 checks.c \
 	 tokenizer.c \
+	 token_list.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 

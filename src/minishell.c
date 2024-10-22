@@ -7,7 +7,7 @@ void	print_tokens(t_token **tokens)
 	
 	while (current)
 	{
-		printf("Token %i: %c (Type: %d)\n", i++, current->value, current->type);
+		printf("Token %i: %c (Type: %d)\n", i++, current->lexeme, current->type);
 		current = current->next;
 	}
 }

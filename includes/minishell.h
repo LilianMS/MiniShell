@@ -13,6 +13,7 @@
 
 //Structs
 typedef struct s_mini		t_mini;
+typedef struct s_token		t_token;
 
 struct s_mini
 {
@@ -25,9 +26,6 @@ int		ft_check_quotes(const char *line);
 
 //Debug Functions
 void	print_tokens(t_token **tokens);
-
-//Utils Functions
-void	m_free_tokens(t_token **tokens);
 
 // Parsing Functions
 
