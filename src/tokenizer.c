@@ -73,10 +73,8 @@ t_token	*m_tokenize(t_token **tokens, char *input)
 {
 	int		i;
 	char	*lexeme;
-	// int		is_first;
 
 	i = 0;
-	// is_first = 1;
 	while (input[i])
 	{
 		m_skip_whitespace(input, &i);
@@ -107,10 +105,3 @@ t_token	*m_tokenize(t_token **tokens, char *input)
 	}
 	return (*tokens);
 }
-
-// if (input[i] == '\'' || input[i] == '\"')
-// 		{
-// 			// m_quote_process(input, &i, &tokens);
-// 			i++;
-// 		}
-// 		else
