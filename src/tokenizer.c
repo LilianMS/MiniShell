@@ -1,35 +1,42 @@
 #include "../includes/tokenizer.h"
 
-int	m_is_special_char(char c)
-{
-	return (c == '|' || c == '<' || c == '>' || c == '$');
-}
+// int	m_is_special_char(char c)
+// {
+// 	return (c == '|' || c == '<' || c == '>' || c == '$');
+// }
 
-void	m_skip_whitespace(char *input, int *i)
+// void	m_skip_whitespace(char *input, int *i)
+// {
+// 	while (input[*i] && isspace(input[*i]))
+// 		(*i)++;
+// }
+
+int	m_get_next_status(int status, int str_index)
 {
-	while (input[*i] && isspace(input[*i]))
-		(*i)++;
+	if(status == 1)
+
 }
 
 t_token	*m_tokenize(t_token **tokens, char *input)
 {
-	int		i;
-	// char	*lexeme;
+	t_automat	aut;
 
-	i = 0;
-	while (input[i])
+	ft_bzero(&aut, sizeof(t_automat));
+	aut.str_len = ft_strlen(input);
+	aut.status = 1;
+	while (aut.i <= aut.str_len)
 	{
-		m_skip_whitespace(input, &i);
-		if (m_is_special_char(input[i]))
+		aut.status = m_get_next_status(aut.status, input[aut.i]);
+		if (aut.status != 1)
+			aut.lexeme_len++;
+		if (aut.status == -1)
 		{
-			m_add_token(tokens, m_create_token(input[i], OPERATOR));
-			i++;
+			m_free_tokens(tokens);
+			break;
 		}
-		else if (input[i])
-		{
-			m_add_token(tokens, m_create_token(input[i], WORD));
-			i++;
-		}
+		if (m_is_final_status(aut.status))
+			m_get_token(&aut, tokens, input);
+		aut.i++;
 	}
 	return (*tokens);
 }

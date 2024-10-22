@@ -7,7 +7,7 @@
 //Structs
 typedef struct s_mini		t_mini;
 typedef struct s_token		t_token;
-typedef struct s_auto		t_auto;
+typedef struct s_automat	t_automat;
 
 //Structs
 typedef struct s_token
@@ -18,7 +18,7 @@ typedef struct s_token
 	struct	s_token *prev;
 } t_token;
 
-typedef struct s_auto
+typedef struct s_automat
 {
 	int		i;
 	int		lexeme_len;
@@ -26,13 +26,12 @@ typedef struct s_auto
 	int		status;
 	int		token_type;
 	char	*lexeme;
-} t_auto;
+} t_automat;
 
 // Enums
 enum e_token_type
 {
     WORD,
-	OPERATOR,
     PIPE,
     REDIR_IN,
 	REDIR_HEREDOC,
