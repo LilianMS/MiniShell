@@ -15,14 +15,14 @@ void	m_free_tokens(t_token **tokens)
 	}
 }
 
-t_token	*m_create_token(char c, int type)
+t_token	*m_create_token(char *lexeme, int type)
 {
 	t_token *token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return NULL;
-	token->lexeme = c;
+	token->lexeme = lexeme;
 	token->type = type;
 	token->next = NULL;
 	token->prev = NULL;

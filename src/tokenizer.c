@@ -1,20 +1,101 @@
 #include "../includes/tokenizer.h"
 
-// int	m_is_special_char(char c)
-// {
-// 	return (c == '|' || c == '<' || c == '>' || c == '$');
-// }
-
-// void	m_skip_whitespace(char *input, int *i)
-// {
-// 	while (input[*i] && isspace(input[*i]))
-// 		(*i)++;
-// }
-
-int	m_get_next_status(int status, int str_index)
+int	m_is_special_char(char c)
 {
-	if(status == 1)
+	return (c == '|' || c == '<' || c == '>' || c == '$');
+}
 
+
+int	m_get_token_type(int status)
+{
+	if (status == 83)
+		return (WORD);
+	else
+		return (OPERATOR);
+}
+
+void	m_get_new_token(t_automat *aut, t_token **token, char *input)
+{
+	t_token	*new_token;
+
+	if(aut->status == 83) //substituir por validação via função "status nee backtrack" e acrescentar todos os status na funçao
+	{
+		aut->lexeme_len--;
+		aut->i--;
+	}
+	(*token)->type = m_get_token_type(aut->status);
+	if ((*token)->type == WORD)
+		(*token)->lexeme = ft_substr(input, (aut->i - (aut->lexeme_len - 1)), aut->lexeme_len);
+	else
+		(*token)->lexeme = NULL;
+	new_token = m_create_token((*token)->lexeme, (*token)->type);
+	m_add_token(token, new_token);
+	aut->lexeme_len = 0;
+	aut->status = 1;
+}
+
+int	m_is_final_status(int status)
+{
+	return (status == 83); //implementação para tokens de palavra. acrescentar outros tipos de tokens e seus respectivos estados finais
+}
+
+int	m_get_status_1(char c)
+{
+	if (ft_isalnum(c) == 1) //ft_isalnum olha se é dígito ou alfabético
+		return (80);
+	else if (c == '|')
+		return (100); //usando o número 100 para não esquecer de trocar depois
+	else if (c == '<')
+		return (100);
+	else if (c == '>')
+		return (100);
+	else if (c == '$')
+		return (100);
+	else if (c == '\"')
+		return (100);
+	else if (c == '\'')
+		return (100);
+	else
+		return (1);
+}
+
+int	m_get_status_80(char c)
+{
+	if (ft_isalnum(c) == 1) 
+		return (80);
+	else if (m_is_special_char(c) == 1 || c == ' ' || c == '\0')
+		return (83);
+	else
+		return (-1);
+}
+
+int	m_get_83(char str_index)
+{
+	if (str_index == '|')
+		return (2);
+	else if (str_index == '<')
+		return (3);
+	else if (str_index == '>')
+		return (4);
+	else if (str_index == '$')
+		return (5);
+	else
+		return (1);
+}
+
+int	m_get_next_status(int status, char str_index)
+{
+	int	new_status;
+
+	if(status == 1)
+		new_status = m_get_status_1(str_index);
+	else if (status == 80)
+		new_status = m_get_status_80(str_index);
+	else if (status == 100)
+		new_status = m_get_status_1(str_index);
+	else
+		new_status = -1;
+	return (new_status);
 }
 
 t_token	*m_tokenize(t_token **tokens, char *input)
@@ -35,7 +116,7 @@ t_token	*m_tokenize(t_token **tokens, char *input)
 			break;
 		}
 		if (m_is_final_status(aut.status))
-			m_get_token(&aut, tokens, input);
+			m_get_new_token(&aut, tokens, input);
 		aut.i++;
 	}
 	return (*tokens);
