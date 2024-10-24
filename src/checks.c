@@ -9,9 +9,9 @@ int	ft_check_quotes(const char *line)
 	double_q = 0;
 	while (*line)
 	{
-		if (*line == '\'' && double_q == 0)
+		if (*line == '\'' && !double_q)
 			single_q = !single_q;
-		else if (*line == '\"' && single_q == 0)
+		else if (*line == '\"' && !single_q)
 			double_q = !double_q;
 		line++;
 	}

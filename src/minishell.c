@@ -20,9 +20,6 @@ void	m_lexical_analysis(char *line)
 	if(!ft_check_quotes(line))
 	{
 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
-		free(line);
-		clear_history();
-		exit(EXIT_FAILURE);
 	}
 	token_list = m_tokenize(&token_list, line);
 	print_tokens(&token_list);
