@@ -24,8 +24,6 @@ void	m_lexical_analysis(char *line)
 	m_tokenize(&token_list, line);
 	if(token_list != NULL)
 		print_tokens(&token_list);
-	else
-		ft_printf("\n ----------- > erro de tokenização \n");
 	m_free_tokens(&token_list);
 }
 

@@ -18,7 +18,7 @@ void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
 {
 	t_token	*new_token;
 
-	if(aut->status == 83) //substituir por validação via função "status nee backtrack" e acrescentar todos os status na funçao
+	if(aut->status == 83) //substituir por validação via função "status need backtrack" e acrescentar todos os status na funçao
 	{
 		aut->lexeme_len--;
 		aut->i--;
@@ -67,16 +67,16 @@ int	m_get_status_80(char c)
 		return (80);
 }
 
-int	m_get_83(char str_index)
+int	m_get_status_83(char str_index)
 {
 	if (str_index == '|')
-		return (2);
+		return (100);
 	else if (str_index == '<')
-		return (3);
+		return (100);
 	else if (str_index == '>')
-		return (4);
+		return (100);
 	else if (str_index == '$')
-		return (5);
+		return (100);
 	else
 		return (1);
 }
@@ -89,8 +89,10 @@ int	m_get_next_status(int status, char str_index)
 		new_status = m_get_status_1(str_index);
 	else if (status == 80)
 		new_status = m_get_status_80(str_index);
+	else if (status == 83)
+		new_status = m_get_status_83(str_index);
 	else if (status == 100)
-		new_status = m_get_status_1(str_index);
+		return (100);
 	else
 		new_status = -1;
 	return (new_status);
