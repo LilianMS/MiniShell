@@ -41,7 +41,7 @@ int	m_is_final_status(int status)
 
 int	m_get_status_1(char c)
 {
-	if (ft_isalnum(c) == 1) //ft_isalnum olha se é dígito ou alfabético
+	if (!ft_isalnum(c)) //CHECAR essa função pois fica confuso desta forma. Ela está retornando zero, mas não deveria retornar 1? ---> ft_isalnum olha se é dígito ou alfabético
 		return (80);
 	else if (c == '|')
 		return (100); //usando o número 100 para não esquecer de trocar depois
@@ -61,9 +61,21 @@ int	m_get_status_1(char c)
 
 int	m_get_status_80(char c)
 {
-	if (ft_isalnum(c) == 1) 
+	if (ft_isalnum(c))
 		return (80);
-	else if (m_is_special_char(c) == 1 || c == ' ' || c == '\0')
+	else if (c == ' ' || c == '\0')
+		return (83);
+	else if (c == '|')
+		return (83); // usando o número 100 para não esquecer de trocar depois
+	else if (c == '<')
+		return (83);
+	else if (c == '>')
+		return (83);
+	else if (c == '$')
+		return (83);
+	else if (c == '\"')
+		return (83);
+	else if (c == '\'')
 		return (83);
 	else
 		return (-1);
@@ -88,7 +100,10 @@ int	m_get_next_status(int status, char str_index)
 	int	new_status;
 
 	if(status == 1)
+	{
 		new_status = m_get_status_1(str_index);
+		ft_printf("primeiro status aqui %i \n", new_status);
+	}
 	else if (status == 80)
 		new_status = m_get_status_80(str_index);
 	else if (status == 100)
