@@ -14,7 +14,7 @@ int	m_get_token_type(int status)
 		return (OPERATOR);
 }
 
-void	m_get_new_token(t_automat *aut, t_token **token, char *input)
+void	m_get_token_list(t_automat *aut, t_token **tokens, char *input)
 {
 	t_token	*new_token;
 
@@ -23,13 +23,13 @@ void	m_get_new_token(t_automat *aut, t_token **token, char *input)
 		aut->lexeme_len--;
 		aut->i--;
 	}
-	(*token)->type = m_get_token_type(aut->status);
-	if ((*token)->type == WORD)
-		(*token)->lexeme = ft_substr(input, (aut->i - (aut->lexeme_len - 1)), aut->lexeme_len);
+	(*tokens)->type = m_get_token_type(aut->status);
+	if ((*tokens)->type == WORD)
+		(*tokens)->lexeme = ft_substr(input, (aut->i - (aut->lexeme_len - 1)), aut->lexeme_len);
 	else
-		(*token)->lexeme = NULL;
-	new_token = m_create_token((*token)->lexeme, (*token)->type);
-	m_add_token(token, new_token);
+		(*tokens)->lexeme = NULL;
+	new_token = m_create_token((*tokens)->lexeme, (*tokens)->type);
+	m_add_token(tokens, new_token);
 	aut->lexeme_len = 0;
 	aut->status = 1;
 }
@@ -98,9 +98,10 @@ int	m_get_next_status(int status, char str_index)
 	return (new_status);
 }
 
-t_token	*m_tokenize(t_token **tokens, char *input)
+void	m_tokenize(t_token **token_list, char *input)
 {
 	t_automat	aut;
+	int			i = 0;
 
 	ft_bzero(&aut, sizeof(t_automat));
 	aut.str_len = ft_strlen(input);
@@ -108,16 +109,17 @@ t_token	*m_tokenize(t_token **tokens, char *input)
 	while (aut.i <= aut.str_len)
 	{
 		aut.status = m_get_next_status(aut.status, input[aut.i]);
+		ft_printf("current status %i: %d\n", i++, aut.status);
 		if (aut.status != 1)
 			aut.lexeme_len++;
 		if (aut.status == -1)
 		{
-			m_free_tokens(tokens);
+			m_free_tokens(token_list);
 			break;
 		}
 		if (m_is_final_status(aut.status))
-			m_get_new_token(&aut, tokens, input);
+			m_get_token_list(&aut, token_list, input);
 		aut.i++;
 	}
-	return (*tokens);
+	// return (*tokens);
 }

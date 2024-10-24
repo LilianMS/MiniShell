@@ -42,8 +42,8 @@ enum e_token_type
 };
 
 //Tokenizer core functions
-t_token		*m_tokenize(t_token **tokens, char *input);
-void		m_get_new_token(t_automat *aut, t_token **token, char *input);
+void		m_tokenize(t_token **token_list, char *input);
+void		m_get_token_list(t_automat *aut, t_token **token, char *input);
 
 //Automaton functions
 int			m_is_special_char(char c);
@@ -53,7 +53,7 @@ void		m_skip_whitespace(char *input, int *i);
 //Token List functions
 t_token		*m_create_token(char *lexeme, int type);
 t_token		*m_find_last_token(t_token *token_ptr);
-void		m_add_token(t_token **token_list, t_token *new_token);
+t_token		*m_add_token(t_token **token_list, t_token *new_token);
 void		m_free_tokens(t_token **tokens);
 
 #endif
