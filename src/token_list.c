@@ -9,7 +9,7 @@ void	m_free_tokens(t_token **tokens)
 	while (current != NULL)
 	{
 		next = current->next;
-		// free(current->lexeme);
+		free(current->lexeme);
 		free(current);
 		current = next;
 	}
@@ -41,7 +41,7 @@ t_token	*m_find_last_token(t_token *token_ptr)
 	return (token_ptr);
 }
 
-t_token	*m_add_token(t_token **token_list, t_token *new_token)
+void	m_add_token(t_token **token_list, t_token *new_token)
 {
 	t_token *last_token;
 
@@ -53,5 +53,4 @@ t_token	*m_add_token(t_token **token_list, t_token *new_token)
 		last_token->next = new_token;
 		new_token->prev = last_token;
 	}
-	return (*token_list);
 }

@@ -22,9 +22,10 @@ void	m_lexical_analysis(char *line)
 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
 	}
 	m_tokenize(&token_list, line);
-	if(token_list == NULL)
+	if(token_list != NULL)
+		print_tokens(&token_list);
+	else
 		ft_printf("\n ----------- > erro de tokenização \n");
-	print_tokens(&token_list);
 	m_free_tokens(&token_list);
 }
 

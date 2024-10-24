@@ -6,12 +6,12 @@
 #    By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/13 19:06:53 by lilmende          #+#    #+#              #
-#    Updated: 2024/10/22 20:04:30 by lsampiet         ###   ########.fr        #
+#    Updated: 2024/10/24 19:10:29 by lsampiet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-FLAGS = -Wextra -Wall -Werror
+FLAGS = -Wextra -Wall -Werror -g3
 LIBFT = ./libs/libft
 HEADERS = ./includes
 BIN= ./bin/
@@ -71,6 +71,9 @@ fclean: clean
 	@echo " "
 	@echo " ${RED}    --    Program Removed ✔️    --${RESET}"
 	@echo " "
+
+gdb:	all
+	gdb --tui -ex 'set follow-fork-mode child' -ex 'b main' -ex 'b m_get_new_token' -ex 'run' ./$(NAME)
 
 re: fclean all
 

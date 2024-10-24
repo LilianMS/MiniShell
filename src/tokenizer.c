@@ -14,7 +14,7 @@ int	m_get_token_type(int status)
 		return (OPERATOR);
 }
 
-void	m_get_token_list(t_automat *aut, t_token **tokens, char *input)
+void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
 {
 	t_token	*new_token;
 
@@ -23,13 +23,13 @@ void	m_get_token_list(t_automat *aut, t_token **tokens, char *input)
 		aut->lexeme_len--;
 		aut->i--;
 	}
-	(*tokens)->type = m_get_token_type(aut->status);
-	if ((*tokens)->type == WORD)
-		(*tokens)->lexeme = ft_substr(input, (aut->i - (aut->lexeme_len - 1)), aut->lexeme_len);
+	aut->token_type = m_get_token_type(aut->status);
+	if (aut->token_type == WORD)
+		aut->lexeme = ft_substr(input, (aut->i - (aut->lexeme_len - 1)), aut->lexeme_len);
 	else
-		(*tokens)->lexeme = NULL;
-	new_token = m_create_token((*tokens)->lexeme, (*tokens)->type);
-	m_add_token(tokens, new_token);
+		aut->lexeme = NULL;
+	new_token = m_create_token(aut->lexeme, aut->token_type);
+	m_add_token(token_list, new_token);
 	aut->lexeme_len = 0;
 	aut->status = 1;
 }
@@ -61,24 +61,10 @@ int	m_get_status_1(char c)
 
 int	m_get_status_80(char c)
 {
-	if (ft_isalnum(c))
-		return (80);
-	else if (c == ' ' || c == '\0')
-		return (83);
-	else if (c == '|')
-		return (83); // usando o número 100 para não esquecer de trocar depois
-	else if (c == '<')
-		return (83);
-	else if (c == '>')
-		return (83);
-	else if (c == '$')
-		return (83);
-	else if (c == '\"')
-		return (83);
-	else if (c == '\'')
+	if (m_is_special_char(c) || c == ' ' || c == '\0')
 		return (83);
 	else
-		return (-1);
+		return (80);
 }
 
 int	m_get_83(char str_index)
@@ -100,10 +86,7 @@ int	m_get_next_status(int status, char str_index)
 	int	new_status;
 
 	if(status == 1)
-	{
 		new_status = m_get_status_1(str_index);
-		ft_printf("primeiro status aqui %i \n", new_status);
-	}
 	else if (status == 80)
 		new_status = m_get_status_80(str_index);
 	else if (status == 100)
@@ -113,7 +96,7 @@ int	m_get_next_status(int status, char str_index)
 	return (new_status);
 }
 
-void	m_tokenize(t_token **token_list, char *input)
+t_token	**m_tokenize(t_token **token_list, char *input)
 {
 	t_automat	aut;
 	int			i = 0;
@@ -124,7 +107,7 @@ void	m_tokenize(t_token **token_list, char *input)
 	while (aut.i <= aut.str_len)
 	{
 		aut.status = m_get_next_status(aut.status, input[aut.i]);
-		ft_printf("current status %i: %d\n", i++, aut.status);
+		ft_printf("current status %i: %d\n", i++, aut.status); //debug pra saber se está capturando o status de forma certa
 		if (aut.status != 1)
 			aut.lexeme_len++;
 		if (aut.status == -1)
@@ -133,8 +116,8 @@ void	m_tokenize(t_token **token_list, char *input)
 			break;
 		}
 		if (m_is_final_status(aut.status))
-			m_get_token_list(&aut, token_list, input);
+			m_get_new_token(&aut, token_list, input);
 		aut.i++;
 	}
-	// return (*tokens);
+	return (token_list);
 }
