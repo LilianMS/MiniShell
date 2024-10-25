@@ -53,7 +53,6 @@ void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
 t_token	**m_tokenize(t_token **token_list, char *input)
 {
 	t_automat	aut;
-	int			i = 0;
 
 	ft_bzero(&aut, sizeof(t_automat));
 	aut.str_len = ft_strlen(input);
@@ -61,7 +60,6 @@ t_token	**m_tokenize(t_token **token_list, char *input)
 	while (aut.i <= aut.str_len)
 	{
 		aut.status = m_get_next_status(aut.status, input[aut.i]);
-		ft_printf("current status %i: %d\n", i++, aut.status); //debug pra saber se está capturando o status de forma certa
 		if (aut.status != 1)
 			aut.lexeme_len++;
 		if (aut.status == -1)

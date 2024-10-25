@@ -5,13 +5,18 @@ void	m_free_tokens(t_token **tokens)
 	t_token *current;
 	t_token *next;
 
-	current = *tokens;
-	while (current != NULL)
+	if (tokens)
 	{
-		next = current->next;
-		free(current->lexeme);
-		free(current);
-		current = next;
+		current = *tokens;
+		while (current != NULL)
+		{
+			next = current->next;
+			if (current->lexeme)
+				free(current->lexeme);
+			free(current);
+			current = next;
+		}
+		*tokens = NULL;
 	}
 }
 
