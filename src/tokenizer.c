@@ -20,6 +20,10 @@ int	m_get_token_type(int status)
 		return (REDIR_OUT);
 	else if (status == 71)
 		return (REDIR_APPEND);
+	else if (status == 81)
+		return (WORD);
+	else if (status == 82)
+		return (WORD);
 	else if (status == 83)
 		return (WORD);
 	else
@@ -30,7 +34,7 @@ void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
 {
 	t_token	*new_token;
 
-	if(aut->status == 83) //substituir por validação via função "status need backtrack" e acrescentar todos os status na funçao
+	if(m_status_needs_backtrack(aut->status))
 	{
 		aut->lexeme_len--;
 		aut->i--;
@@ -44,29 +48,6 @@ void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
 	m_add_token(token_list, new_token);
 	aut->lexeme_len = 0;
 	aut->status = 1;
-}
-
-int	m_get_next_status(int status, char c)
-{
-	int	new_status;
-
-	if(status == 1)
-		new_status = m_get_status_1(c);
-	else if (status == 40)
-		new_status = m_get_status_40(c);
-	else if (status == 60)
-		new_status = m_get_status_60(c);
-	else if (status == 70)
-		new_status = m_get_status_70(c);
-	else if (status == 80)
-		new_status = m_get_status_80(c);
-	else if (status == 81)
-		new_status = m_get_status_81(c);
-	else if (status == 82)
-		new_status = m_get_status_82(c);
-	else
-		new_status = -1;
-	return (new_status);
 }
 
 t_token	**m_tokenize(t_token **token_list, char *input)

@@ -23,6 +23,8 @@ SRC= minishell.c \
 	 checks.c \
 	 tokenizer.c \
 	 token_list.c \
+	 token_status_1.c \
+	 token_status_2.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 

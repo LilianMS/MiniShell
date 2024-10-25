@@ -46,8 +46,17 @@ void		m_get_new_token(t_automat *aut, t_token **token_list, char *input);
 
 //Automaton functions
 int			m_is_special_char(char c);
-void		m_skip_whitespace(char *input, int *i);
-
+int			m_get_next_status(int status, char c);
+int			m_get_status_1(char c);
+int			m_get_status_40(char c);
+int			m_get_status_60(char c);
+int			m_get_status_70(char c);
+int			m_get_status_80(char c);
+int			m_get_status_81(char c);
+int			m_get_status_82(char c);
+int			m_is_final_status(int status);
+int			m_status_needs_backtrack(int status);
+int			m_get_token_type(int status);
 
 //Token List functions
 t_token		*m_create_token(char *lexeme, int type);

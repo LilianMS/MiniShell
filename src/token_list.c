@@ -33,7 +33,7 @@ t_token	*m_find_last_token(t_token *token_ptr)
 {
 	if (!token_ptr)
 	{
-		printf("Erro -> endereço vazio");
+		ft_putstr_fd("Tokenization Error -> No last knot in the list", 2);
 		return (NULL);
 	}
 	while (token_ptr->next != NULL)
