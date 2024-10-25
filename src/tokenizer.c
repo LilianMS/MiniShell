@@ -2,16 +2,28 @@
 
 int	m_is_special_char(char c)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '$');
+	return (c == '|' || \
+			c == '<' || c == '>' || \
+			c == '\'' || c == '\"');
 }
 
 
 int	m_get_token_type(int status)
 {
-	if (status == 83)
+	if (status == 41)
+		return (PIPE);
+	else if (status == 62)
+		return (REDIR_IN);
+	else if (status == 61)
+		return (REDIR_HEREDOC);
+	else if (status == 72)
+		return (REDIR_OUT);
+	else if (status == 71)
+		return (REDIR_APPEND);
+	else if (status == 83)
 		return (WORD);
 	else
-		return (OPERATOR);
+		return (UNKNOWN);
 }
 
 void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
@@ -34,77 +46,24 @@ void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
 	aut->status = 1;
 }
 
-//LEGENDA STATUS
-//---> 40 = PIPE
-//---> 61 = REDIR_HEREDOC
-//---> 62 = REDIR_IN
-//---> 71 = REDIR_APPEND
-//---> 72 = REDIR_OUT
-//---> 83 = WORD
-int	m_is_final_status(int status)
-{
-	return (status == 40 || \
-			status == 61 || \
-			status == 62 || \
-			status == 71 || \
-			status == 72 || \
-			status == 83);
-}
-
-int	m_get_status_1(char c)
-{
-	if (ft_isalnum(c)) //ft_isalnum olha se é dígito ou alfabético
-		return (80);
-	else if (c == '|')
-		return (100); //usando o número 100 para não esquecer de trocar depois
-	else if (c == '<')
-		return (100);
-	else if (c == '>')
-		return (100);
-	else if (c == '$')
-		return (100);
-	else if (c == '\"')
-		return (100);
-	else if (c == '\'')
-		return (100);
-	else
-		return (1);
-}
-
-int	m_get_status_80(char c)
-{
-	if (m_is_special_char(c) || c == ' ' || c == '\0')
-		return (83);
-	else
-		return (80);
-}
-
-int	m_get_status_83(char str_index)
-{
-	if (str_index == '|')
-		return (100);
-	else if (str_index == '<')
-		return (100);
-	else if (str_index == '>')
-		return (100);
-	else if (str_index == '$')
-		return (100);
-	else
-		return (1);
-}
-
-int	m_get_next_status(int status, char str_index)
+int	m_get_next_status(int status, char c)
 {
 	int	new_status;
 
 	if(status == 1)
-		new_status = m_get_status_1(str_index);
+		new_status = m_get_status_1(c);
+	else if (status == 40)
+		new_status = m_get_status_40(c);
+	else if (status == 60)
+		new_status = m_get_status_60(c);
+	else if (status == 70)
+		new_status = m_get_status_70(c);
 	else if (status == 80)
-		new_status = m_get_status_80(str_index);
-	else if (status == 83)
-		new_status = m_get_status_83(str_index);
-	else if (status == 100)
-		return (100);
+		new_status = m_get_status_80(c);
+	else if (status == 81)
+		new_status = m_get_status_81(c);
+	else if (status == 82)
+		new_status = m_get_status_82(c);
 	else
 		new_status = -1;
 	return (new_status);

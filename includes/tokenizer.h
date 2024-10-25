@@ -31,14 +31,13 @@ typedef struct s_automat
 // Enums
 enum e_token_type
 {
+	UNKNOWN = -1,
 	WORD,
-	OPERATOR, //temporário para testar funcionamento do tokenizer
 	PIPE,
 	REDIR_IN,
 	REDIR_HEREDOC,
 	REDIR_OUT,
 	REDIR_APPEND,
-	UNKNOWN
 };
 
 //Tokenizer core functions
