@@ -34,14 +34,26 @@ void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
 	aut->status = 1;
 }
 
+//LEGENDA STATUS
+//---> 40 = PIPE
+//---> 61 = REDIR_HEREDOC
+//---> 62 = REDIR_IN
+//---> 71 = REDIR_APPEND
+//---> 72 = REDIR_OUT
+//---> 83 = WORD
 int	m_is_final_status(int status)
 {
-	return (status == 83); //implementação para tokens de palavra. acrescentar outros tipos de tokens e seus respectivos estados finais
+	return (status == 40 || \
+			status == 61 || \
+			status == 62 || \
+			status == 71 || \
+			status == 72 || \
+			status == 83);
 }
 
 int	m_get_status_1(char c)
 {
-	if (!ft_isalnum(c)) //CHECAR essa função pois fica confuso desta forma. Ela está retornando zero, mas não deveria retornar 1? ---> ft_isalnum olha se é dígito ou alfabético
+	if (ft_isalnum(c)) //ft_isalnum olha se é dígito ou alfabético
 		return (80);
 	else if (c == '|')
 		return (100); //usando o número 100 para não esquecer de trocar depois
