@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int m_check_quotes(const char *line)
+int	ft_check_quotes(const char *line)
 {
 	int single_q;
 	int double_q;

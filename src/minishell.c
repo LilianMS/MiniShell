@@ -1,18 +1,36 @@
 #include "../includes/minishell.h"
 
-void	m_lexical_analysis(char *line)
+void	print_tokens(t_token **tokens)
 {
-	if(!m_check_quotes(line))
+	t_token	*current = *tokens;
+	int		i = 0;
+	
+	while (current)
 	{
-		ft_putendl_fd("minishell: syntax error with open quotes", 2);
-		
+		printf("Token %i: %s (Type: %d)\n", i++, current->lexeme, current->type);
+		current = current->next;
 	}
 }
 
-void	init_minishell(t_mini *mini, char *line)
+void	m_lexical_analysis(char *line)
 {
-	mini->input = line;
+	t_token	*token_list;
+	
+	token_list = NULL;
+	if(!ft_check_quotes(line))
+	{
+		ft_putendl_fd("minishell: syntax error with open quotes", 2);
+	}
+	m_tokenize(&token_list, line);
+	if(token_list != NULL)
+		print_tokens(&token_list);
+	m_free_tokens(&token_list);
 }
+
+// void	init_minishell(t_mini *mini, char *line)
+// {
+// 	mini->input = line;
+// }
 
 int	main(void)
 {

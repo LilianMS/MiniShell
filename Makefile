@@ -1,7 +1,7 @@
 NAME = minishell
-FLAGS = -Wextra -Wall -Werror
+FLAGS = -Wextra -Wall -Werror -g3
 LIBFT = ./libs/libft
-HEADERS = ./includes/minishell.h
+HEADERS = ./includes
 BIN= ./bin/
 SRC_D= ./src/
 CC = cc
@@ -9,6 +9,10 @@ LIBS = $(LIBFT)/libft.a -lreadline
 
 SRC= minishell.c \
 	 checks.c \
+	 tokenizer.c \
+	 token_list.c \
+	 token_status_1.c \
+	 token_status_2.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 
@@ -57,6 +61,9 @@ fclean: clean
 	@echo " "
 	@echo " ${RED}    --    Program Removed ✔️    --${RESET}"
 	@echo " "
+
+gdb:	all
+	gdb --tui -ex 'set follow-fork-mode child' -ex 'b main' -ex 'b m_get_new_token' -ex 'run' ./$(NAME)
 
 re: fclean all
 
