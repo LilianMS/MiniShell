@@ -23,7 +23,16 @@ void	m_lexical_analysis(char *line)
 	}
 	m_tokenize(&token_list, line);
 	if(token_list != NULL)
+	{
+		if (!m_validate_tokens(token_list))
+		{
+			m_free_tokens(&token_list);
+			return ;
+		}
+		// m_parse_tokens(&token_list);
+		// m_execute_commands(&token_list);
 		print_tokens(&token_list);
+	}
 	m_free_tokens(&token_list);
 }
 

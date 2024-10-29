@@ -64,4 +64,6 @@ t_token		*m_find_last_token(t_token *token_ptr);
 void		m_add_token(t_token **token_list, t_token *new_token);
 void		m_free_tokens(t_token **tokens);
 
+int			m_validate_tokens(t_token *tokens);
+
 #endif
