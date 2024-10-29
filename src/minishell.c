@@ -1,5 +1,6 @@
 #include "../includes/minishell.h"
 
+// --debug
 void	print_tokens(t_token **tokens)
 {
 	t_token	*current = *tokens;
@@ -7,7 +8,7 @@ void	print_tokens(t_token **tokens)
 	
 	while (current)
 	{
-		printf("Token %i: %s (Type: %d)\n", i++, current->lexeme, current->type);
+		ft_printf("Token %i: %s (Type: %d)\n", i++, current->lexeme, current->type);
 		current = current->next;
 	}
 }
@@ -29,8 +30,8 @@ void	m_lexical_analysis(char *line)
 			m_free_tokens(&token_list);
 			return ;
 		}
-		// m_parse_tokens(&token_list);
-		// m_execute_commands(&token_list);
+		// m_parse_tokens(&token_list); ?
+		// m_execute_commands(&token_list); ?
 		print_tokens(&token_list);
 	}
 	m_free_tokens(&token_list);
