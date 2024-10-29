@@ -6,7 +6,7 @@
 /*   By: lsampiet <lsampiet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 16:29:29 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/29 15:22:28 by lsampiet         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:24:14 by lsampiet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 int	ft_isalnum(int c)
 {
-	return (ft_isdigit(c) || ft_isalpha(c));
 	return (ft_isdigit(c) || ft_isalpha(c));
 }
