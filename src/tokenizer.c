@@ -7,7 +7,6 @@ int	m_is_special_char(char c)
 				|| c == '\'' || c == '\"');
 }
 
-
 int	m_get_token_type(int status)
 {
 	if (status == 41)
@@ -34,7 +33,7 @@ void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
 {
 	t_token	*new_token;
 
-	if(m_status_needs_backtrack(aut->status))
+	if (m_status_needs_backtrack(aut->status))
 	{
 		aut->lexeme_len--;
 		aut->i--;
@@ -65,7 +64,7 @@ t_token	**m_tokenize(t_token **token_list, char *input)
 		if (aut.status == -1)
 		{
 			m_free_tokens(token_list);
-			break;
+			break ;
 		}
 		if (m_is_final_status(aut.status))
 			m_get_new_token(&aut, token_list, input);

@@ -2,8 +2,8 @@
 
 void	m_free_tokens(t_token **tokens)
 {
-	t_token *current;
-	t_token *next;
+	t_token	*current;
+	t_token	*next;
 
 	if (tokens)
 	{
@@ -22,16 +22,16 @@ void	m_free_tokens(t_token **tokens)
 
 t_token	*m_create_token(char *lexeme, int type)
 {
-	t_token *token;
+	t_token	*token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
-		return NULL;
+		return (NULL);
 	token->lexeme = lexeme;
 	token->type = type;
 	token->next = NULL;
 	token->prev = NULL;
-	return token;
+	return (token);
 }
 
 t_token	*m_find_last_token(t_token *token_ptr)
@@ -48,7 +48,7 @@ t_token	*m_find_last_token(t_token *token_ptr)
 
 void	m_add_token(t_token **token_list, t_token *new_token)
 {
-	t_token *last_token;
+	t_token	*last_token;
 
 	if (!(*token_list))
 		*token_list = new_token;
