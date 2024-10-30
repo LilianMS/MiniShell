@@ -31,14 +31,14 @@ int	m_get_status_1(char c)
 		return (60);
 	else if (c == '>')
 		return (70);
-	else if (ft_isalnum(c))
-		return (80); //ft_isalnum olha se é dígito ou alfabético//ft_isalnum olha se é dígito ou alfabético
 	else if (c == '\'')
 		return (81);
 	else if (c == '\"')
 		return (82);
 	else if (c == '\0' || ft_isspace(c))
 		return (1); //se achar um white space ou fim da linha, continua no status 1 e vai sair do loop lá na função m_tokenize
+	else if (!m_is_special_char(c))
+		return (80);
 	else
 		return (-1);
 }
