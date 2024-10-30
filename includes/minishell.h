@@ -5,7 +5,6 @@
 # include "tokenizer.h"
 
 # include "../libs/libft/includes/libft.h"
-# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>

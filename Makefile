@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wextra -Wall -Werror -g3
+FLAGS = -Wextra -Wall -Werror
 LIBFT = ./libs/libft
 HEADERS = ./includes
 BIN= ./bin/
@@ -13,6 +13,7 @@ SRC= minishell.c \
 	 token_list.c \
 	 token_status_1.c \
 	 token_status_2.c \
+	 token_validation.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 
