@@ -9,16 +9,17 @@ LIBS = $(LIBFT)/libft.a -lreadline
 
 SRC= minishell.c \
 	 checks.c \
-	 tokenizer.c \
-	 token_list.c \
-	 token_status_1.c \
-	 token_status_2.c \
-	 token_validation.c \
+	 tokenizer/tokenizer.c \
+	 tokenizer/token_list.c \
+	 tokenizer/token_status_1.c \
+	 tokenizer/token_status_2.c \
+	 tokenizer/token_validation.c \
+	 parser/parser.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 
 INCLUDES= -I includes -I $(LIBFT)/ -I $(LIBFT)/ft_printf/includes -I $(LIBFT)/gnl/includes
-OBJS= $(patsubst $(SRC_D)%.c, $(BIN)%.o, $(SRC))
+OBJS= $(patsubst $(SRC)%.c, $(BIN)%.o, $(SRC))
 
 RED     = \033[2;31m
 GREEN   = \033[0;32m
