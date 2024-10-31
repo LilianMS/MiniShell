@@ -4,7 +4,7 @@ int	m_get_next_status(int status, char c)
 {
 	int	new_status;
 
-	if(status == 1)
+	if (status == 1)
 		new_status = m_get_status_1(c);
 	else if (status == 40)
 		new_status = m_get_status_40(c);
@@ -31,8 +31,6 @@ int	m_get_status_1(char c)
 		return (60);
 	else if (c == '>')
 		return (70);
-	// else if (ft_isalnum(c))
-	// 	return (80);  //ft_isalnum olha se é dígito ou alfabético//ft_isalnum olha se é dígito ou alfabético
 	else if (c == '\'')
 		return (81);
 	else if (c == '\"')
@@ -46,6 +44,7 @@ int	m_get_status_1(char c)
 }
 
 // definir comportamento se o minishell achar outro '|' -> retornar erro, considerar como um pipe só ou outra coisa?
+
 int	m_get_status_40(char c)
 {
 	if (c == '|')

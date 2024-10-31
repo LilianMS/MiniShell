@@ -5,7 +5,7 @@ void	print_tokens(t_token **tokens)
 {
 	t_token	*current = *tokens;
 	int		i = 0;
-	
+
 	while (current)
 	{
 		ft_printf("Token %i: %s (Type: %d)\n", i++, current->lexeme, current->type);
@@ -16,14 +16,14 @@ void	print_tokens(t_token **tokens)
 void	m_lexical_analysis(char *line)
 {
 	t_token	*token_list;
-	
+
 	token_list = NULL;
-	if(!ft_check_quotes(line))
+	if (!ft_check_quotes(line))
 	{
 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
 	}
 	m_tokenize(&token_list, line);
-	if(token_list != NULL)
+	if (token_list != NULL)
 	{
 		if (!m_validate_tokens(token_list))
 		{
@@ -44,7 +44,7 @@ void	m_lexical_analysis(char *line)
 
 int	main(void)
 {
-	char *line;
+	char	*line;
 
 	while (1)
 	{
@@ -60,11 +60,9 @@ int	main(void)
 		m_lexical_analysis(line);
 		// if(lexical_analysis(line))
 			// {
-				
 			// }
 		free(line);
 	}
-
 	return (0);
 }
 

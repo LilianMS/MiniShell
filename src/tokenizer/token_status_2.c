@@ -43,11 +43,11 @@ int	m_get_status_82(char c)
 int	m_status_needs_backtrack(int status)
 {
 	if (status == 41 \
-            || status == 62 \
-            || status == 72 \
-            || status == 83)
+			|| status == 62 \
+			|| status == 72 \
+			|| status == 83)
 		return (1);
-    return (0);
+	return (0);
 }
 
 //LEGENDA STATUS
@@ -59,8 +59,8 @@ int	m_status_needs_backtrack(int status)
 //---> 71 = REDIR_APPEND --> token type number = 5
 int	m_is_final_status(int status)
 {
-	return (status == 41 
-                || status == 61 || status == 62 \
-			    || status == 71 || status == 72 \
-			    || status == 83);
+	return (status == 41
+		|| status == 61 || status == 62 \
+		|| status == 71 || status == 72 \
+		|| status == 83);
 }

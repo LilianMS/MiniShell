@@ -27,7 +27,3 @@ int	m_validate_tokens(t_token *tokens)
 	}
 	return (1);
 }
-
-// PIPE não pode estar no início ou fim, e precisa de uma WORD antes e depois
-// Verificação para operadores de redirecionamento: <, >, >>, <<
-	//--> Operadores de redirecionamento podem estar no início, mas requerem um argumento após eles
