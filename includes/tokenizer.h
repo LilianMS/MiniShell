@@ -38,6 +38,9 @@ enum e_token_type
 	REDIR_HEREDOC,
 	REDIR_OUT,
 	REDIR_APPEND,
+	COMMAND, //sequência de palavaras que viram um array de strings mallocado em um nó só
+	VARIABLE, // se for um $ dentro de asás duplas
+	STRING, //se for uma palavra desconectada de um comando ou operador ex: "'bananada6201'"
 };
 
 //Tokenizer core functions
