@@ -27,5 +27,6 @@ int		ft_check_quotes(const char *line);
 void	print_tokens(t_token **tokens);
 
 // Parsing Functions
+t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list);
 
 #endif
