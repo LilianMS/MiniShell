@@ -13,6 +13,7 @@ typedef struct s_automat	t_automat;
 typedef struct s_token
 {
 	char	*lexeme;
+	char	**command;
 	int		type;
 	struct	s_token *next;
 	struct	s_token *prev;
