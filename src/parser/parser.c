@@ -10,22 +10,32 @@ char	*m_check_expansion(char	*lexeme)
 {
 	int		i;
 	int		str_len;
+	char	*new_lexeme;
 
 	i = 0;
 	if (lexeme[0] == '\"')
 	{
 		if (ft_strchr(lexeme, '$'))
 		{
-			//expansão de variável
-			ft_printf("achou $");
+			//inserir função de expansão de variável
+			ft_printf("\nachou $\n");
+			str_len = ft_strlen(lexeme) - 2;
 		}
 		else
 			str_len = ft_strlen(lexeme) - 2;
 	}
 	else if (lexeme[0] == '\'')
 		str_len = ft_strlen(lexeme) - 2;
-	//memmove
-	return (lexeme);
+	new_lexeme = malloc(sizeof(char *) * str_len + 1);
+	while(i < str_len)
+	{
+		new_lexeme[i] = lexeme[i + 1];
+		i++;
+	}
+	new_lexeme[i] = '\0';
+	printf("\nnew_lexeme =>> %s\n", new_lexeme);
+	free(lexeme);
+	return (new_lexeme);
 }
 
 
@@ -109,7 +119,3 @@ t_token *m_parse_tokens(t_token **token_list, t_token **parsed_list)
 	}
 	return (*parsed_list);
 }
-	//criar função que lê os nós de palavras 
-	//e coloca os valores em um nó só, em um array de arrays
-
-	//criar estrutura com o tipo de nó COMMAND e outros tipos de nós possíveis (VARIABLE, STRING) -> COLOCAR COMMAND, VARIABLE E STRING NOS ENUMS
