@@ -12,6 +12,29 @@ void	print_tokens(t_token **tokens)
 		current = current->next;
 	}
 }
+void	print_parsed_tokens(t_token **tokens)
+{
+	t_token *current = *tokens;
+	int i = 0;
+	int x = 0;
+
+	while (current)
+	{
+		x = 0;
+		if (current->type == COMMAND)
+		{
+			while(x < current->command_len)
+			{
+				ft_printf("Parsed Token %i: %s (Type: %d)\n", i, current->command[x], current->type);
+				x++;
+			}
+		}
+		else
+			ft_printf("Parsed Token %i: %s (Type: %d)\n", i, current->lexeme, current->type);
+		i++;
+		current = current->next;
+	}
+}
 
 void	m_lexical_analysis(char *line)
 {
@@ -35,8 +58,8 @@ void	m_lexical_analysis(char *line)
 		print_tokens(&token_list);
 	}
 	parsed_list = m_parse_tokens(&token_list, &parsed_list);
+	print_parsed_tokens(&parsed_list);
 	m_free_tokens(&token_list);
-	print_tokens(&parsed_list);
 	// m_binary_tree(&parsed_list);
 	// m_execute_commands(&parsed_list); ?
 	m_free_tokens(&parsed_list);
@@ -54,6 +77,7 @@ int	main(void)
 	while (1)
 	{
 		line = readline("minishell> ");
+		// line = "arroz feijão < abobrinha salada batatinha";
 		if (!line)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
@@ -67,6 +91,7 @@ int	main(void)
 			// {
 			// }
 		free(line);
+		// break ; // tirar , so pra teste
 	}
 	return (0);
 }

@@ -15,6 +15,7 @@ typedef struct s_token
 	char	*lexeme;
 	char	**command;
 	int		type;
+	int		command_len;
 	struct	s_token *next;
 	struct	s_token *prev;
 } t_token;

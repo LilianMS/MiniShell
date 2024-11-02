@@ -1,19 +1,35 @@
 #include "../includes/parser.h"
 
-char	**m_populate_cmd_array(t_token *start, int command_len)
-{
-	int		i;
-	char	**command;
 	// OBSERVAÇÃO!!!!!!!!!!!!
 	// EXPANDIR ASPAS AQUI DENTRO!!!!
 	// E DOLAR SIGN TAMBÉM!!!!!!
 	// NÃO ESQUECER!!! (ง'̀-'́)ง
 	// ┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴
+
+void	m_copy_token(t_token **parsed_list, t_token *aux_token)
+{
+	t_token	*copy_token;
+
+	copy_token = ft_calloc(sizeof(t_token), 1);
+	copy_token->type = aux_token->type;
+	m_add_token(parsed_list, copy_token);
+}
+
+char	**m_populate_cmd_array(t_token *start, int command_len)
+{
+	int		i;
+	char	**command;
 	i = 0;
-	command = malloc(sizeof(char *) * command_len + 1);
-	while(i <= command_len)
+	command = malloc(sizeof(char *) * (command_len + 1));
+	if (!command)
+		return NULL;
+	// printf("%s\n", start->lexeme);
+	while(i < command_len)
 	{
-		command[i] = ft_strdup(start->lexeme);
+		if (start && start->lexeme)
+			command[i] = ft_strdup(start->lexeme);
+		else
+			command[i] = NULL;
 		start = start->next;
 		i++;
 	}
@@ -26,9 +42,11 @@ t_token *m_create_cmd_token(t_token *start, int command_len)
 	t_token *token;
 
 	token = malloc(sizeof(t_token));
+	ft_bzero(token, sizeof(t_token));
 	if (!token)
 		return (NULL);
 	token->command = m_populate_cmd_array(start, command_len);
+	token->command_len = command_len; // teste
 	token->type = COMMAND;
 	token->next = NULL;
 	token->prev = NULL;
@@ -50,17 +68,19 @@ t_token *m_parse_tokens(t_token **token_list, t_token **parsed_list)
 		if (aux_list->type == WORD)
 		{
 			start = aux_list;
-			while (aux_list->type == WORD)
+			while (aux_list && aux_list->type == WORD)
 			{
 				aux_list = aux_list->next;
 				command_len++;
 			}
-			if (command_len > 0)
+			if (command_len > 0 && start->lexeme)
 				m_add_token(parsed_list, m_create_cmd_token(start, command_len));
 		}
 		else
-			m_add_token(parsed_list, aux_list);
-		aux_list = aux_list->next;
+		{
+			m_copy_token(parsed_list, aux_list);
+			aux_list = aux_list->next;
+		}
 	}
 	return (*parsed_list);
 }

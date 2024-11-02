@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wextra -Wall -Werror
+FLAGS = -Wextra -Wall -Werror -g3
 LIBFT = ./libs/libft
 HEADERS = ./includes
 BIN= ./bin/
