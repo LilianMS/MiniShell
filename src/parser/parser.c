@@ -6,6 +6,29 @@
 	// NÃO ESQUECER!!! (ง'̀-'́)ง
 	// ┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴
 
+char	*m_check_expansion(char	*lexeme)
+{
+	int		i;
+	int		str_len;
+
+	i = 0;
+	if (lexeme[0] == '\"')
+	{
+		if (ft_strchr(lexeme, '$'))
+		{
+			//expansão de variável
+			ft_printf("achou $");
+		}
+		else
+			str_len = ft_strlen(lexeme) - 2;
+	}
+	else if (lexeme[0] == '\'')
+		str_len = ft_strlen(lexeme) - 2;
+	//memmove
+	return (lexeme);
+}
+
+
 void	m_copy_token(t_token **parsed_list, t_token *aux_token)
 {
 	t_token	*copy_token;
@@ -23,11 +46,13 @@ char	**m_populate_cmd_array(t_token *start, int command_len)
 	command = malloc(sizeof(char *) * (command_len + 1));
 	if (!command)
 		return NULL;
-	// printf("%s\n", start->lexeme);
 	while(i < command_len)
 	{
 		if (start && start->lexeme)
+		{
+			start->lexeme = m_check_expansion(start->lexeme);
 			command[i] = ft_strdup(start->lexeme);
+		}
 		else
 			command[i] = NULL;
 		start = start->next;
