@@ -1,11 +1,5 @@
 #include "../includes/parser.h"
 
-	// OBSERVAÇÃO!!!!!!!!!!!!
-	// EXPANDIR ASPAS AQUI DENTRO!!!!
-	// E DOLAR SIGN TAMBÉM!!!!!!
-	// NÃO ESQUECER!!! (ง'̀-'́)ง
-	// ┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴
-
 char	*m_check_expansion(char	*lexeme)
 {
 	int		i;
