@@ -1,12 +1,12 @@
 #include "../includes/parser.h"
 
-int m_check_expand(char *lexeme)
+int	m_check_expand(char *lexeme)
 {
 	if (ft_strchr(lexeme, '\"'))
 		return (1);
 	if (ft_strchr(lexeme, '\''))
 		return (0);
-	return (1); 
+	return (1);
 }
 
 char	*m_clean_quotes(char *lexeme)
@@ -40,7 +40,7 @@ char	*m_get_expand_string(char *lexeme)
 	char	*cleaned_lexeme;
 	char	*value;
 	char	*empty_string;
-	
+
 	cleaned_lexeme = m_clean_quotes(lexeme);
 	value = getenv(cleaned_lexeme);
 	free(cleaned_lexeme);
