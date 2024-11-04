@@ -22,7 +22,7 @@ void	m_lexical_analysis(char *line)
 		}
 		print_tokens(&token_list); // ----- debug
 	}
-	parsed_list = m_parse_tokens(&token_list, &parsed_list);
+	m_parse_tokens(&token_list, &parsed_list);
 	print_parsed_tokens(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
 	// m_binary_tree(&parsed_list);
