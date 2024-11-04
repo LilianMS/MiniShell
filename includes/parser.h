@@ -3,9 +3,16 @@
 
 // Libs
 # include "minishell.h"
-# include "tokenizer.h"
 
 // Structs
+typedef struct s_env_parse
+{
+	char	*equal_sign;
+	char	*name;
+	char	*value;
+	int		name_len;
+}	t_env_parse;
+
 typedef struct s_env
 {
 	char			*name;
@@ -13,5 +20,8 @@ typedef struct s_env
 	struct s_env	*prev;
 	struct s_env	*next;
 }	t_env;
+
+// Functions
+char	*m_quotes_and_expansion(char *lexeme);
 
 #endif
