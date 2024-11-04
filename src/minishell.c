@@ -66,8 +66,7 @@ int	main(__attribute__((unused)) int argc,
 	mini.env_list = m_create_env_list(envp);
 	// print_env_list(mini.env_list); // ----- debug
 	char *expand = m_get_env(mini.env_list, "USERNAME"); // ----- debug de função
-	printf("expand: %s\n", expand); // ----- debug de função
-	free(expand); // ----- debug de função
+	ft_printf("expand: %s\n", expand); // ----- debug de função
 	while (1)
 	{
 		mini.line = readline("minishell> ");
@@ -87,6 +86,6 @@ int	main(__attribute__((unused)) int argc,
 		free(mini.line);
 		// break ; // tirar , so pra teste
 	}
-	free_env_list(mini.env_list);
+	m_free_env_list(mini.env_list);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lilmende <lilmende@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:34:19 by lilmende          #+#    #+#             */
-/*   Updated: 2024/10/16 11:40:37 by lilmende         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:54:02 by lilmende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ void		ft_free_split(char **split);
 int			ft_isspace(char c);
 char		*ft_strndup(const char *s, size_t n);
 void		*ft_realloc(void *ptr, size_t new_size);
+int			ft_strcmp(const char *s1, const char *s2);
 
 #endif

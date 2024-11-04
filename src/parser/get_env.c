@@ -1,24 +1,5 @@
 #include "../includes/parser.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	len1;
-	size_t	len2;
-	size_t	min_len;
-	int		result;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	if (len1 < len2)
-		min_len = len1;
-	else
-		min_len = len2;
-	result = ft_memcmp(s1, s2, min_len);
-	if (result != 0)
-		return (result);
-	return (len1 - len2);
-}
-
 // criar nó de variável de ambiente
 t_env	*m_create_env_node(char *name, char *value)
 {
@@ -93,7 +74,7 @@ char	*m_get_env(t_env *env_list, const char *var_name)
 	return (NULL);
 }
 
-void	free_env_list(t_env *env_list)
+void	m_free_env_list(t_env *env_list)
 {
 	t_env	*current;
 	t_env	*next;

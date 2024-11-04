@@ -30,5 +30,4 @@ char	*m_clean_quotes(char *lexeme);
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list);
 
-
 #endif
