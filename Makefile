@@ -8,13 +8,16 @@ CC = cc
 LIBS = $(LIBFT)/libft.a -lreadline
 
 SRC= minishell.c \
-	 checks.c \
 	 tokenizer/tokenizer.c \
 	 tokenizer/token_list.c \
 	 tokenizer/token_status_1.c \
 	 tokenizer/token_status_2.c \
 	 tokenizer/token_validation.c \
 	 parser/parser.c \
+	 parser/parser_utils.c \
+	 parser/get_env.c \
+	 utils/checks.c \
+	 debug.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 

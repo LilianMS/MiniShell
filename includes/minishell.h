@@ -22,9 +22,7 @@ struct s_mini
 // Lexical Analysis Functions
 void	m_lexical_analysis(char *line);
 int		ft_check_quotes(const char *line);
-
-//Debug Functions
-void	print_tokens(t_token **tokens);
+char	*m_clean_quotes(char *lexeme);
 
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list);

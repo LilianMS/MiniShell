@@ -1,45 +1,10 @@
 #include "../includes/minishell.h"
-
-// --debug
-void	print_tokens(t_token **tokens)
-{
-	t_token	*current = *tokens;
-	int		i = 0;
-
-	while (current)
-	{
-		ft_printf("Token %i: %s (Type: %d)\n", i++, current->lexeme, current->type);
-		current = current->next;
-	}
-}
-void	print_parsed_tokens(t_token **tokens)
-{
-	t_token *current = *tokens;
-	int i = 0;
-	int x = 0;
-
-	while (current)
-	{
-		x = 0;
-		if (current->type == COMMAND)
-		{
-			while(x < current->command_len)
-			{
-				ft_printf("Parsed Token %i: %s (Type: %d)\n", i, current->command[x], current->type);
-				x++;
-			}
-		}
-		else
-			ft_printf("Parsed Token %i: %s (Type: %d)\n", i, current->lexeme, current->type);
-		i++;
-		current = current->next;
-	}
-}
+#include "debug.h" // ----- debug
 
 void	m_lexical_analysis(char *line)
 {
-	t_token *token_list;
-	t_token *parsed_list;
+	t_token	*token_list;
+	t_token	*parsed_list;
 
 	token_list = NULL;
 	parsed_list = NULL;
@@ -55,10 +20,10 @@ void	m_lexical_analysis(char *line)
 			m_free_tokens(&token_list);
 			return ;
 		}
-		print_tokens(&token_list);
+		print_tokens(&token_list); // ----- debug
 	}
 	parsed_list = m_parse_tokens(&token_list, &parsed_list);
-	print_parsed_tokens(&parsed_list);
+	print_parsed_tokens(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
 	// m_binary_tree(&parsed_list);
 	// m_execute_commands(&parsed_list); ?
@@ -95,11 +60,3 @@ int	main(void)
 	}
 	return (0);
 }
-
-// GETENV
-	// Name of the environment variable (e.g., PATH)
-	// const char *name = "HOME";
-	// Get the value associated with the variable
-	// const char *env_p = getenv(name);
-	// if(env_p)
-	// 	printf("Your %s is %s\n", name, env_p);
