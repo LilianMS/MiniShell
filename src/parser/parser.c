@@ -3,13 +3,20 @@
 // --- funções para m_quotes_and_expansion
 int	m_check_expand(char *lexeme)
 {
-	if (ft_strchr(lexeme, '\"'))
+	int	str_len;
+
+	str_len = ft_strlen(lexeme);
+	if ((lexeme[0] == '\"') && (lexeme[1] == '$')
+		&& (lexeme[str_len - 1] == '\"')
+		&& (lexeme[2] != '\"') && (lexeme[2] != ' '))
 		return (1);
-	if (ft_strchr(lexeme, '\''))
+	else if (lexeme[0] == '$' && lexeme[1] != '\0')
+		return (1);
+	else
 		return (0);
-	return (1);
 }
 
+// -- função para limpar as aspas em qualquer caso
 char	*m_clean_quotes(char *lexeme)
 {
 	char	*new_lexeme;
@@ -58,7 +65,7 @@ char	*m_get_expand_string(char *lexeme)
 
 char	*m_quotes_and_expansion(char *lexeme)
 {
-	if (ft_strchr(lexeme, '$') && m_check_expand(lexeme))
+	if (m_check_expand(lexeme))
 		return (m_get_expand_string(lexeme));
 	return (m_clean_quotes(lexeme));
 }
@@ -78,11 +85,12 @@ char	**m_populate_cmd_array(t_token *start, int command_len)
 {
 	int		i;
 	char	**command;
+
 	i = 0;
 	command = malloc(sizeof(char *) * (command_len + 1));
 	if (!command)
-		return NULL;
-	while(i < command_len)
+		return (NULL);
+	while (i < command_len)
 	{
 		if (start && start->lexeme)
 		{
@@ -98,9 +106,9 @@ char	**m_populate_cmd_array(t_token *start, int command_len)
 	return (command);
 }
 
-t_token *m_create_cmd_token(t_token *start, int command_len)
+t_token	*m_create_cmd_token(t_token *start, int command_len)
 {
-	t_token *token;
+	t_token	*token;
 
 	token = malloc(sizeof(t_token));
 	ft_bzero(token, sizeof(t_token));
@@ -114,7 +122,7 @@ t_token *m_create_cmd_token(t_token *start, int command_len)
 	return (token);
 }
 
-t_token *m_parse_tokens(t_token **token_list, t_token **parsed_list)
+t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list)
 {
 	t_token	*aux_list;
 	t_token	*start;
