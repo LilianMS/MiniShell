@@ -6,6 +6,14 @@
 # include "tokenizer.h"
 
 // Structs
+typedef struct s_env_parse
+{
+	char	*equal_sign;
+	char	*name;
+	char	*value;
+	int		name_len;
+}	t_env_parse;
+
 typedef struct s_env
 {
 	char			*name;

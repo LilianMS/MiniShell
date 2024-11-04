@@ -27,3 +27,47 @@ t_env	*m_create_env_node(char *name, char *value)
 	return (new_node);
 }
 
+void m_add_node_env(t_env **head, t_env *new_node)
+{
+	t_env	*temp;
+
+	if (!*head)
+		*head = new_node;
+	else
+	{
+		temp = *head;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = new_node;
+		new_node->prev = temp;
+	}
+}
+
+// função para criar lista com envp
+t_env *create_env_list(char **envp)
+{
+    int			i;
+    t_env		*env_list;
+    t_env_parse	temp;
+    t_env		*new_node;
+
+	i = 0;
+	env_list = NULL;
+    while (envp[i])
+    {
+        temp.equal_sign = ft_strchr(envp[i], '=');
+        if (temp.equal_sign)
+        {
+            temp.name_len = temp.equal_sign - envp[i];
+            temp.name = ft_substr(envp[i], 0, temp.name_len);
+            temp.value = ft_strdup(temp.equal_sign + 1);
+            new_node = m_create_env_node(temp.name, temp.value);
+            m_add_node_env(&env_list, new_node);
+            free(temp.name);
+            free(temp.value);
+        }
+        i++;
+    }
+    return env_list;
+}
+
