@@ -23,7 +23,7 @@ struct s_mini
 };
 
 // Lexical Analysis Functions
-void	m_lexical_analysis(char *line);
+void	m_lexical_analysis(t_mini mini);
 int		ft_check_quotes(const char *line);
 char	*m_clean_quotes(char *lexeme);
 

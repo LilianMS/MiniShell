@@ -46,3 +46,8 @@ git push --force
 
 :books: docs: update README
 
+
+### Para testar com o valgrind sem os leaks do readline:
+
+> ``` valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./minishell ```
+

@@ -1,16 +1,16 @@
 #include "../includes/minishell.h"
 #include "debug.h" // ----- debug
 
-void	m_lexical_analysis(char *line)
+void	m_lexical_analysis(t_mini mini)
 {
 	t_token	*token_list;
 	t_token	*parsed_list;
 
 	token_list = NULL;
 	parsed_list = NULL;
-	if (!ft_check_quotes(line))
+	if (!ft_check_quotes(mini.line))
 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
-	m_tokenize(&token_list, line);
+	m_tokenize(&token_list, mini.line);
 	if (token_list != NULL)
 	{
 		if (!m_validate_tokens(token_list))
@@ -27,6 +27,31 @@ void	m_lexical_analysis(char *line)
 	// m_execute_commands(&parsed_list); ?
 	m_free_tokens(&parsed_list);
 }
+// {
+// 	t_token	*token_list;
+// 	t_token	*parsed_list;
+
+// 	token_list = NULL;
+// 	parsed_list = NULL;
+// 	if (!ft_check_quotes(line))
+// 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
+// 	m_tokenize(&token_list, line);
+// 	if (token_list != NULL)
+// 	{
+// 		if (!m_validate_tokens(token_list))
+// 		{
+// 			m_free_tokens(&token_list);
+// 			return ;
+// 		}
+// 		print_tokens(&token_list); // ----- debug
+// 	}
+// 	m_parse_tokens(&token_list, &parsed_list);
+// 	print_parsed_tokens(&parsed_list); // ----- debug
+// 	m_free_tokens(&token_list);
+// 	// m_binary_tree(&parsed_list);
+// 	// m_execute_commands(&parsed_list); ?
+// 	m_free_tokens(&parsed_list);
+// }
 
 // void	init_minishell(t_mini *mini, char *line)
 // {
@@ -39,6 +64,10 @@ int	main(__attribute__((unused)) int argc,
 	t_mini			mini;
 
 	mini.env_list = m_create_env_list(envp);
+	// print_env_list(mini.env_list); // ----- debug
+	char *expand = m_get_env(mini.env_list, "USERNAME"); // ----- debug de função
+	printf("expand: %s\n", expand); // ----- debug de função
+	free(expand); // ----- debug de função
 	while (1)
 	{
 		mini.line = readline("minishell> ");
@@ -51,7 +80,7 @@ int	main(__attribute__((unused)) int argc,
 		}
 		// init_minishell(mini, line);
 		add_history(mini.line);
-		m_lexical_analysis(mini.line);
+		m_lexical_analysis(mini);
 		// if(lexical_analysis(line))
 			// {
 			// }

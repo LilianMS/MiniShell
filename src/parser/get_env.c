@@ -90,7 +90,7 @@ char	*m_get_env(t_env *env_list, const char *var_name)
 			return (current->value);
 		current = current->next;
 	}
-	return (NULL); // Retorna NULL se a variável não for encontrada
+	return (NULL);
 }
 
 void	free_env_list(t_env *env_list)
