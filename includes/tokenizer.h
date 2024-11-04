@@ -13,7 +13,9 @@ typedef struct s_automat	t_automat;
 typedef struct s_token
 {
 	char	*lexeme;
+	char	**command;
 	int		type;
+	int		command_len;
 	struct	s_token *next;
 	struct	s_token *prev;
 } t_token;
@@ -38,6 +40,7 @@ enum e_token_type
 	REDIR_HEREDOC,
 	REDIR_OUT,
 	REDIR_APPEND,
+	COMMAND, //sequência de palavaras que viram um array de strings mallocado em um nó só
 };
 
 //Tokenizer core functions
@@ -63,7 +66,7 @@ t_token		*m_create_token(char *lexeme, int type);
 t_token		*m_find_last_token(t_token *token_ptr);
 void		m_add_token(t_token **token_list, t_token *new_token);
 void		m_free_tokens(t_token **tokens);
-
+void		free_cmd_array(char **command);
 int			m_validate_tokens(t_token *tokens);
 
 #endif
