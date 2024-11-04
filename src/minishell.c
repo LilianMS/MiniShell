@@ -9,9 +9,7 @@ void	m_lexical_analysis(char *line)
 	token_list = NULL;
 	parsed_list = NULL;
 	if (!ft_check_quotes(line))
-	{
 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
-	}
 	m_tokenize(&token_list, line);
 	if (token_list != NULL)
 	{
@@ -22,7 +20,7 @@ void	m_lexical_analysis(char *line)
 		}
 		print_tokens(&token_list); // ----- debug
 	}
-	parsed_list = m_parse_tokens(&token_list, &parsed_list);
+	m_parse_tokens(&token_list, &parsed_list);
 	print_parsed_tokens(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
 	// m_binary_tree(&parsed_list);
@@ -35,28 +33,31 @@ void	m_lexical_analysis(char *line)
 // 	mini->input = line;
 // }
 
-int	main(void)
+int	main(__attribute__((unused)) int argc,
+	__attribute__((unused)) char **argv, char **envp)
 {
-	char	*line;
+	t_mini			mini;
 
+	mini.env_list = m_create_env_list(envp);
 	while (1)
 	{
-		line = readline("minishell> ");
+		mini.line = readline("minishell> ");
 		// line = "arroz feijão < abobrinha salada batatinha";
-		if (!line)
+		if (!mini.line)
 		{
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			ft_putendl_fd("exit", STDOUT_FILENO);
 			clear_history();
 			break ;
 		}
 		// init_minishell(mini, line);
-		add_history(line);
-		m_lexical_analysis(line);
+		add_history(mini.line);
+		m_lexical_analysis(mini.line);
 		// if(lexical_analysis(line))
 			// {
 			// }
-		free(line);
+		free(mini.line);
 		// break ; // tirar , so pra teste
 	}
+	free_env_list(mini.env_list);
 	return (0);
 }

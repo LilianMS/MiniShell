@@ -24,7 +24,7 @@ char	*m_get_expand_string(char *lexeme)
 	char	*empty_string;
 
 	cleaned_lexeme = m_clean_quotes(lexeme);
-	value = getenv(cleaned_lexeme);
+	value = m_get_env(NULL, cleaned_lexeme);
 	free(cleaned_lexeme);
 	if (value)
 		return (ft_strdup(value));
