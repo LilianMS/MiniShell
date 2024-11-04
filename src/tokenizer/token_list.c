@@ -1,18 +1,17 @@
 #include "../includes/tokenizer.h"
 
+// mesmo que a ft_free_split do libft
 void	free_cmd_array(char **command)
 {
-	int i = 0;
+	int i;
 
-	if (command)
+	i = 0;
+	while (command[i])
 	{
-		while (command[i])
-		{
-			free(command[i]);
-			i++;
-		}
-		free(command);
+		free(command[i]);
+		i++;
 	}
+	free(command);
 }
 
 void	m_free_tokens(t_token **tokens)
@@ -59,7 +58,7 @@ t_token	*m_find_last_token(t_token *token_ptr)
 {
 	if (!token_ptr)
 	{
-		ft_putstr_fd("Tokenization Error -> No last knot in the list", 2);
+		ft_putendl_fd("Tokenization Error -> No last knot in the list", 2);
 		return (NULL);
 	}
 	while (token_ptr->next != NULL)
