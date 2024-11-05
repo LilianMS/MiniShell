@@ -9,9 +9,7 @@ void	m_lexical_analysis(char *line)
 	token_list = NULL;
 	parsed_list = NULL;
 	if (!ft_check_quotes(line))
-	{
 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
-	}
 	m_tokenize(&token_list, line);
 	if (token_list != NULL)
 	{
@@ -42,21 +40,17 @@ int	main(void)
 	while (1)
 	{
 		line = readline("minishell> ");
-		// line = "arroz feijão < abobrinha salada batatinha";
 		if (!line)
 		{
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
-			clear_history();
+			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		// init_minishell(mini, line);
 		add_history(line);
 		m_lexical_analysis(line);
 		// if(lexical_analysis(line))
 			// {
 			// }
 		free(line);
-		// break ; // tirar , so pra teste
 	}
 	return (0);
 }
