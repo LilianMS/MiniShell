@@ -70,11 +70,9 @@ int	main(__attribute__((unused)) int argc,
 	while (1)
 	{
 		mini.line = readline("minishell> ");
-		// line = "arroz feijão < abobrinha salada batatinha";
 		if (!mini.line)
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			clear_history();
 			break ;
 		}
 		// init_minishell(mini, line);
@@ -84,7 +82,6 @@ int	main(__attribute__((unused)) int argc,
 			// {
 			// }
 		free(mini.line);
-		// break ; // tirar , so pra teste
 	}
 	m_free_env_list(mini.env_list);
 	return (0);
