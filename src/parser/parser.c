@@ -52,22 +52,19 @@ t_token	*m_create_cmd_token(t_token *start, int command_len)
 
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list)
 {
-	t_token	*aux_list;
 	t_token	*start;
 	int		command_len;
 
 	start = NULL;
-	command_len = 0;
-	aux_list = *token_list;
-	while (aux_list)
+	while (*token_list)
 	{
 		command_len = 0;
-		if (aux_list->type == WORD)
+		if ((*token_list)->type == WORD)
 		{
-			start = aux_list;
-			while (aux_list && aux_list->type == WORD)
+			start = *token_list;
+			while (*token_list && (*token_list)->type == WORD)
 			{
-				aux_list = aux_list->next;
+				*token_list = (*token_list)->next;
 				command_len++;
 			}
 			if (command_len > 0 && start->lexeme)
@@ -75,8 +72,8 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list)
 		}
 		else
 		{
-			m_copy_token(parsed_list, aux_list);
-			aux_list = aux_list->next;
+			m_copy_token(parsed_list, *token_list);
+			*token_list = (*token_list)->next;
 		}
 	}
 	return (*parsed_list);
