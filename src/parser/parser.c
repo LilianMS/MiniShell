@@ -50,35 +50,6 @@ t_token	*m_create_cmd_token(t_token *start, int command_len)
 	return (token);
 }
 
-// t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list)
-// {
-// 	t_token	*start;
-// 	int		command_len;
-
-// 	start = NULL;
-// 	while (*token_list)
-// 	{
-// 		command_len = 0;
-// 		if ((*token_list)->type == WORD)
-// 		{
-// 			start = *token_list;
-// 			while (*token_list && (*token_list)->type == WORD)
-// 			{
-// 				*token_list = (*token_list)->next;
-// 				command_len++;
-// 			}
-// 			if (command_len > 0 && start->lexeme)
-// 				m_add_token(parsed_list, m_create_cmd_token(start, command_len));
-// 		}
-// 		else
-// 		{
-// 			m_copy_token(parsed_list, *token_list);
-// 			*token_list = (*token_list)->next;
-// 		}
-// 	}
-// 	return (*parsed_list);
-// }
-
 // Função auxiliar para processar tokens do tipo WORD
 void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list)
 {
