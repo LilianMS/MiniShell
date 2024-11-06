@@ -18,26 +18,56 @@ int	ft_check_quotes(const char *line)
 	return (!single_q && !double_q);
 }
 
-// -- função para limpar as aspas em qualquer caso
+static char	ft_is_quotes_type(char *lexeme, int *start, int *end)
+{
+	char	id_quote;
+	int		i;
+
+	id_quote = 0;
+	i = 0;
+	while (lexeme[i])
+	{
+		if ((lexeme[i] == '\'' || lexeme[i] == '\"') && id_quote == 0)
+		{
+			id_quote = lexeme[i];
+			*start = i;
+		}
+		else if (lexeme[i] == id_quote)
+		{
+			*end = i;
+			return (id_quote);
+		}
+		i++;
+	}
+	*start = -1;
+	*end = -1;
+	return (0);
+}
+
+// -- função para limpar as aspas nos casos do minishell
 char	*m_clean_quotes(char *lexeme)
 {
+	char	id_quote;
 	char	*new_lexeme;
+	int		start;
+	int		end;
 	int		i;
-	int		str_len;
 
-	i = 0;
-	str_len = ft_strlen(lexeme);
-	if (((lexeme[0] == '\"') && (lexeme[str_len - 1] == '\"'))
-		|| ((lexeme[0] == '\'') && (lexeme[str_len - 1] == '\'')))
+	start = -1;
+	end = -1;
+	id_quote = ft_is_quotes_type(lexeme, &start, &end);
+	if (id_quote)
 	{
-		str_len -= 2;
-		new_lexeme = malloc(sizeof(char) * (str_len + 1));
-		while (lexeme[i + 1])
+		new_lexeme = malloc(sizeof(char) * ((ft_strlen(lexeme) - 2) + 1));
+		i = 0;
+		while (lexeme[i])
 		{
-			new_lexeme[i] = lexeme[i + 1];
+			if (i != start && i != end)
+				*new_lexeme++ = lexeme[i];
 			i++;
 		}
-		new_lexeme[i - 1] = '\0';
+		*new_lexeme = '\0';
+		new_lexeme -= (ft_strlen(lexeme) - 2); // Volta o ponteiro para o início / reduz linhas rs
 		free(lexeme);
 		return (new_lexeme);
 	}

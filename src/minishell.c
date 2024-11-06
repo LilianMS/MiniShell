@@ -8,9 +8,15 @@ void	m_lexical_analysis(t_mini mini)
 
 	token_list = NULL;
 	parsed_list = NULL;
+<<<<<<< HEAD
 	if (!ft_check_quotes(mini.line))
 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
 	m_tokenize(&token_list, mini.line);
+=======
+	if (!ft_check_quotes(line))
+		ft_putendl_fd("minishell: syntax error with open quotes", 2);
+	m_tokenize(&token_list, line);
+>>>>>>> 08604ac5ccf41051d7734cebdeb2d4e290915e32
 	if (token_list != NULL)
 	{
 		if (!m_validate_tokens(token_list))
