@@ -15,6 +15,7 @@ SRC= minishell.c \
 	 tokenizer/token_validation.c \
 	 parser/parser.c \
 	 parser/parser_utils.c \
+	 parser/get_env.c \
 	 utils/checks.c \
 	 debug.c \
 

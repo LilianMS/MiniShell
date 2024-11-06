@@ -4,7 +4,6 @@
 //Libs
 # include "minishell.h"
 # include "parser.h"
-# include "tokenizer.h"
 
 //functions to debug
 void	print_parsed_tokens(t_token **tokens);
