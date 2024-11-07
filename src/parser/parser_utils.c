@@ -17,14 +17,14 @@ int	m_check_expand(char *lexeme)
 }
 
 // --- usando getenv temporariamente
-char	*m_get_expand_string(char *lexeme)
+char	*m_get_expand_string(char *lexeme, t_env *env_list)
 {
 	char	*cleaned_lexeme;
 	char	*value;
 	char	*empty_string;
 
 	cleaned_lexeme = m_clean_quotes(lexeme);
-	value = m_get_env(NULL, cleaned_lexeme);
+	value = m_get_env(env_list, cleaned_lexeme);
 	free(cleaned_lexeme);
 	if (value)
 		return (ft_strdup(value));
@@ -37,9 +37,9 @@ char	*m_get_expand_string(char *lexeme)
 	}
 }
 
-char	*m_quotes_and_expansion(char *lexeme)
+char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 {
 	if (m_check_expand(lexeme))
-		return (m_get_expand_string(lexeme));
+		return (m_get_expand_string(lexeme, env_list));
 	return (m_clean_quotes(lexeme));
 }

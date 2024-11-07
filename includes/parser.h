@@ -3,6 +3,7 @@
 
 // Libs
 # include "minishell.h"
+# include "tokenizer.h"
 
 // Structs
 typedef struct s_env_parse
@@ -22,7 +23,8 @@ typedef struct s_env
 }	t_env;
 
 // Functions
-char	*m_quotes_and_expansion(char *lexeme);
+
+char	*m_quotes_and_expansion(char *lexeme, t_env *env_list);
 char	*m_get_env(t_env *env_list, const char *var_name);
 void	m_free_env_list(t_env *env_list);
 t_env	*m_create_env_list(char **envp);

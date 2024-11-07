@@ -1,7 +1,7 @@
 NAME = minishell
 FLAGS = -Wextra -Wall -Werror -g3
 LIBFT = ./libs/libft
-HEADERS = ./includes
+HEADERS = ./includes/
 BIN= ./bin/
 SRC_D= ./src/
 CC = cc

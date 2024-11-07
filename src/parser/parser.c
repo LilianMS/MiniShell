@@ -9,7 +9,7 @@ void	m_copy_token(t_token **parsed_list, t_token *aux_token)
 	m_add_token(parsed_list, copy_token);
 }
 
-char	**m_populate_cmd_array(t_token *start, int command_len)
+char	**m_populate_cmd_array(t_token *start, int command_len, t_env *env_list)
 {
 	int		i;
 	char	**command;
@@ -22,7 +22,7 @@ char	**m_populate_cmd_array(t_token *start, int command_len)
 	{
 		if (start && start->lexeme)
 		{
-			start->lexeme = m_quotes_and_expansion(start->lexeme); // alteração de função //
+			start->lexeme = m_quotes_and_expansion(start->lexeme, env_list); // alteração de função //
 			command[i] = ft_strdup(start->lexeme);
 		}
 		else
@@ -34,7 +34,7 @@ char	**m_populate_cmd_array(t_token *start, int command_len)
 	return (command);
 }
 
-t_token	*m_create_cmd_token(t_token *start, int command_len)
+t_token	*m_create_cmd_token(t_token *start, int command_len, t_env *env_list)
 {
 	t_token	*token;
 
@@ -42,7 +42,7 @@ t_token	*m_create_cmd_token(t_token *start, int command_len)
 	ft_bzero(token, sizeof(t_token));
 	if (!token)
 		return (NULL);
-	token->command = m_populate_cmd_array(start, command_len);
+	token->command = m_populate_cmd_array(start, command_len, env_list);
 	token->command_len = command_len; // teste ---- debug ?
 	token->type = COMMAND;
 	token->next = NULL;
@@ -51,7 +51,7 @@ t_token	*m_create_cmd_token(t_token *start, int command_len)
 }
 
 // Função auxiliar para processar tokens do tipo WORD
-void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list)
+void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list, t_env *env_list)
 {
 	t_token	*start;
 	int		command_len;
@@ -64,10 +64,10 @@ void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list)
 		command_len++;
 	}
 	if (command_len > 0 && start->lexeme)
-		m_add_token(parsed_list, m_create_cmd_token(start, command_len));
+		m_add_token(parsed_list, m_create_cmd_token(start, command_len, env_list));
 }
 
-t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list)
+t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list)
 {
 	t_token	*aux_list;
 
@@ -75,7 +75,7 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list)
 	while (aux_list)
 	{
 		if (aux_list->type == WORD)
-			m_handle_word_tokens(&aux_list, parsed_list);
+			m_handle_word_tokens(&aux_list, parsed_list, env_list);
 		else
 		{
 			m_copy_token(parsed_list, aux_list);

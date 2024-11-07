@@ -3,6 +3,7 @@
 
 //Libs
 # include "minishell.h"
+# include "parser.h"
 
 //Structs
 typedef struct s_mini		t_mini;
