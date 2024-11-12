@@ -11,25 +11,25 @@ typedef struct s_token		t_token;
 typedef struct s_automat	t_automat;
 
 //Structs
-typedef struct s_token
+struct s_token
 {
-	char			*lexeme;
-	char			**command;
-	int				type;
-	int				command_len;
-	struct s_token	*next;
-	struct s_token	*prev;
-}	t_token;
+	char					*lexeme;
+	char					**command;
+	int						type;
+	int						command_len;
+	struct s_token			*next;
+	struct s_token			*prev;
+};
 
-typedef struct s_automat
+struct s_automat
 {
-	char	*lexeme;
-	int		i;
-	int		lexeme_len;
-	int		str_len;
-	int		status;
-	int		token_type;
-}	t_automat;
+	char					*lexeme;
+	int						i;
+	int						lexeme_len;
+	int						str_len;
+	int						status;
+	int						token_type;
+};
 
 // Enums
 enum e_token_type

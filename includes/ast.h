@@ -4,13 +4,18 @@
 // Libs
 # include "minishell.h"
 
+// Structs
 typedef struct s_tree	t_tree;
 
 // Structs
-typedef struct t_tree
+struct s_tree
 {
-	
-}
+	int					type;
+	char				**command;
+	struct t_tree		*left;
+	struct t_tree		*right;
+	// struct t_tree		*parent;
+};
 
 // Functions
 
