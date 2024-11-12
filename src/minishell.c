@@ -67,7 +67,7 @@ int	main(__attribute__((unused)) int argc,
 
 	init_minishell(&mini, envp);
 	// print_env_list(mini.env_list); // ----- debug
-	char *expand = m_get_env(mini.env_list, "USERNAME"); // ----- debug de função
+	char *expand = m_get_env(mini.env_list, "USER"); // ----- debug de função
 	ft_printf("expand: %s\n", expand); // ----- debug de função
 	while (1)
 	{
