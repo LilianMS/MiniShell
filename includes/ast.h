@@ -3,6 +3,8 @@
 
 // Libs
 # include "minishell.h"
+# include "parser.h"
+# include "tokenizer.h"
 
 // Structs
 typedef struct s_tree	t_tree;

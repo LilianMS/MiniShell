@@ -4,6 +4,7 @@
 // Libs
 # include "minishell.h"
 # include "tokenizer.h"
+# include "ast.h"
 
 // Structs
 typedef struct s_env_parse	t_env_parse;
