@@ -4,6 +4,7 @@
 //Libs
 # include "minishell.h"
 # include "parser.h"
+# include "debug.h"
 # include "ast.h"
 
 //Structs
@@ -18,6 +19,7 @@ struct s_token
 	char					**command;
 	int						type;
 	int						command_len;
+	int						position;
 	struct s_token			*next;
 	struct s_token			*prev;
 };

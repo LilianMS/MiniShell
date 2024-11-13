@@ -43,8 +43,6 @@ int	m_get_status_1(char c)
 		return (-1);
 }
 
-// definir comportamento se o minishell achar outro '|' -> retornar erro, considerar como um pipe só ou outra coisa?
-
 int	m_get_status_40(char c)
 {
 	if (c == '|')

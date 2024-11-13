@@ -4,6 +4,7 @@
 // Libs
 # include "tokenizer.h"
 # include "parser.h"
+# include "debug.h"
 
 # include "../libs/libft/includes/libft.h"
 # include <readline/readline.h>

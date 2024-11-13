@@ -12,8 +12,10 @@ typedef struct s_tree	t_tree;
 // Structs
 struct s_tree
 {
-	int					type;
+	char				*content;
 	char				**command;
+	int					type;
+	int					position;
 	struct t_tree		*left;
 	struct t_tree		*right;
 	// struct t_tree		*parent;

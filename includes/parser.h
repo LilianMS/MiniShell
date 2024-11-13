@@ -4,6 +4,7 @@
 // Libs
 # include "minishell.h"
 # include "tokenizer.h"
+# include "debug.h"
 # include "ast.h"
 
 // Structs
