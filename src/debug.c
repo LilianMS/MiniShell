@@ -42,14 +42,14 @@ void	print_parsed_tokens(t_token **tokens)
 		{
 			while(x < curr->command_len)
 			{
-				fprintf(stderr, "| %8d | %13s | %4d | %2p | %2p | %2p |\n", \
+				fprintf(stderr, "| %2d  | %13s | %4d | %10p | %10p | %10p |\n", \
 					position, curr->command[x], curr->type, curr->prev, curr, curr->next);
 				// ft_printf("Parsed Token %i: %s (Type: %d)\n", position, current->command[x], current->type);
 				x++;
 			}
 		}
 		else
-			fprintf(stderr, "| %8d | %13s | %4d | %2p | %2p | %2p |\n", \
+			fprintf(stderr, "| %2d  | %13s | %4d | %10p | %10p | %10p |\n", \
 				position, curr->lexeme, curr->type, curr->prev, curr, curr->next);
 			// ft_printf("Parsed Token %i: %s (Type: %d)\n", position, current->lexeme, current->type);
 		position++;
@@ -66,11 +66,11 @@ void	list_printer(t_token **parsed_list)
 	parsed_list_len = list_size(parsed_list);
 	fprintf(stderr, "List size: %d\n", parsed_list_len);
 	fprintf(stderr, "List content:\n");
-	fprintf(stderr, "|-----|---------------|------|----------------|----------------|----------------|\n");
-	fprintf(stderr, "| pos |    content    | type |      prev      |      curr      |      next      |\n");
-	fprintf(stderr, "|-----|---------------|------|----------------|----------------|----------------|\n");
+	fprintf(stderr, "|-----|---------------|------|------------|------------|------------|\n");
+	fprintf(stderr, "| pos |    content    | type |    prev    |    curr    |    next    |\n");
+	fprintf(stderr, "|-----|---------------|------|------------|------------|------------|\n");
 	print_parsed_tokens(parsed_list);
-	fprintf(stderr, "|-----|---------------|------|----------------|----------------|----------------|\n\n");
+	fprintf(stderr, "|-----|---------------|------|------------|------------|------------|\n\n");
 	fflush(stderr);
 }
 
