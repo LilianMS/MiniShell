@@ -18,13 +18,12 @@ void	m_lexical_analysis(t_mini *mini)
 			m_free_tokens(&token_list);
 			return ;
 		}
-		print_tokens(&token_list); // ----- debug
+		//print_tokens(&token_list); // ----- debug
 	}
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
-	// print_parsed_tokens(&parsed_list); // ----- debug
 	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
-	// m_binary_tree(&parsed_list);
+	m_binary_tree(mini->tree, &parsed_list);
 	// m_execute_commands(&parsed_list); ?
 	m_free_tokens(&parsed_list);
 }
@@ -34,6 +33,7 @@ void	init_minishell(t_mini *mini, char **envp)
 	ft_bzero(mini, sizeof(t_mini));
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
+	mini->tree = NULL;
 }
 
 int	main(__attribute__((unused)) int argc,

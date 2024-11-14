@@ -8,6 +8,7 @@
 
 // Structs
 typedef struct s_tree	t_tree;
+typedef struct s_token	t_token;
 
 // Structs
 struct s_tree
@@ -22,6 +23,7 @@ struct s_tree
 };
 
 // Functions
-
+void	m_binary_tree(t_tree *root, t_token **parsed_list);
+t_tree	*m_create_tree_node(t_tree *root, t_token *rev_list);
 
 #endif

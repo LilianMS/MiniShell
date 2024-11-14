@@ -16,11 +16,13 @@
 typedef struct s_mini		t_mini;
 typedef struct s_token		t_token;
 typedef struct s_env		t_env;
+typedef struct s_tree		t_tree;
 
 struct s_mini
 {
 	char	*line;
 	t_env	*env_list;
+	t_tree	*tree;
 };
 
 // Lexical Analysis Functions
