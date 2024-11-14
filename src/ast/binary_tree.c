@@ -18,16 +18,10 @@ void	m_binary_tree(t_tree *root, t_token **parsed_list)
 	t_token *rev_list;
 
 	rev_list = m_find_last_token(*parsed_list);
-	while (rev_list)
-	{
-		if (rev_list->type == PIPE)
-		{
-			rev_list = rev_list->prev;
-			break;
-		}
+	while (rev_list && rev_list->type != PIPE)
 		rev_list = rev_list->prev;
-	}
 	root = m_create_tree_node(root, rev_list);
+	list_printer(&rev_list); // ----- debug
 	ft_printf("Tree root: %s (Type: %d)\n", root->content, root->type);
 	free(root);
 }
