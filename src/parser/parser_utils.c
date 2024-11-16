@@ -1,11 +1,5 @@
 #include "../includes/parser.h"
 
-// função para expadir $$
-pid_t get_pid(void)
-{
-	ft_printf("retona ID do processo atual\n");
-}
-
 // --- funções para m_quotes_and_expansion
 int	m_check_expand(char *lexeme)
 {
@@ -25,13 +19,18 @@ int	m_check_expand(char *lexeme)
 char	*m_clean_dollar(char *str)
 {
 	char	*new_str;
-	int		start;
-	int		end;
 	int		i;
+	int		n;
 
+	n = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			n++;
+	}
 	if (strchr(str, '$'))
 	{
-		new_str = malloc(sizeof(char) * ((ft_strlen(str) - 1) + 1));
+		new_str = malloc(sizeof(char) * ((ft_strlen(str) - n) + 1));
 		i = 0;
 		while (str[i])
 		{
@@ -47,27 +46,54 @@ char	*m_clean_dollar(char *str)
 	return (str);
 }
 
-// --- usando getenv temporariamente
+// char	*m_get_expand_string(char *lexeme, t_env *env_list)
+// {
+// 	char	*cleaned_lexeme;
+// 	char	*temp_cleaned_lexeme;
+// 	char	*value;
+// 	char	*empty_string;
+
+// 	temp_cleaned_lexeme = m_clean_quotes(lexeme);
+// 	cleaned_lexeme = m_clean_dollar(temp_cleaned_lexeme);
+// 	value = m_get_env(env_list, cleaned_lexeme);
+// 	free(cleaned_lexeme);
+// 	if (value)
+// 		return (ft_strdup(value));
+// 	else
+// 	{
+// 		empty_string = malloc(1);
+// 		if (empty_string)
+// 			empty_string[0] = '\0';
+// 		return (empty_string);
+// 	}
+// }
+
 char	*m_get_expand_string(char *lexeme, t_env *env_list)
 {
-	char	*cleaned_lexeme;
 	char	*temp_cleaned_lexeme;
-	char	*value;
-	char	*empty_string;
+	char	*cleaned_lexeme;
+	char	*result;
+	char	*expansion;
+	char	*remaining_text;
 
 	temp_cleaned_lexeme = m_clean_quotes(lexeme);
-	cleaned_lexeme = m_clean_dollar(temp_cleaned_lexeme);
-	value = m_get_env(env_list, cleaned_lexeme);
-	free(cleaned_lexeme);
-	if (value)
-		return (ft_strdup(value));
+	if (m_is_special_cases_dollar(temp_cleaned_lexeme))
+		m_expansion_special_cases(&expansion, &remaining_text, temp_cleaned_lexeme);
 	else
 	{
-		empty_string = malloc(1);
-		if (empty_string)
-			empty_string[0] = '\0';
-		return (empty_string);
+		cleaned_lexeme = m_clean_dollar(temp_cleaned_lexeme);
+		if (m_get_env(env_list, cleaned_lexeme))
+			expansion = ft_strdup(m_get_env(env_list, cleaned_lexeme));
+		else
+			expansion = ft_strdup("");
+		free(cleaned_lexeme);
+		remaining_text = ft_strdup("");
 	}
+	free(temp_cleaned_lexeme);
+	result = ft_strjoin(expansion, remaining_text);
+	free(expansion);
+	free(remaining_text);
+	return (result);
 }
 
 char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)

@@ -10,6 +10,9 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
+
+extern volatile sig_atomic_t g_signal_status;
 
 //Structs
 typedef struct s_mini		t_mini;
