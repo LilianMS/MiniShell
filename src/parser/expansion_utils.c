@@ -6,37 +6,37 @@ pid_t	m_get_pid(void)
 	return (8888);
 }
 
-// Expansão de `$$`: PID do processo
-		// pid_t	m_get_pid(void);
-// Expansão de `$?`: Código de saída
-	// global g_signal_status
-// Expansão de `$n`: Argumentos posicionais ou vazio
-
-int	m_is_special_cases_dollar(char *lexeme)
+int	m_qntd_dollar(char *str)
 {
-	if (ft_strncmp(lexeme, "$$", 2) == 0 || ft_strncmp(lexeme, "$?", 2) == 0)
-		return (1);
-	if (lexeme[0] == '$' && ft_isdigit(lexeme[1]))
-		return (1);
-	return (0);
+	int i = 0;
+	int n = 0;
+
+	while (str[i])
+	{
+		if (str[i] == '$')
+			n++;
+		i++;
+	}
+	return (n);
 }
 
-void	m_expansion_special_cases(char **expansion, char **remaining_text, \
-	char *temp_cleaned_lexeme)
+char	*m_clean_dollar(char *str)
 {
-	if (ft_strncmp(temp_cleaned_lexeme, "$$", 2) == 0)
+	char	*new_str;
+	int		i;
+	int		n;
+
+	n = m_qntd_dollar(str);
+	i = 0;
+	new_str = malloc(sizeof(char) * ((ft_strlen(str) - n) + 1));
+	while (str[i])
 	{
-		*expansion = ft_itoa(m_get_pid());
-		*remaining_text = ft_strdup(temp_cleaned_lexeme + 2);
+		if (str[i] == '$')
+			i++;
+		*new_str++ = str[i];
+		i++;
 	}
-	else if (ft_strncmp(temp_cleaned_lexeme, "$?", 2) == 0)
-	{
-		*expansion = ft_itoa(g_signal_status);
-		*remaining_text = ft_strdup(temp_cleaned_lexeme + 2);
-	}
-	else if (temp_cleaned_lexeme[0] == '$' && ft_isdigit(temp_cleaned_lexeme[1]))
-	{
-		*expansion = ft_strdup("");
-		*remaining_text = ft_strdup(temp_cleaned_lexeme + 2);
-	}
+	*new_str = '\0';
+	new_str -= (ft_strlen(str) - 1);
+	return (new_str);
 }

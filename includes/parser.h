@@ -32,5 +32,7 @@ char	*m_quotes_and_expansion(char *lexeme, t_env *env_list);
 char	*m_get_env(t_env *env_list, const char *var_name);
 void	m_free_env_list(t_env *env_list);
 t_env	*m_create_env_list(char **envp);
+pid_t	m_get_pid(void);
+char	*m_clean_dollar(char *str);
 
 #endif

@@ -2,15 +2,15 @@
 # define MINISHELL_H
 
 // Libs
-# include "tokenizer.h"
-# include "parser.h"
-
 # include "../libs/libft/includes/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+
+# include "tokenizer.h"
+# include "parser.h"
 
 extern volatile sig_atomic_t g_signal_status;
 
