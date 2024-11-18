@@ -35,4 +35,6 @@ t_env	*m_create_env_list(char **envp);
 pid_t	m_get_pid(void);
 char	*m_clean_dollar(char *str);
 
+char	ft_is_quotes_type(char *lexeme, int *start, int *end);
+
 #endif
