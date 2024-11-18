@@ -12,7 +12,7 @@
 # include "tokenizer.h"
 # include "parser.h"
 
-extern volatile sig_atomic_t g_signal_status;
+extern volatile sig_atomic_t	g_signal_status;
 
 //Structs
 typedef struct s_mini		t_mini;

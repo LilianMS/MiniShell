@@ -1,7 +1,7 @@
 #include "../includes/minishell.h"
 #include "debug.h" // ----- debug
 
-volatile sig_atomic_t g_signal_status = 0;
+volatile sig_atomic_t	g_signal_status = 0;
 
 void	m_lexical_analysis(t_mini *mini)
 {
@@ -42,7 +42,7 @@ int	main(__attribute__((unused)) int argc,
 {
 	t_mini	mini;
 
-	g_signal_status = 0;
+	g_signal_status = 11;
 	init_minishell(&mini, envp);
 	while (1)
 	{
