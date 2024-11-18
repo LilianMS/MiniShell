@@ -285,6 +285,10 @@ char	*m_get_expand_string(char *lexeme, t_env *env_list)
 		else
 			expansion = ft_strdup("");
 		free(cleaned_lexeme);
+		if (ft_strchr(dollar_position, '\''))
+		{
+			remaining_text = ft_strdup("\'");
+		}
 	}
 	if (before_dollar)
 	{
