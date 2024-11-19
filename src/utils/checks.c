@@ -18,7 +18,7 @@ int	ft_check_quotes(const char *line)
 	return (!single_q && !double_q);
 }
 
-static char	ft_is_quotes_type(char *lexeme, int *start, int *end)
+char	ft_is_quotes_type(char *lexeme, int *start, int *end)
 {
 	char	id_quote;
 	int		i;
