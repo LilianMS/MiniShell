@@ -35,6 +35,7 @@ void	init_minishell(t_mini *mini, char **envp)
 	ft_bzero(mini, sizeof(t_mini));
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
+	// ft_env(mini->env_list); // ----- debug
 }
 
 int	main(__attribute__((unused)) int argc,
@@ -52,6 +53,7 @@ int	main(__attribute__((unused)) int argc,
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
+		ft_debug_tests(&mini); // ----- debug
 		// init_minishell(mini, line);
 		add_history(mini.line);
 		m_lexical_analysis(&mini);

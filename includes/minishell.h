@@ -33,4 +33,6 @@ char	*m_clean_quotes(char *lexeme);
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);
 
+void	ft_debug_tests(t_mini *mini); // ----- debug
+
 #endif

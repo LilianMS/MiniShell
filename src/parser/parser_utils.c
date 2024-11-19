@@ -54,6 +54,25 @@ int	m_check_expand(char *lexeme)
 	return (0);
 }
 
+// char	*ft_strjoin_free(char *s1, char *s2)
+// {
+// 	char	*result;
+
+// 	result = ft_strjoin(s1, s2);
+// 	if (s1)
+// 	{
+// 		free(s1);
+// 		s1 = NULL;
+// 	}
+// 	if (s2)
+// 	{
+// 		free(s2);
+// 		s2 = NULL;
+// 	}
+// 	return (result);
+// }
+
+
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*result;
