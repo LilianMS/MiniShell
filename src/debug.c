@@ -96,6 +96,59 @@ int	ft_echo(char **args)
 	return (0);
 }
 
+int		ft_pwd(void)
+{
+	char	cwd[PATH_MAX];
+
+	if (getcwd(cwd, PATH_MAX))
+	{
+		ft_putendl_fd(cwd, 1);
+		return (0);
+	}
+	else
+		return (1);
+}
+
+int m_export(char **args, t_env *env_list)
+{
+    char    **split;
+    int     i;
+    t_env   *temp;
+    t_env   *new_env;
+
+    i = 1;
+    while (args[i])
+    {
+        split = ft_split(args[i], '=');
+        if (!split[0])
+        {
+            ft_free_split(split);
+            return (-1);
+        }
+        temp = env_list;
+        while (temp)
+        {
+            if (ft_strcmp(temp->name, split[0]) == 0)
+            {
+                free(temp->value);
+                temp->value = ft_strdup(split[1]);
+                ft_free_split(split);
+                break;
+            }
+            temp = temp->next;
+        }
+        if (!temp)
+        {
+            new_env = m_create_env_node(split[0], split[1]);
+            m_add_node_env(&env_list, new_env);
+        }
+        ft_free_split(split);
+        i++;
+    }
+    return (0);
+}
+
+
 void	ft_debug_tests(t_mini *mini)
 {
 	if (ft_strcmp(mini->line, "exit") == 0)
@@ -112,5 +165,17 @@ void	ft_debug_tests(t_mini *mini)
 		// ft_printf("split[0]: %s\n", split[0]); // debug
 		ft_echo(split);
 		ft_free_split(split);
+	}
+	if (ft_strcmp(mini->line, "pwd") == 0)
+	{
+		ft_pwd();
+	}
+	if (ft_strncmp(mini->line, "export", 6) == 0)
+	{
+		char **split = ft_split(mini->line, ' ');
+		if (split[1])
+			m_export(split, mini->env_list);
+		ft_free_split(split);
+		m_env(mini->env_list);
 	}
 }
