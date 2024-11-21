@@ -2,15 +2,18 @@
 # define MINISHELL_H
 
 // Libs
-# include "tokenizer.h"
-# include "parser.h"
-# include "debug.h"
-
 # include "../libs/libft/includes/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
+# include <limits.h>
+
+# include "tokenizer.h"
+# include "parser.h"
+
+extern volatile sig_atomic_t	g_signal_status;
 
 //Structs
 typedef struct s_mini		t_mini;
@@ -30,5 +33,7 @@ char	*m_clean_quotes(char *lexeme);
 
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);
+
+void	ft_debug_tests(t_mini *mini); // ----- debug
 
 #endif

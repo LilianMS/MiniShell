@@ -1,6 +1,8 @@
 #include "../includes/minishell.h"
 #include "debug.h" // ----- debug
 
+volatile sig_atomic_t	g_signal_status = 0;
+
 void	m_lexical_analysis(t_mini *mini)
 {
 	t_token	*token_list;
@@ -18,10 +20,9 @@ void	m_lexical_analysis(t_mini *mini)
 			m_free_tokens(&token_list);
 			return ;
 		}
-		print_tokens(&token_list); // ----- debug
+		// print_tokens(&token_list); // ----- debug
 	}
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
-	// print_parsed_tokens(&parsed_list); // ----- debug
 	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
 	// m_binary_tree(&parsed_list);
@@ -41,10 +42,8 @@ int	main(__attribute__((unused)) int argc,
 {
 	t_mini	mini;
 
+	g_signal_status = 11;
 	init_minishell(&mini, envp);
-	// print_env_list(mini.env_list); // ----- debug
-	char *expand = m_get_env(mini.env_list, "USER"); // ----- debug de função
-	ft_printf("expand: %s\n", expand); // ----- debug de função
 	while (1)
 	{
 		mini.line = readline("minishell> ");
@@ -53,14 +52,12 @@ int	main(__attribute__((unused)) int argc,
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		// init_minishell(mini, line);
+		ft_debug_tests(&mini); // -debug para testar comandos builtin
 		add_history(mini.line);
 		m_lexical_analysis(&mini);
-		// if(lexical_analysis(line))
-			// {
-			// }
 		free(mini.line);
 	}
+	rl_clear_history();
 	m_free_env_list(mini.env_list);
 	return (0);
 }
