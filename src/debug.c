@@ -210,7 +210,7 @@ static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 				if (temp->value)
 					free(temp->value);
 				temp->value = ft_strdup(value);
-				ft_printf("update name: %s, value: %s\n", temp->name, temp->value); // debug
+				ft_printf("----> update name: %s, value: %s\n", temp->name, temp->value); // debug
 				return ;
 			}
 			break ;
@@ -218,7 +218,7 @@ static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 		temp = temp->next;
 	}
 	m_add_node_env(env_list, m_create_env_node(name, value));
-	ft_printf("new name: %s, value: %s\n", name, value); // debug
+	ft_printf("----> new name: %s, value: %s\n", name, value); // debug
 }
 
 int	m_export(char **args, t_env *env_list)
@@ -328,6 +328,6 @@ void	ft_debug_tests(t_mini *mini)
 		if (split[1])
 			m_unset(split, mini->env_list);
 		ft_free_split(split);
-		m_env(mini->env_list);
+		// m_env(mini->env_list);
 	}
 }
