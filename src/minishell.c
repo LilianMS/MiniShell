@@ -20,10 +20,10 @@ void	m_lexical_analysis(t_mini *mini)
 			m_free_tokens(&token_list);
 			return ;
 		}
-		print_tokens(&token_list); // ----- debug
+		// print_tokens(&token_list); // ----- debug
 	}
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
-	print_parsed_tokens(&parsed_list); // ----- debug
+	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
 	// m_binary_tree(&parsed_list);
 	// m_execute_commands(&parsed_list); ?
