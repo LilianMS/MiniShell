@@ -36,7 +36,6 @@ static int	exp_parse_input(char *arg, char **name, char **value)
 	return (*name != NULL);
 }
 
-
 static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 {
 	t_env	*temp;
