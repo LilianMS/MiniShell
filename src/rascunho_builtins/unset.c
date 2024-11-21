@@ -1,8 +1,5 @@
 #include "../includes/minishell.h"
 
-// unset não precisa de validação apenas retorna 0 se não houver argumentos
-// se houver argumentos remove os nós da lista de env
-
 void	m_remove_node_env(t_env **env_list, char *name)
 {
 	t_env	*temp;

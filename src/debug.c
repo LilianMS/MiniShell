@@ -56,7 +56,8 @@ void	print_env_list(t_env *env_list)
 // m_env (ok)
 // ft_echo (ok)
 // ft_pwd (ok)
-// m_export (in progress)
+// m_unset (ok)
+// m_export (ok)
 
 int	m_env(t_env *env_list)
 {
@@ -119,6 +120,14 @@ int		ft_pwd(void)
 }
 
 //// export
+void m_print_error(char *cmd, char *arg, char *msg)
+{
+    ft_putstr_fd(cmd, 2);
+    ft_putstr_fd(": `", 2);
+    ft_putstr_fd(arg, 2);
+    ft_putstr_fd("`: ", 2);
+    ft_putendl_fd(msg, 2);
+}
 
 int	exp_is_valid_name(char *name)
 {
@@ -143,19 +152,13 @@ static int	exp_parse_input(char *arg, char **name, char **value)
 	if (!arg || !arg[0])
 		return (0);
 	equal_pos = ft_strchr(arg, '=');
-	if (equal_pos)
+	if (equal_pos && equal_pos[1] != '\0' && equal_pos[1] != ' ')
 	{
 		*name = ft_substr(arg, 0, equal_pos - arg);
 		*value = ft_strdup(equal_pos + 1);
 	}
-	else
-	{
-		*name = ft_strdup(arg);
-		*value = NULL;
-	}
 	return (*name != NULL);
 }
-
 
 static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 {
@@ -168,16 +171,18 @@ static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 		{
 			if (value)
 			{
-				free(temp->value);
+				if (temp->value)
+					free(temp->value);
 				temp->value = ft_strdup(value);
-				break ;
-			}
-			else
+				ft_printf("update name: %s, value: %s\n", temp->name, temp->value); // debug
 				return ;
+			}
+			break ;
 		}
 		temp = temp->next;
 	}
 	m_add_node_env(env_list, m_create_env_node(name, value));
+	ft_printf("new name: %s, value: %s\n", name, value); // debug
 }
 
 int	m_export(char **args, t_env *env_list)
@@ -193,9 +198,7 @@ int	m_export(char **args, t_env *env_list)
 		value = NULL;
 		if (!exp_parse_input(args[i], &name, &value) || !exp_is_valid_name(name))
 		{
-			free(name);
-			free(value);
-			ft_printf("export: `%s`: not a valid identifier\n", args[i]); // mudar para função m_print_error
+			m_print_error("export", args[i], "not a valid identifier");
 		}
 		else
 			exp_update_or_add_env(&env_list, name, value);
@@ -205,6 +208,7 @@ int	m_export(char **args, t_env *env_list)
 	}
 	return (0);
 }
+
 
 /// fim export
 
@@ -280,7 +284,7 @@ void	ft_debug_tests(t_mini *mini)
 		if (split[1])
 			m_export(split, mini->env_list);
 		ft_free_split(split);
-		m_env(mini->env_list);
+		// m_env(mini->env_list);
 	}
 	if (ft_strncmp(mini->line, "unset", 5) == 0)
 	{

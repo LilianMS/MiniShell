@@ -1,5 +1,14 @@
 #include "../includes/minishell.h"
 
+void	m_print_error(char *cmd, char *arg, char *msg) // -- debug
+{
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": `", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("`: ", 2);
+	ft_putendl_fd(msg, 2);
+}
+
 int	exp_is_valid_name(char *name)
 {
 	int	i;
@@ -23,15 +32,10 @@ static int	exp_parse_input(char *arg, char **name, char **value)
 	if (!arg || !arg[0])
 		return (0);
 	equal_pos = ft_strchr(arg, '=');
-	if (equal_pos)
+	if (equal_pos && equal_pos[1] != '\0' && equal_pos[1] != ' ')
 	{
 		*name = ft_substr(arg, 0, equal_pos - arg);
 		*value = ft_strdup(equal_pos + 1);
-	}
-	else
-	{
-		*name = ft_strdup(arg);
-		*value = NULL;
 	}
 	return (*name != NULL);
 }
@@ -47,16 +51,18 @@ static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 		{
 			if (value)
 			{
-				free(temp->value);
+				if (temp->value)
+					free(temp->value);
 				temp->value = ft_strdup(value);
-				break ;
-			}
-			else
+				ft_printf("update name: %s, value: %s\n", temp->name, temp->value); // debug
 				return ;
+			}
+			break ;
 		}
 		temp = temp->next;
 	}
 	m_add_node_env(env_list, m_create_env_node(name, value));
+	ft_printf("new name: %s, value: %s\n", name, value); // debug
 }
 
 int	m_export(char **args, t_env *env_list)
@@ -72,9 +78,7 @@ int	m_export(char **args, t_env *env_list)
 		value = NULL;
 		if (!exp_parse_input(args[i], &name, &value) || !exp_is_valid_name(name))
 		{
-			free(name);
-			free(value);
-			ft_printf("export: `%s`: not a valid identifier\n", args[i]); // mudar para função m_print_error
+			m_print_error("export", args[i], "not a valid identifier");
 		}
 		else
 			exp_update_or_add_env(&env_list, name, value);
@@ -84,78 +88,3 @@ int	m_export(char **args, t_env *env_list)
 	}
 	return (0);
 }
-
-/*
- - primeiraversão sem leaks, mas sem validação de input
-
-int	m_export(char **args, t_env *env_list)
-{
-	char	**split;
-	int		i;
-	t_env	*temp;
-	t_env	*new_env;
-
-	i = 1;
-	while (args[i])
-	{
-		split = ft_split(args[i], '=');
-		temp = env_list;
-		while (temp)
-		{
-			if (ft_strncmp(temp->name, split[0], ft_strlen(split[0])) == 0)
-			{
-				temp->value = ft_strdup(split[1]);
-				ft_free_split(split);
-				return (0);
-			}
-			temp = temp->next;
-		}
-		new_env = m_create_env_node(split[0], split[1]);
-		m_add_node_env(&env_list, new_env);
-		i++;
-	}
-	ft_free_split(split);
-	return (0);
-}
-*/
-
-/* melhorando...
-int m_export(char **args, t_env *env_list)
-{
-	char    **split;
-	int     i;
-	t_env   *temp;
-	t_env   *new_env;
-
-	i = 1;
-	while (args[i])
-	{
-		split = ft_split(args[i], '=');
-		if (!split[0])
-		{
-			ft_free_split(split);
-			return (-1);
-		}
-		temp = env_list;
-		while (temp)
-		{
-			if (ft_strcmp(temp->name, split[0]) == 0)
-			{
-				free(temp->value);
-				temp->value = ft_strdup(split[1]);
-				ft_free_split(split);
-				break;
-			}
-			temp = temp->next;
-		}
-		if (!temp)
-		{
-			new_env = m_create_env_node(split[0], split[1]);
-			m_add_node_env(&env_list, new_env);
-		}
-		ft_free_split(split);
-		i++;
-	}
-	return (0);
-}
-*/
