@@ -1,6 +1,90 @@
 #include "../includes/minishell.h"
 
-int	m_export(char *path)
+void	m_print_error(char *cmd, char *arg, char *msg) // -- debug
 {
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": `", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("`: ", 2);
+	ft_putendl_fd(msg, 2);
+}
 
+int	exp_is_valid_name(char *name)
+{
+	int	i;
+
+	if (!name || !name[0] || ft_isdigit(name[0]) || name[0] == '=')
+		return (0);
+	i = 0;
+	while (name[i])
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	exp_parse_input(char *arg, char **name, char **value)
+{
+	char	*equal_pos;
+
+	if (!arg || !arg[0])
+		return (0);
+	equal_pos = ft_strchr(arg, '=');
+	if (equal_pos && equal_pos[1] != '\0' && equal_pos[1] != ' ')
+	{
+		*name = ft_substr(arg, 0, equal_pos - arg);
+		*value = ft_strdup(equal_pos + 1);
+	}
+	return (*name != NULL);
+}
+
+static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
+{
+	t_env	*temp;
+
+	temp = *env_list;
+	while (temp)
+	{
+		if (ft_strcmp(temp->name, name) == 0)
+		{
+			if (value)
+			{
+				if (temp->value)
+					free(temp->value);
+				temp->value = ft_strdup(value);
+				ft_printf("update name: %s, value: %s\n", temp->name, temp->value); // debug
+				return ;
+			}
+			break ;
+		}
+		temp = temp->next;
+	}
+	m_add_node_env(env_list, m_create_env_node(name, value));
+	ft_printf("new name: %s, value: %s\n", name, value); // debug
+}
+
+int	m_export(char **args, t_env *env_list)
+{
+	int		i;
+	char	*name;
+	char	*value;
+
+	i = 1;
+	while (args[i])
+	{
+		name = NULL;
+		value = NULL;
+		if (!exp_parse_input(args[i], &name, &value) || !exp_is_valid_name(name))
+		{
+			m_print_error("export", args[i], "not a valid identifier");
+		}
+		else
+			exp_update_or_add_env(&env_list, name, value);
+		free(name);
+		free(value);
+		i++;
+	}
+	return (0);
 }

@@ -8,6 +8,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <limits.h>
 
 # include "tokenizer.h"
 # include "parser.h"
