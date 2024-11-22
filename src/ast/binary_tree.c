@@ -1,29 +1,5 @@
 #include "../includes/ast.h"
 
-//TO DO
-// - IMPLEMENTAR FUNÇÃO QUE BUSCA O INDEX DO NÓ TARGET
-// - IMPLEMENTAR FUNÇÃO QUE GERA UMA SUBLISTA A PARTIR DO INDEX ENCONTRADO + TAMANHO TOTAL DA LISTA
-// - DAR UM JEITO DE MALLOCAR A NOVA LISTA COM A STRUCT T_TREE (*PARENT, *LEFT E *RIGHT)
-// IMPLEMENTAR FUNÇÃO QUE PRINTA A ÁRVORE.
-
-void	m_get_sublist(t_token *rev_list, t_token **parsed_list)
-{
-	int		list_len;
-	int		i;
-	t_token	*temp;
-
-	i = 0;
-	temp = rev_list;
-	list_len = list_size(parsed_list);
-	while (temp)
-	{
-		temp = temp->prev;
-		i++;
-	}
-	ft_printf("index: %d / total len: %d\n\n", i, list_len);
-	// while (i < list_len)
-}
-
 t_tree	*m_grow_tree(t_tree **root, t_token **joint)
 {
 	*root = m_create_tree_node(*root, *joint);
@@ -83,7 +59,7 @@ void	m_binary_tree(t_tree *root, t_token **parsed_list)
 		ft_printf("First joint: %s / Type: %d / Address: %p \n", joint->lexeme, joint->type, joint); // ---debug
 		root = m_grow_tree(&root, &joint);
 		list_printer(&joint); // ----- debug
-		ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root);
+		ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
 		free(root);
 	}
 }
