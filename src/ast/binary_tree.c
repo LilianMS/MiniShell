@@ -81,9 +81,8 @@ void	m_binary_tree(t_tree *root, t_token **parsed_list)
 	if (joint) // ---debug
 		ft_printf("First joint: %s / Type: %d / Address: %p \n", joint->lexeme, joint->type, joint);
 	// root = m_create_tree_node(&root, &joint);
-	// root = m_grow_tree(&root, &joint);
-	// list_printer(&joint); // ----- debug
-	// ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root);
-	// free(root);
-	// free(joint);
+	root = m_grow_tree(&root, &joint);
+	list_printer(&joint); // ----- debug
+	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root);
+	free(root);
 }
