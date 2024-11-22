@@ -24,8 +24,8 @@ struct s_tree
 
 // Functions
 void	m_binary_tree(t_tree *root, t_token **parsed_list);
-t_tree	*m_create_tree_node(t_tree *root, t_token *rev_list);
+t_tree	*m_create_tree_node(t_tree *root, t_token *joint);
 void	m_get_sublist(t_token *rev_list, t_token **parsed_list);
-t_tree	*m_grow_tree(t_tree **root, t_token **rev_list, t_token **parsed_list);
+t_tree	*m_grow_tree(t_tree **root, t_token **joint);
 
 #endif

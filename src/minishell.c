@@ -18,7 +18,7 @@ void	m_lexical_analysis(t_mini *mini)
 			m_free_tokens(&token_list);
 			return ;
 		}
-		//print_tokens(&token_list); // ----- debug
+		// print_tokens(&token_list); // ----- debug
 	}
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
 	list_printer(&parsed_list); // ----- debug

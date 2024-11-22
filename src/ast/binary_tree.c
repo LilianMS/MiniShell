@@ -24,21 +24,21 @@ void	m_get_sublist(t_token *rev_list, t_token **parsed_list)
 	// while (i < list_len)
 }
 
-t_tree	*m_grow_tree(t_tree **root, t_token **rev_list, t_token **parsed_list)
+t_tree	*m_grow_tree(t_tree **root, t_token **joint)
 {
-	*root = m_create_tree_node(*root, *rev_list);
+	*root = m_create_tree_node(*root, *joint);
 	// (*root)->right = m_get_sublist(*rev_list, parsed_list);
-	m_get_sublist(*rev_list, parsed_list);
+	// m_get_sublist(*rev_list, parsed_list);
 	// (*root)->left = m_get_sublist(*root, *rev_list);
 	return (*root);
 }
 
-t_tree	*m_create_tree_node(t_tree *root, t_token *rev_list)
+t_tree	*m_create_tree_node(t_tree *root, t_token *joint)
 {
 	root = ft_calloc(sizeof(t_tree), 1);
 	if (!root)
 		return (NULL);
-	root->type = rev_list->type;
+	root->type = joint->type;
 	root->index = 0;
 	root->content = NULL;
 	root->command = NULL;
@@ -48,16 +48,39 @@ t_tree	*m_create_tree_node(t_tree *root, t_token *rev_list)
 	return (root);
 }
 
-void	m_binary_tree(t_tree *root, t_token **parsed_list)
+t_token	*find_joint_token(t_token	*tokens)
 {
 	t_token *rev_list;
 
-	rev_list = m_find_last_token(*parsed_list);
-	while (rev_list && rev_list->type != PIPE)
+	rev_list = m_find_last_token(tokens);
+	while (rev_list && rev_list->prev != NULL)
+	{
+		if (rev_list->type == PIPE)
+			return (rev_list);
+		else if (rev_list->type == REDIR_IN \
+				|| rev_list->type == REDIR_OUT \
+				|| rev_list->type == REDIR_APPEND \
+				|| rev_list->type == REDIR_HEREDOC)
+			return (rev_list);
 		rev_list = rev_list->prev;
-	
-	root = m_grow_tree(&root, &rev_list, parsed_list);
-	list_printer(&rev_list); // ----- debug
-	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root);
-	free(root);
+	}
+	return (rev_list);
+}
+
+void	m_binary_tree(t_tree *root, t_token **parsed_list)
+{
+	t_token	*joint;
+
+	joint = find_joint_token(*parsed_list);
+	ft_printf("First joint: %s / Type: %d / Address: %p \n", joint->lexeme, joint->type, joint);
+	// root = m_create_tree_node(&root, &joint);
+	// while (rev_list && rev_list->type != PIPE)
+	// 	rev_list = rev_list->prev;
+	// if (rev_list->type != PIPE)
+	// 	return (NULL); //
+	// root = m_grow_tree(&root, &joint);
+	// list_printer(&joint); // ----- debug
+	// ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root);
+	// free(root);
+	// free(joint);
 }
