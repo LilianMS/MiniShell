@@ -1,13 +1,13 @@
 #include "../includes/ast.h"
 
-t_tree	*m_grow_tree(t_tree **root, t_token **joint, t_token **parsed_list)
+t_tree	*m_grow_tree(t_tree **root, t_token **joint, t_token *parsed_list)
 {
 	t_token	*right;
 	t_token	*left;
 
 	right = NULL;
 	left = parsed_list;
-	if(!*root || !*joint || !*parsed_list)
+	if(!*root || !*joint || !parsed_list)
 		return (NULL);
 	right = (*joint)->next;
 	if(right)
@@ -16,8 +16,8 @@ t_tree	*m_grow_tree(t_tree **root, t_token **joint, t_token **parsed_list)
 	left = (*joint)->prev;
 	if (left)
 		left->next = NULL;
-	(*root)->left = m_binary_tree(*root, &left);
-	(*root)->right = m_binary_tree(*root, &right);
+	(*root)->left = m_tree_builder(left);
+	(*root)->right = m_tree_builder(right);
 	return (*root);
 }
 
@@ -72,12 +72,13 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	m_grow_tree(&root, &joint, parsed_list);
 	// list_printer(&joint); // ----- debug
 	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
-	if (root)	
-		free(root);
 
 }
 
 void	m_binary_tree(t_tree *root, t_token **parsed_list)
 {
 	root = m_tree_builder(*parsed_list);
+	// tree printer?
+	// if (root)	
+	// 	free(root);
 }
