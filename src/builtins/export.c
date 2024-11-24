@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../includes/builtin.h"
 
 void	m_print_error(char *cmd, char *arg, char *msg) // -- debug
 {
@@ -65,7 +65,7 @@ static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 	ft_printf("new name: %s, value: %s\n", name, value); // debug
 }
 
-int	m_export(char **args, t_env *env_list)
+int	m_export(t_env *env_list, char **args)
 {
 	int		i;
 	char	*name;
