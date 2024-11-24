@@ -23,5 +23,4 @@ struct s_tree
 
 // Functions
 
-
 #endif

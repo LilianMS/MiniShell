@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../includes/builtin.h"
 
 void	m_remove_node_env(t_env **env_list, char *name)
 {
@@ -25,7 +25,7 @@ void	m_remove_node_env(t_env **env_list, char *name)
 	}
 }
 
-int	m_unset(char **args, t_env *env_list)
+int	m_unset(t_env *env_list, char **args)
 {
 	int	i;
 

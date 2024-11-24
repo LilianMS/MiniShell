@@ -1,5 +1,6 @@
 #include "../includes/minishell.h"
 #include "debug.h" // ----- debug
+#include "builtin.h"
 
 volatile sig_atomic_t	g_signal_status = 0;
 
@@ -25,6 +26,9 @@ void	m_lexical_analysis(t_mini *mini)
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
 	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
+	// print_parsed_command(parsed_list); // ----- debug
+	// ft_debug_tests(mini, parsed_list); // -debug para testar comandos builtin
+	m_execute_builtin(mini, parsed_list);
 	// m_binary_tree(&parsed_list);
 	// m_execute_commands(&parsed_list); ?
 	m_free_tokens(&parsed_list);
@@ -52,7 +56,6 @@ int	main(__attribute__((unused)) int argc,
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		ft_debug_tests(&mini); // -debug para testar comandos builtin
 		add_history(mini.line);
 		m_lexical_analysis(&mini);
 		free(mini.line);
