@@ -26,11 +26,10 @@ void	m_lexical_analysis(t_mini *mini)
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
 	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
-	// print_parsed_command(parsed_list); // ----- debug
-	// ft_debug_tests(mini, parsed_list); // -debug para testar comandos builtin
-	m_execute_builtin(mini, parsed_list);
 	// m_binary_tree(&parsed_list);
 	// m_execute_commands(&parsed_list); ?
+	if (m_is_builtin(parsed_list)) // ---------------- debug
+		m_execute_builtin(mini, parsed_list); // ----- debug
 	m_free_tokens(&parsed_list);
 }
 

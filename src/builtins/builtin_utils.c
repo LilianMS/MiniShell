@@ -1,4 +1,5 @@
 #include "../includes/builtin.h"
+#include "../includes/debug.h" // --------- debug
 
 // m_cd (not implemented)
 // m_exit (in progress)
@@ -10,6 +11,7 @@
 
 int	m_is_builtin(t_token *parsed_list)
 {
+	// print_parsed_command(parsed_list); // --------- debug
 	if (!parsed_list || !parsed_list->command)
 		return (-1);
 	if (ft_strcmp(parsed_list->command[0], "echo") == 0)
