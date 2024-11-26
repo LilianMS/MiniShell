@@ -15,7 +15,7 @@ char	*m_clean_dollar(char *str, int *idx)
 	*idx = 0;
 	while (str[len + 1] && (ft_isalnum(str[len + 1]) || str[len + 1] == '_'))
 	{
-		if (str[len + 1] == ' ' || str[len + 1] == '\"')
+		if (str[len + 1] == ' ' || str[len + 1] == '\"' || str[len + 1] == '$')
 			break ;
 		len++;
 	}

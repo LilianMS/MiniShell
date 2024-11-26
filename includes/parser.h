@@ -40,5 +40,7 @@ char	*m_clean_dollar(char *str, int *idx);
 char	*m_get_expand_string(char *lexeme, t_env *env_list);
 char	*ft_strjoin_free(char *s1, char *s2);
 int		m_is_special_cases_dollar(char *lexeme);
+char	*m_expansion_special_cases(char *dollar_position);
+char	*m_process_after_dollar(char *dollar_position, t_env *env_list);
 
 #endif
