@@ -10,6 +10,7 @@
 
 enum e_builtin
 {
+	NO_BUILTIN,
 	PWD,
 	CD,
 	ECHO,
