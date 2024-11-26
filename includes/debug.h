@@ -9,10 +9,24 @@
 # include "minishell.h"
 # include "parser.h"
 # include "tokenizer.h"
+# include "ast.h"
 
 //Structs
 typedef struct s_token		t_token;
+typedef struct s_var_types	t_var_types;
 typedef struct s_env		t_env;
+typedef struct s_tree		t_tree;
+
+struct s_var_types
+{
+	char *content;
+	char **command;
+	int type;
+	int index;
+	t_tree *left;
+	t_tree *right;
+	t_tree *parent;
+};
 
 //functions to debug
 void	print_parsed_tokens(t_token **tokens);
@@ -20,13 +34,7 @@ void	print_tokens(t_token **tokens);
 void	print_env_list(t_env *env_list);
 void	list_printer(t_token **parsed_list);
 int		list_size(t_token **parsed_list);
+void	visualize_tree(t_tree *root);
+
 
 #endif
-
-	// GETENV
-	// Name of the environment variable (e.g., PATH)
-	// const char *name = "HOME";
-	// Get the value associated with the variable
-	// const char *env_p = getenv(name);
-	// if(env_p)
-	// 	printf("Your %s is %s\n", name, env_p);
