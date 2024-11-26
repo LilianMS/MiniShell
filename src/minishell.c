@@ -4,6 +4,8 @@
 
 volatile sig_atomic_t	g_signal_status = 0;
 
+// implementar saída de erro para erros de aspas (!)
+
 void	m_lexical_analysis(t_mini *mini)
 {
 	t_token	*token_list;
@@ -12,7 +14,10 @@ void	m_lexical_analysis(t_mini *mini)
 	token_list = NULL;
 	parsed_list = NULL;
 	if (!ft_check_quotes(mini->line))
+	{
 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
+		return ; // estava sem return até 26/11 e teste de erro de aspas explodiu leaks!!!! (°o°)'
+	}
 	m_tokenize(&token_list, mini->line);
 	if (token_list != NULL)
 	{

@@ -18,6 +18,7 @@ SRC= minishell.c \
 	 parser/get_env.c \
 	 parser/expansion.c \
 	 parser/expansion_utils.c \
+	 parser/expansion_process.c \
 	 utils/checks.c \
 	 builtins/echo.c \
 	 builtins/pwd.c \
