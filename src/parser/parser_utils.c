@@ -55,18 +55,6 @@ int	m_check_expand(char *lexeme)
 	return (0);
 }
 
-char	*ft_strjoin_free(char *s1, char *s2)
-{
-	char	*result;
-
-	result = ft_strjoin(s1, s2);
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	return (result);
-}
-
 char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 {
 	int	is_expand;
@@ -79,4 +67,21 @@ char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 		return (m_get_expand_string(lexeme, env_list));
 	}
 	return (m_clean_quotes(lexeme));
+}
+
+t_token	*m_create_cmd_token(t_token *start, int command_len, t_env *env_list)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	ft_bzero(token, sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->command = m_populate_cmd_array(start, command_len, env_list);
+	token->command_len = command_len; // teste ---- debug ?
+	token->type = COMMAND;
+	token->position = 0;
+	token->next = NULL;
+	token->prev = NULL;
+	return (token);
 }
