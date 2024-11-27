@@ -40,11 +40,13 @@ enum e_token_type
 	UNKNOWN = -1,
 	WORD,
 	PIPE,
+	COMMAND,
 	REDIR_IN,
-	REDIR_HEREDOC,
 	REDIR_OUT,
 	REDIR_APPEND,
-	COMMAND,
+	FILENAME,
+	REDIR_HEREDOC,
+	DELIMITER,
 };
 
 //Tokenizer core functions
@@ -72,5 +74,8 @@ void	m_add_token(t_token **token_list, t_token *new_token);
 void	m_free_tokens(t_token **tokens);
 void	free_cmd_array(char **command);
 int		m_validate_tokens(t_token *tokens);
+
+t_token	*m_create_cmd_token(t_token *start, int command_len, t_env *env_list);
+char	**m_populate_cmd_array(t_token *start, int command_len, t_env *env_list);
 
 #endif
