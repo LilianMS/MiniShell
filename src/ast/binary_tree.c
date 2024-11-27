@@ -1,5 +1,27 @@
 #include "../includes/ast.h"
 
+// void	m_tree_cleaner(t_token **tokens)
+// {
+// 	t_token	*current;
+// 	t_token	*next;
+
+// 	if (tokens && *tokens)
+// 	{
+// 		current = *tokens;
+// 		while (current != NULL)
+// 		{
+// 			next = current->next;
+// 			if (current->lexeme)
+// 				free(current->lexeme);
+// 			if (current->command)
+// 				free_cmd_array(current->command);
+// 			free(current);
+// 			current = next;
+// 		}
+// 		*tokens = NULL;
+// 	}
+// }
+
 t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list)
 {
 	t_token	*right;
@@ -13,6 +35,8 @@ t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list)
 	if(right)
 		right->prev = NULL;
 	root->type = (*joint)->type;
+	if ((*joint)->lexeme)
+		root->content = ft_strdup((*joint)->lexeme);
 	left = (*joint)->prev;
 	if (left)
 		left->next = NULL;
@@ -52,12 +76,18 @@ t_token	*m_find_joint_token(t_token	*tokens)
 	while (rev_list && rev_list->type != PIPE)
 			rev_list = rev_list->prev;
 	if (rev_list && rev_list->type == PIPE)
+	{
+			rev_list->lexeme = ft_strdup("(pipe)"); //debug
 			return (rev_list);
+	}
 	rev_list = m_find_last_token(tokens);
 	while (rev_list && !m_is_redir(rev_list->type))
 		rev_list = rev_list->prev;
 	if (rev_list && m_is_redir(rev_list->type))
+	{
+		rev_list->lexeme = ft_strdup("(redir)"); //debug
 		return (rev_list);
+	}
 	return (NULL);
 }
 
@@ -67,12 +97,10 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	t_tree	*root;
 
 	joint = m_find_joint_token(parsed_list);
-	// ft_printf("First joint: %s / Type: %d / Address: %p \n", joint->lexeme, joint->type, joint); // ---debug
 	root = ft_calloc(sizeof(t_tree), 1);
 	root->left = NULL;
 	root->right = NULL;
 	m_grow_tree(root, &joint, parsed_list);
-	// list_printer(&joint); // ----- debug
 	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
 	return (root);
 
