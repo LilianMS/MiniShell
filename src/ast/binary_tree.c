@@ -1,32 +1,17 @@
 #include "../includes/ast.h"
 
-// void	m_tree_cleaner(t_tree **tree_node)
-// {
-// 	if (tree_node && *tree_node)
-// 	{
-// 		m_tree_cleaner((*tree_node)->left);  // Recursively clean the left subtree
-// 		m_tree_cleaner((*tree_node)->right); // Recursively clean the right subtree
-
-// 		if ((*tree_node)->content) // Free the content if it exists
-// 			free((*tree_node)->content);
-
-// 		free(*tree_node);  // Free the current node
-// 		*tree_node = NULL; // Set the pointer to NULL
-// 	}
-// }
-
 void	m_tree_cleaner(t_tree *tree_node)
 {
 	if (tree_node)
 	{
-		m_tree_cleaner(tree_node->left);  // Recursively clean the left subtree
-		m_tree_cleaner(tree_node->right); // Recursively clean the right subtree
+		m_tree_cleaner(tree_node->left);
+		m_tree_cleaner(tree_node->right);
 
-		if (tree_node->content) // Free the content if it exists
+		if (tree_node->content)
 			free(tree_node->content);
 
-		free(tree_node);  // Free the current node
-		tree_node = NULL; // Set the pointer to NULL
+		free(tree_node);
+		tree_node = NULL;
 	}
 }
 
