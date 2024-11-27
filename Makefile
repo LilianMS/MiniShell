@@ -18,7 +18,8 @@ SRC= minishell.c \
 	 parser/get_env.c \
 	 ast/binary_tree.c \
 	 ast/tree_printer.c \
-	 utils/checks.c \
+	 utils/checkers.c \
+	 utils/cleaners.c \
 	 parser/expansion.c \
 	 parser/expansion_utils.c \
 	 parser/expansion_process.c \
