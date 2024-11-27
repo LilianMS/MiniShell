@@ -1,4 +1,5 @@
 #include "../includes/debug.h"
+#include "../includes/builtin.h"
 
 int	list_size(t_token **parsed_list)
 {
@@ -24,6 +25,28 @@ void	print_tokens(t_token **tokens)
 	while (current)
 	{
 		ft_printf("Token %i: %s (Type: %d)\n", i++, current->lexeme, current->type);
+		current = current->next;
+	}
+}
+
+// função para imprimir comandos parseados (parsed_list)
+void	print_parsed_command(t_token *parsed_list)
+{
+	t_token	*current;
+	int		i;
+
+	current = parsed_list;
+	while (current != NULL)
+	{
+		if (current->command != NULL)
+		{
+			i = 0;
+			while (current->command[i] != NULL)
+			{
+				printf("Command: %s\n", current->command[i]);
+				i++;
+			}
+		}
 		current = current->next;
 	}
 }
@@ -74,14 +97,30 @@ void	list_printer(t_token **parsed_list)
 	fflush(stderr);
 }
 
-// --debug
-void	print_env_list(t_env *env_list)
+// função para testar comandos builtin
+void	ft_debug_tests(t_mini *mini, t_token *parsed_list)
 {
-	t_env	*temp;
+	char **args;
 
-	temp = env_list;
-	while (temp) {
-		printf("Name: %s, Value: %s\n", temp->name, temp->value);
-		temp = temp->next;
+	if (!parsed_list || !parsed_list->command)
+		return ;
+	args = parsed_list->command;
+	if (ft_strcmp(parsed_list->command[0], "exit") == 0)
+		m_exit(&mini, &parsed_list);
+	if (ft_strcmp(parsed_list->command[0], "env") == 0)
+		m_env(mini->env_list);
+	if (ft_strncmp(parsed_list->command[0], "echo", 4) == 0)
+		ft_echo(args);
+	if (ft_strcmp(parsed_list->command[0], "pwd") == 0)
+		ft_pwd();
+	if (ft_strncmp(parsed_list->command[0], "export", 6) == 0)
+	{
+		if (args[1])
+			m_export(mini->env_list, args);
+	}
+	if (ft_strncmp(parsed_list->command[0], "unset", 5) == 0)
+	{
+		if (args[1])
+			m_unset(mini->env_list, args);
 	}
 }

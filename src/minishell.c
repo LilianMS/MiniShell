@@ -1,5 +1,10 @@
 #include "../includes/minishell.h"
 #include "debug.h" // ----- debug
+#include "builtin.h"
+
+volatile sig_atomic_t	g_signal_status = 0;
+
+// implementar saída de erro para erros de aspas (!)
 
 void	m_lexical_analysis(t_mini *mini)
 {
@@ -8,8 +13,8 @@ void	m_lexical_analysis(t_mini *mini)
 
 	token_list = NULL;
 	parsed_list = NULL;
-	if (!ft_check_quotes(mini->line))
-		ft_putendl_fd("minishell: syntax error with open quotes", 2);
+	if (!m_check_line_input(mini->line))
+		return ;
 	m_tokenize(&token_list, mini->line);
 	if (token_list != NULL)
 	{
@@ -25,6 +30,8 @@ void	m_lexical_analysis(t_mini *mini)
 	m_free_tokens(&token_list);
 	m_binary_tree(mini->tree, &parsed_list);
 	// m_execute_commands(&parsed_list); ?
+	if (m_is_builtin(parsed_list)) // ---------------- debug
+		m_execute_builtin(mini, parsed_list); // ----- debug
 	m_free_tokens(&parsed_list);
 }
 
@@ -41,10 +48,8 @@ int	main(__attribute__((unused)) int argc,
 {
 	t_mini	mini;
 
+	g_signal_status = 11;
 	init_minishell(&mini, envp);
-	// print_env_list(mini.env_list); // ----- debug
-	char *expand = m_get_env(mini.env_list, "USER"); // ----- debug de função
-	ft_printf("expand: %s\n", expand); // ----- debug de função
 	while (1)
 	{
 		mini.line = readline("minishell> ");
@@ -53,14 +58,11 @@ int	main(__attribute__((unused)) int argc,
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		// init_minishell(mini, line);
 		add_history(mini.line);
 		m_lexical_analysis(&mini);
-		// if(lexical_analysis(line))
-			// {
-			// }
 		free(mini.line);
 	}
+	rl_clear_history();
 	m_free_env_list(mini.env_list);
 	return (0);
 }
