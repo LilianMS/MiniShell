@@ -1,4 +1,4 @@
-#include "../includes/debug.h"
+#include "../includes/ast.h"
 
 static void	print_tree(t_tree *root, int distance);
 
@@ -14,7 +14,7 @@ static void	print_tree(t_tree *root, int distance)
 	if (root == NULL)
 		return ;
 	distance += SPACES;
-	print_trINTee(root->right, distance);
+	print_tree(root->right, distance);
 	print_right_branch(distance + 2, root->right);
 	print_item(root, distance);
 	print_left_branch(distance + 2, root->left);

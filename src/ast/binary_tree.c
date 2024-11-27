@@ -1,4 +1,4 @@
-#include "ast.h"
+#include "../includes/ast.h"
 
 t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list)
 {
@@ -83,6 +83,6 @@ void	m_binary_tree(t_tree *root, t_token **parsed_list)
 	t_tree	*tmp;
 
 	root = m_tree_builder(*parsed_list);
-	// visualize_tree(root);
+	visualize_tree(root);
 	//função p/ limpar a árvore.
 }

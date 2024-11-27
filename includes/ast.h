@@ -5,6 +5,7 @@
 # include "minishell.h"
 # include "parser.h"
 # include "tokenizer.h"
+# include "debug.h"
 
 // Structs
 typedef struct s_tree	t_tree;
@@ -28,5 +29,11 @@ t_tree	*m_create_tree_node(t_tree *root, t_token *joint);
 void	m_get_sublist(t_token *rev_list, t_token **parsed_list);
 t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list);
 t_tree	*m_tree_builder(t_token *parsed_list);
+
+//Debug
+void	visualize_tree(t_tree *root);
+void	print_item(t_tree *this_node, int distance);
+void	print_left_branch(int distance, t_tree *left);
+void	print_right_branch(int distance, t_tree *right);
 
 #endif
