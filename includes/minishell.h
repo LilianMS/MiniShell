@@ -28,8 +28,8 @@ struct s_mini
 
 // Lexical Analysis Functions
 void	m_lexical_analysis(t_mini *mini);
-int		ft_check_quotes(const char *line);
 char	*m_clean_quotes(char *lexeme);
+int		m_check_line_input(const char *line);
 
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);

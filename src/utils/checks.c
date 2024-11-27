@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	ft_check_quotes(const char *line)
+static int	ft_check_quotes(const char *line)
 {
 	int	single_q;
 	int	double_q;
@@ -16,6 +16,34 @@ int	ft_check_quotes(const char *line)
 		line++;
 	}
 	return (!single_q && !double_q);
+}
+
+static int	check_invalid_chars(const char *line)
+{
+	const char	*invalid_chars = "();\\";
+
+	while (*invalid_chars)
+	{
+		if (ft_strchr(line, *invalid_chars))
+			return (1);
+		invalid_chars++;
+	}
+	return (0);
+}
+
+int	m_check_line_input(const char *line)
+{
+	if (!ft_check_quotes(line))
+	{
+		ft_putendl_fd("minishell: syntax error with open quotes", 2);
+		return (0);
+	}
+	if (check_invalid_chars(line))
+	{
+		ft_putendl_fd("minishell: syntax error with invalid characters", 2);
+		return (0);
+	}
+	return (1);
 }
 
 char	ft_is_quotes_type(char *lexeme, int *start, int *end)
