@@ -24,11 +24,12 @@ struct s_tree
 };
 
 // Functions
-void	m_binary_tree(t_tree *root, t_token **parsed_list);
+t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list);
 t_tree	*m_create_tree_node(t_tree *root, t_token *joint);
 void	m_get_sublist(t_token *rev_list, t_token **parsed_list);
 t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list);
 t_tree	*m_tree_builder(t_token *parsed_list);
+void	m_tree_cleaner(t_tree *tree_node);
 
 //Debug
 void	visualize_tree(t_tree *root);

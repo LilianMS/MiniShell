@@ -1,26 +1,34 @@
 #include "../includes/ast.h"
 
-// void	m_tree_cleaner(t_token **tokens)
+// void	m_tree_cleaner(t_tree **tree_node)
 // {
-// 	t_token	*current;
-// 	t_token	*next;
-
-// 	if (tokens && *tokens)
+// 	if (tree_node && *tree_node)
 // 	{
-// 		current = *tokens;
-// 		while (current != NULL)
-// 		{
-// 			next = current->next;
-// 			if (current->lexeme)
-// 				free(current->lexeme);
-// 			if (current->command)
-// 				free_cmd_array(current->command);
-// 			free(current);
-// 			current = next;
-// 		}
-// 		*tokens = NULL;
+// 		m_tree_cleaner((*tree_node)->left);  // Recursively clean the left subtree
+// 		m_tree_cleaner((*tree_node)->right); // Recursively clean the right subtree
+
+// 		if ((*tree_node)->content) // Free the content if it exists
+// 			free((*tree_node)->content);
+
+// 		free(*tree_node);  // Free the current node
+// 		*tree_node = NULL; // Set the pointer to NULL
 // 	}
 // }
+
+void	m_tree_cleaner(t_tree *tree_node)
+{
+	if (tree_node)
+	{
+		m_tree_cleaner(tree_node->left);  // Recursively clean the left subtree
+		m_tree_cleaner(tree_node->right); // Recursively clean the right subtree
+
+		if (tree_node->content) // Free the content if it exists
+			free(tree_node->content);
+
+		free(tree_node);  // Free the current node
+		tree_node = NULL; // Set the pointer to NULL
+	}
+}
 
 t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list)
 {
@@ -102,15 +110,13 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	root->right = NULL;
 	m_grow_tree(root, &joint, parsed_list);
 	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
+	m_free_tokens(&joint);
 	return (root);
 
 }
 
-void	m_binary_tree(t_tree *root, t_token **parsed_list)
+t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list)
 {
-	t_tree	*tmp;
-
 	root = m_tree_builder(*parsed_list);
-	visualize_tree(root);
-	//função p/ limpar a árvore.
+	return (root);
 }
