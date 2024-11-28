@@ -36,7 +36,9 @@ t_env	*m_create_env_list(char **envp);
 t_env	*m_create_env_node(char *name, char *value);
 void	m_add_node_env(t_env **head, t_env *new_node);
 
-pid_t	m_get_pid(void);
+pid_t	m_get_pid(void); // função para expadir $$ -- não implementada
+// função para setar e pegar o status do sinal ao chamar $?
+char	*m_set_get_status(int code_exit);
 char	*m_clean_dollar(char *str, int *idx);
 char	*m_get_expand_string(char *lexeme, t_env *env_list);
 char	*ft_strjoin_free(char *s1, char *s2);
