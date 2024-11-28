@@ -1,12 +1,12 @@
-#include "../includes/ast.h"
+#include "../includes/debug.h"
 
 static void	print_tree(t_tree *root, int distance);
 
 void		visualize_tree(t_tree *root)
 {
-	printf(CYAN "Tree visualization:\n\n\n" RESET);
+	ft_printf(CYAN "Tree visualization:\n\n\n" RESET);
 	print_tree(root, 0);
-	printf("\n\n");
+	ft_printf("\n\n");
 }
 
 static void	print_tree(t_tree *root, int distance)
@@ -23,7 +23,7 @@ static void	print_tree(t_tree *root, int distance)
 void	print_distance(int distance)
 {
 	for (int i = SPACES; i < distance; i++)
-		printf(" ");
+		ft_printf(" ");
 }
 
 void	print_right_branch(int distance, t_tree *right)
@@ -31,7 +31,7 @@ void	print_right_branch(int distance, t_tree *right)
 	if (!right)
 		return ;
 	print_distance(distance);
-    printf("/\n");
+    ft_printf("/\n");
 }
 
 void	print_left_branch(int distance, t_tree *left)
@@ -39,11 +39,11 @@ void	print_left_branch(int distance, t_tree *left)
 	if (!left)
 		return ;
 	print_distance(distance);
-    printf("\\\n");
+    ft_printf("\\\n");
 }
 
 void	print_item(t_tree *this_node, int distance)
 {
 	print_distance(distance);
-	printf("%s\n", this_node->content);
+	ft_printf("%s\n", this_node->content);
 }
