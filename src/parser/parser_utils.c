@@ -41,10 +41,9 @@ int	m_check_expand(char *lexeme)
 	int		n_dollar;
 
 	id_quote = ft_is_qt_type(lexeme);
+	n_dollar = m_qntd_dollar(lexeme);
 	if (ft_strchr(lexeme, '$') && (id_quote == '\"' || id_quote == 0))
-	// if (ft_strchr(lexeme, '$') && (id_quote == '\"' || id_quote == 0 || id_quote == '\''))
 	{
-		n_dollar = m_qntd_dollar(lexeme);
 		if (n_dollar > 1 && !(m_is_special_cases_dollar(lexeme)))
 			return (1);
 		else if ((lexeme[0] == '$' && lexeme[1] == '\0')
@@ -62,8 +61,6 @@ char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 	is_expand = m_check_expand(lexeme);
 	if (is_expand)
 	{
-		if (is_expand == 2)
-			return (m_clean_quotes(lexeme)); // ----- temporário
 		return (m_get_expand_string(lexeme, env_list));
 	}
 	return (m_clean_quotes(lexeme));

@@ -22,7 +22,7 @@ char	*m_expansion_special_cases(char *dollar_position)
 	if (ft_strncmp(dollar_position, "$$", 2) == 0)
 		expansion = ft_itoa(m_get_pid());
 	else if (ft_strncmp(dollar_position, "$?", 2) == 0)
-		expansion = ft_itoa(g_signal_status);
+		expansion = m_set_get_status(127); // 127 é o valor padrão para $? quando não há status -- o ultimo foi a execução de $?
 	else if (dollar_position[1] && ft_isdigit(dollar_position[1]))
 		expansion = ft_strdup("");
 	else

@@ -18,7 +18,7 @@ static int	ft_check_quotes(const char *line)
 	return (!single_q && !double_q);
 }
 
-int	is_quoted(char c, char *quote)
+static int	is_quoted(char c, char *quote)
 {
 	if (*quote == '\0' && (c == '\'' || c == '\"'))
 		*quote = c; // Inicia um contexto de aspas

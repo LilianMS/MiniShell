@@ -8,7 +8,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
-# include <limits.h>
 
 # include "tokenizer.h"
 # include "parser.h"
@@ -33,7 +32,5 @@ int		m_check_line_input(const char *line);
 
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);
-
-void	ft_debug_tests(t_mini *mini, t_token *parsed_list); // ----- debug
 
 #endif
