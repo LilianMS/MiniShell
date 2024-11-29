@@ -21,7 +21,7 @@ int	m_get_status_81(char c)
 	if (c == '\0')
 		return (-1); //se acabar a linha dentro do status 81 - ou seja, sem fechar as aspas simples - retorna erro
 	else if (c == '\'')
-		return (80); //se achar outra aspa simples, volta para o estado 80 - isso porque se no próximo loop achar um espaço, por exemplo, vai fechar o token no estado 83 (palavra) 
+		return (80); //se achar outra aspa simples, volta para o estado 80 - isso porque se no próximo loop achar um espaço, por exemplo, vai fechar o token no estado 83 (palavra)
 	else if (c != '\'')
 		return (81); //se achar quaquer outro caractere, continua dentro do status 81
 	else
@@ -31,7 +31,7 @@ int	m_get_status_81(char c)
 int	m_get_status_82(char c)
 {
 	if (c == '\0')
-		return (-1);  //se acabar a linha dentro do status 82 - ou seja, sem fechar as aspas duplas - retorna erro
+		return (-1); //se acabar a linha dentro do status 82 - ou seja, sem fechar as aspas duplas - retorna erro
 	else if (c == '\"')
 		return (80);
 	else if (c != '\"')

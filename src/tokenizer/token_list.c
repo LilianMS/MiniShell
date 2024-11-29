@@ -3,7 +3,7 @@
 // mesmo que a ft_free_split do libft
 void	free_cmd_array(char **command)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (command[i])
