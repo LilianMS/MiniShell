@@ -76,6 +76,23 @@ int	m_check_expand(char *lexeme)
 // 	return (ft_strdup(lexeme)); // Retorna original se nada se aplicar
 // }
 
+void print_char_array(char **array)
+{
+    int i = 0;
+    while (array[i])
+    {
+        printf("String %d: %s\n", i, array[i]);
+        i++;
+    }
+}
+
+void *ft_test_temp(char *lexeme) // debug
+{
+	char **split = split_by_quotes(lexeme);
+	print_char_array(split);
+	ft_free_split(split);
+}
+
 
 char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 {
@@ -86,14 +103,14 @@ char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 	// {
 	// 	return (m_get_expand_string(lexeme, env_list));
 	// }
-	char	*id_quote;
 
-	id_quote = ft_is_qt_type(lexeme);
-	if (ft_strstr(lexeme, "$"))
+	if (ft_strchr(lexeme, '$'))
 	{
-		if (!id_quote)
-			if (m_check_expand(lexeme))
-				return (m_get_expand_string(lexeme, env_list));
+		if(ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
+		{
+			ft_test_temp(lexeme);
+			return (m_clean_quotes(lexeme));
+		}
 		else
 			return (m_get_expand_string(lexeme, env_list));
 	}

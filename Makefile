@@ -19,6 +19,7 @@ SRC= minishell.c \
 	 parser/expansion.c \
 	 parser/expansion_utils.c \
 	 parser/expansion_process.c \
+	 parser/expansion_quotes.c \
 	 utils/checkers.c \
 	 utils/cleaners.c \
 	 builtin/echo.c \
