@@ -45,5 +45,10 @@ void	print_left_branch(int distance, t_tree *left)
 void	print_item(t_tree *this_node, int distance)
 {
 	print_distance(distance);
-	ft_printf("%s\n", this_node->content);
+	if (this_node->content)
+		ft_printf("%s\n", this_node->content);
+	else if (this_node->type == COMMAND && this_node->command)
+		ft_printf("%s\n", this_node->command[0]);
+	else if (this_node->type == FILENAME)
+		ft_printf("filename\n"); // debug
 }

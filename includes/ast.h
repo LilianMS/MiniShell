@@ -16,6 +16,7 @@ struct s_tree
 {
 	char				*content;
 	char				**command;
+	int					command_len;
 	int					type;
 	int					index;
 	t_tree				*left;
@@ -30,6 +31,8 @@ void	m_get_sublist(t_token *rev_list, t_token **parsed_list);
 t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list);
 t_tree	*m_tree_builder(t_token *parsed_list);
 void	m_tree_cleaner(t_tree *tree_node);
+void	m_allocate_command(t_tree **root, t_token *parsed_list);
+
 
 //Debug
 void	visualize_tree(t_tree *root);
