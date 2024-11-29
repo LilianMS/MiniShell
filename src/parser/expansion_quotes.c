@@ -52,3 +52,37 @@ char	**split_by_quotes(char *input)
 	result[res_index] = NULL;
 	return (result);
 }
+
+// receber char ** 
+// expandir array de variáveis de ambiente
+// juntar tudo numa string e retornar
+
+char	*m_get_expand_split(char **split, t_env *env_list)
+{
+	char	*expanded;
+	char	*temp;
+	int		i;
+
+	expanded = ft_strdup("");
+	i = 0;
+	while (split[i])
+	{
+		if (ft_strchr(split[i], '\'') && !ft_strchr(split[i], '\"')
+			|| (ft_strchr(split[i], '\'') && ft_strchr(split[i], '\"') && split[i][0] == '\''))
+			temp = m_clean_quotes(split[i]);
+		else if ((split[i][0] == '$' && split[i][1] == '\0')
+			|| split[i][2] == '\"' || split[i][2] == ' ')
+			temp = m_expansion_special_cases(split[i]);
+		else if (ft_strchr(split[i], '\"'))
+			temp = m_get_expand_string(split[i], env_list);
+		else
+		{
+			temp = m_get_expand_string(split[i], env_list);
+			// printf("temp: %s\n", temp);
+		}
+		expanded = ft_strjoin_free(expanded, temp);
+		i++;
+	}
+	free(split);
+	return (expanded);
+}

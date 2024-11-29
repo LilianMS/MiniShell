@@ -48,5 +48,6 @@ char	*m_process_after_dollar(char *dollar_position, t_env *env_list);
 
 char	ft_is_quotes_type(char *lexeme, int *start, int *end);
 char	**split_by_quotes(char *input);
+char	*m_get_expand_split(char **split, t_env *env_list);
 
 #endif

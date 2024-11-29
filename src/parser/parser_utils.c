@@ -86,11 +86,12 @@ void print_char_array(char **array)
     }
 }
 
-void *ft_test_temp(char *lexeme) // debug
+char *ft_test_temp(char *lexeme, t_env *env_list) // debug
 {
 	char **split = split_by_quotes(lexeme);
 	print_char_array(split);
-	ft_free_split(split);
+	char *result = m_get_expand_split(split, env_list);
+	return (result);
 }
 
 
@@ -108,8 +109,7 @@ char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 	{
 		if(ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
 		{
-			ft_test_temp(lexeme);
-			return (m_clean_quotes(lexeme));
+			return (ft_test_temp(lexeme, env_list));
 		}
 		else
 			return (m_get_expand_string(lexeme, env_list));
