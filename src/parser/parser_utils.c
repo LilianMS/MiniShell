@@ -16,7 +16,7 @@ char	ft_is_qt_type(char *lexeme)
 			return (id_quote);
 		i++;
 	}
-	return (0);
+	return (id_quote);
 }
 
 int	m_qntd_dollar(char *str)
@@ -43,6 +43,7 @@ int	m_check_expand(char *lexeme)
 	id_quote = ft_is_qt_type(lexeme);
 	n_dollar = m_qntd_dollar(lexeme);
 	if (ft_strchr(lexeme, '$') && (id_quote == '\"' || id_quote == 0))
+	// if (ft_strchr(lexeme, '$'))
 	{
 		if (n_dollar > 1 && !(m_is_special_cases_dollar(lexeme)))
 			return (1);
@@ -51,6 +52,8 @@ int	m_check_expand(char *lexeme)
 			return (0);
 		return (1);
 	}
+	// else if (n_dollar > 1 && id_quote == '\'')
+	// 	return (2);
 	return (0);
 }
 
