@@ -6,10 +6,10 @@ void	m_tree_cleaner(t_tree *tree_node)
 	{
 		m_tree_cleaner(tree_node->left);
 		m_tree_cleaner(tree_node->right);
-
 		if (tree_node->content)
 			free(tree_node->content);
-
+		else if (tree_node->command)
+			free_cmd_array(tree_node->command);
 		free(tree_node);
 		tree_node = NULL;
 	}
@@ -117,13 +117,13 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	root->right = NULL;
 	if (!joint && parsed_list->type == COMMAND)
 		m_allocate_command(&root, parsed_list);
-	else if (!joint && parsed_list->type == FILENAME)
+	if (!joint && parsed_list->type == FILENAME)
 	{
 		root->content = ft_strdup(parsed_list->lexeme);
 		root->type = parsed_list->type;
 	}
 	m_grow_tree(root, &joint, parsed_list);
-	// ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
+	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
 	m_free_tokens(&joint);
 	return (root);
 
