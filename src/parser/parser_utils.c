@@ -54,6 +54,26 @@ int	m_check_expand(char *lexeme)
 	return (0);
 }
 
+// char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
+// {
+// 	char	id_quote;
+
+// 	id_quote = ft_is_qt_type(lexeme);
+// 	if (!id_quote) // Sem aspas, verifica expansão
+// 		return (m_get_expand_string(lexeme, env_list));
+// 	else if (id_quote == '\'') // Aspas simples, apenas limpa
+// 		return (m_clean_quotes(lexeme));
+// 	else if (id_quote == '\"') // Aspas duplas, permite expansão
+// 	{
+// 		char	*cleaned = m_clean_quotes(ft_strdup(lexeme)); // Remove as aspas
+// 		char	*expanded = m_get_expand_string(cleaned, env_list);
+// 		free(cleaned);
+// 		return (expanded);
+// 	}
+// 	return (ft_strdup(lexeme)); // Retorna original se nada se aplicar
+// }
+
+
 char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 {
 	int	is_expand;

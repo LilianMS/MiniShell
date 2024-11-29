@@ -26,6 +26,22 @@ char	ft_is_quotes_type(char *lexeme, int *start, int *end)
 	return (0);
 }
 
+// char	*m_clean_quotes(char *lexeme)
+// {
+// 	char	id_quote;
+// 	int		start;
+// 	int		end;
+// 	char	*new_lexeme;
+
+// 	id_quote = ft_is_quotes_type(lexeme, &start, &end);
+// 	if (!id_quote) // Sem aspas
+// 		return (ft_strdup(lexeme));
+// 	new_lexeme = ft_substr(lexeme, start + 1, end - start - 1); // Extrai sem aspas
+// 	free(lexeme); // Libera original
+// 	return (new_lexeme);
+// }
+
+
 // -- função para limpar as aspas nos casos do minishell
 char	*m_clean_quotes(char *lexeme)
 {
