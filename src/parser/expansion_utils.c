@@ -13,7 +13,6 @@ char	*m_set_get_status(int code_exit)
 
 	temp = ft_itoa(g_signal_status);
 	g_signal_status = code_exit;
-	temp = ft_strjoin_free(temp, ": command not found");
 	return (temp);
 }
 
