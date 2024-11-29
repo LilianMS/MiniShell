@@ -9,11 +9,10 @@ pid_t	m_get_pid(void)
 // função para setar e pegar o status do sinal ao chamar $?
 char	*m_set_get_status(int code_exit)
 {
-	char *temp;
+	char	*temp;
 
 	temp = ft_itoa(g_signal_status);
 	g_signal_status = code_exit;
-	temp = ft_strjoin_free(temp, ": command not found");
 	return (temp);
 }
 
@@ -31,7 +30,7 @@ char	*m_clean_dollar(char *str, int *idx)
 		len++;
 	}
 	*idx = len + 1;
-	// ft_printf("idx: %d\n", *idx); // debug 
+	// ft_printf("idx: %d\n", *idx); // debug
 	var_name = ft_substr(str, 1, len);
 	return (var_name);
 }

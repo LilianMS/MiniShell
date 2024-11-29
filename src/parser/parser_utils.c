@@ -39,18 +39,21 @@ int	m_check_expand(char *lexeme)
 {
 	char	id_quote;
 	int		n_dollar;
+	char	*dollar_position;
 
-	id_quote = ft_is_qt_type(lexeme);
-	n_dollar = m_qntd_dollar(lexeme);
-	if (ft_strchr(lexeme, '$') && (id_quote == '\"' || id_quote == 0))
-	{
-		if (n_dollar > 1 && !(m_is_special_cases_dollar(lexeme)))
-			return (1);
-		else if ((lexeme[0] == '$' && lexeme[1] == '\0')
-			|| lexeme[2] == '\"' || lexeme[2] == ' ')
-			return (0);
-		return (1);
-	}
+	dollar_position = ft_strchr(lexeme, '$');
+
+	// id_quote = ft_is_qt_type(lexeme);
+	// n_dollar = m_qntd_dollar(lexeme);
+	// if (ft_strchr(lexeme, '$') && (id_quote == '\"' || id_quote == 0))
+	// {
+	// 	if (n_dollar > 1 && !(m_is_special_cases_dollar(lexeme)))
+	// 		return (1);
+	// 	else if ((lexeme[0] == '$' && lexeme[1] == '\0')
+	// 		|| lexeme[2] == '\"' || lexeme[2] == ' ')
+	// 		return (0);
+	// 	return (1);
+	// }
 	return (0);
 }
 
@@ -76,12 +79,23 @@ int	m_check_expand(char *lexeme)
 
 char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 {
-	int	is_expand;
+	// int	is_expand;
 
-	is_expand = m_check_expand(lexeme);
-	if (is_expand)
+	// is_expand = m_check_expand(lexeme);
+	// if (is_expand)
+	// {
+	// 	return (m_get_expand_string(lexeme, env_list));
+	// }
+	char	*id_quote;
+
+	id_quote = ft_is_qt_type(lexeme);
+	if (ft_strstr(lexeme, "$"))
 	{
-		return (m_get_expand_string(lexeme, env_list));
+		if (!id_quote)
+			if (m_check_expand(lexeme))
+				return (m_get_expand_string(lexeme, env_list));
+		else
+			return (m_get_expand_string(lexeme, env_list));
 	}
 	return (m_clean_quotes(lexeme));
 }

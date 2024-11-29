@@ -3,7 +3,7 @@
 #include "builtin.h"
 
 // Variável global para armazenar o status do sinal
-volatile sig_atomic_t g_signal_status = 0;
+volatile sig_atomic_t	g_signal_status = 0;
 
 void	m_lexical_analysis(t_mini *mini)
 {
