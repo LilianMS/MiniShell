@@ -22,7 +22,7 @@ char	*m_expansion_special_cases(char *dollar_position)
 	if (ft_strncmp(dollar_position, "$$", 2) == 0)
 		expansion = ft_itoa(m_get_pid());
 	else if (ft_strncmp(dollar_position, "$?", 2) == 0)
-		expansion = ft_itoa(g_signal_status);
+		expansion = m_set_get_status(127); // 127 é o valor padrão para $? quando não há status -- o ultimo foi a execução de $?
 	else if (dollar_position[1] && ft_isdigit(dollar_position[1]))
 		expansion = ft_strdup("");
 	else
@@ -50,7 +50,10 @@ char	*m_get_expand_string(char *lexeme, t_env *env_list)
 	char	*result;
 	char	*dollar_position;
 
-	temp_cleaned_lexeme = m_clean_quotes(lexeme);
+	if (ft_strchr(lexeme, '\"'))
+		temp_cleaned_lexeme = m_clean_quotes(lexeme);
+	else
+		temp_cleaned_lexeme = lexeme;
 	dollar_position = ft_strchr(temp_cleaned_lexeme, '$');
 	if (!dollar_position) // Sem $
 		return (temp_cleaned_lexeme);
@@ -63,4 +66,23 @@ char	*m_get_expand_string(char *lexeme, t_env *env_list)
 	free(before_dollar);
 	free(processed_part);
 	return (result);
+}
+
+char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
+{
+	char	*dollar_position;
+
+	dollar_position = ft_strchr(lexeme, '$');
+	if (dollar_position)
+	{
+		if (ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
+		{
+			return (m_get_expand_split(lexeme, env_list));
+		}
+		else if (dollar_position[1] == '\0')
+			return (m_clean_quotes(ft_strdup(lexeme)));
+		else
+			return (m_get_expand_string(ft_strdup(lexeme), env_list));
+	}
+	return (m_clean_quotes(ft_strdup(lexeme)));
 }

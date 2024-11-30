@@ -9,7 +9,8 @@ void	m_copy_token(t_token **parsed_list, t_token *aux_token)
 	m_add_token(parsed_list, copy_token);
 }
 
-char	**m_populate_cmd_array(t_token *start, int command_len, t_env *env_list)
+char	**m_populate_cmd_array(t_token *start, int command_len, \
+								t_env *env_list)
 {
 	int		i;
 	char	**command;
@@ -22,8 +23,9 @@ char	**m_populate_cmd_array(t_token *start, int command_len, t_env *env_list)
 	{
 		if (start && start->lexeme)
 		{
-			start->lexeme = m_quotes_and_expansion(start->lexeme, env_list);
-			command[i] = ft_strdup(start->lexeme);
+			// start->lexeme = m_quotes_and_expansion(start->lexeme, env_list);
+			// command[i] = ft_strdup(start->lexeme);
+			command[i] = m_quotes_and_expansion(start->lexeme, env_list);
 		}
 		else
 			command[i] = NULL;
@@ -34,8 +36,8 @@ char	**m_populate_cmd_array(t_token *start, int command_len, t_env *env_list)
 	return (command);
 }
 
-// Função auxiliar para processar tokens do tipo WORD
-static void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list, t_env *env_list)
+static void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list, \
+									t_env *env_list)
 {
 	t_token	*start;
 	int		command_len;
@@ -48,35 +50,40 @@ static void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list, t_en
 		command_len++;
 	}
 	if (command_len > 0 && start->lexeme)
-		m_add_token(parsed_list, m_create_cmd_token(start, command_len, env_list));
+		m_add_token(parsed_list, \
+					m_create_cmd_token(start, command_len, env_list));
 }
 
-static void	m_handle_redirection_tokens(t_token **aux_list, t_token **parsed_list)
+static void	m_handle_redirection_tokens(t_token **aux_list, \
+										t_token **parsed_list, t_env *env_list)
 {
 	t_token	*redir_token;
 	t_token	*file_token;
 
 	redir_token = *aux_list;
-	m_copy_token(parsed_list, redir_token); // Copia o token do redirecionamento
+	m_copy_token(parsed_list, redir_token);
 	*aux_list = redir_token->next;
-	if (*aux_list && (*aux_list)->type == WORD) // Verifica se há um WORD logo após o redirecionamento
+	if (*aux_list && (*aux_list)->type == WORD)
 	{
-		file_token = ft_calloc(sizeof(t_token), 1); // Cria um novo token para FILENAME ou DELIMITER
+		file_token = ft_calloc(sizeof(t_token), 1);
 		if (!file_token)
 			return ;
 		if (redir_token->type == REDIR_HEREDOC)
 			file_token->type = DELIMITER;
 		else
 			file_token->type = FILENAME;
-		file_token->lexeme = ft_strdup((*aux_list)->lexeme); // Copia o conteúdo do lexeme para o novo token
-		m_add_token(parsed_list, file_token); // Adiciona o novo token à lista
-		*aux_list = (*aux_list)->next; // Avança na lista
+		// file_token->lexeme = ft_strdup((*aux_list)->lexeme);
+		file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, env_list);
+		m_add_token(parsed_list, file_token);
+		*aux_list = (*aux_list)->next;
 	}
 	else
-		ft_putstr_fd("Syntax error: expected a file or delimiter\n", STDERR_FILENO);
+		ft_putstr_fd("Syntax error: expected a file or delimiter\n", \
+						STDERR_FILENO);
 }
 
-t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list)
+t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
+						t_env *env_list)
 {
 	t_token	*aux_list;
 
@@ -89,7 +96,7 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_
 			|| aux_list->type == REDIR_APPEND \
 			|| aux_list->type == REDIR_HEREDOC)
 		{
-			m_handle_redirection_tokens(&aux_list, parsed_list);
+			m_handle_redirection_tokens(&aux_list, parsed_list, env_list);
 		}
 		else
 		{

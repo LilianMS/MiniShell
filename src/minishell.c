@@ -2,9 +2,8 @@
 #include "debug.h" // ----- debug
 #include "builtin.h"
 
+// Variável global para armazenar o status do sinal
 volatile sig_atomic_t	g_signal_status = 0;
-
-// implementar saída de erro para erros de aspas (!)
 
 void	m_lexical_analysis(t_mini *mini)
 {
@@ -23,16 +22,14 @@ void	m_lexical_analysis(t_mini *mini)
 			m_free_tokens(&token_list);
 			return ;
 		}
-		// print_tokens(&token_list); // ----- debug
 	}
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
 	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);
 	visualize_tree(mini->tree);
-	// m_execute_commands(&parsed_list); ?
-	if (m_is_builtin(parsed_list)) // ---------------- debug
-		m_execute_builtin(mini, parsed_list); // ----- debug
+	if (m_is_builtin(parsed_list)) // ---------------- debug // uso em m_execute_commands
+		m_execute_builtin(mini, parsed_list); // ----- debug // uso em m_execute_commands
 	m_tree_cleaner(mini->tree);
 	m_free_tokens(&parsed_list);
 }
@@ -50,7 +47,7 @@ int	main(__attribute__((unused)) int argc,
 {
 	t_mini	mini;
 
-	g_signal_status = 11;
+	// g_signal_status = 11;
 	init_minishell(&mini, envp);
 	while (1)
 	{

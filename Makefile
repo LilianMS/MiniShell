@@ -21,6 +21,9 @@ SRC= minishell.c \
 	 parser/expansion.c \
 	 parser/expansion_utils.c \
 	 parser/expansion_process.c \
+	 parser/expansion_quotes.c \
+	 utils/checkers.c \
+	 utils/cleaners.c \
 	 builtin/echo.c \
 	 builtin/pwd.c \
 	 builtin/export.c \
@@ -28,8 +31,6 @@ SRC= minishell.c \
 	 builtin/env.c \
 	 builtin/exit.c \
 	 builtin/builtin_utils.c \
-	 utils/checkers.c \
-	 utils/cleaners.c \
 	 debug.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
