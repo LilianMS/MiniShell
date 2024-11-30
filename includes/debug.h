@@ -20,6 +20,7 @@ void	print_tokens(t_token **tokens);
 void	list_printer(t_token **parsed_list);
 int		list_size(t_token **parsed_list);
 void	print_parsed_command(t_token *parsed_list);
+void 	print_char_array(char **array);
 
 #endif
 
