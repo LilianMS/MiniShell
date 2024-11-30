@@ -27,14 +27,17 @@ t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list)
 	right = (*joint)->next;
 	if(right)
 		right->prev = NULL;
+	if((*joint)->prev)
+		left = (*joint)->prev;
+	else
+		left = NULL;
+	if (left)
+		left->next = NULL;
 	root->type = (*joint)->type;
 	if ((*joint)->lexeme)
 		root->content = ft_strdup((*joint)->lexeme);
-	left = (*joint)->prev;
-	if (left)
-		left->next = NULL;
-	root->left = m_tree_builder(left);
 	root->right = m_tree_builder(right);
+	root->left = m_tree_builder(left);
 	return (root);
 }
 
@@ -50,6 +53,8 @@ t_token	*m_find_joint_token(t_token	*tokens)
 {
 	t_token *rev_list;
 
+	if (!tokens)
+		return (NULL);
 	rev_list = m_find_last_token(tokens);
 	while (rev_list && rev_list->type != PIPE)
 			rev_list = rev_list->prev;
@@ -91,26 +96,13 @@ void	m_allocate_command(t_tree **root, t_token *parsed_list)
 	(*root)->command[i] = NULL;
 }
 
-// t_tree	*m_create_tree_node(t_tree *root, t_token *joint, t_token *parsed_list)
-// {
-// 	root = ft_calloc(sizeof(t_tree), 1);
-// 	if (!root)
-// 		return (NULL);
-// 	root->left = NULL;
-// 	root->right = NULL;m_allocate_command(&root, parsed_list)
-// 	// root->type = joint->type;
-// 	// root->index = 0;
-// 	// root->content = NULL;
-// 	// root->command = NULL;
-// 	// root->parent = NULL;
-// 	return (root);
-// }
-
 t_tree	*m_tree_builder(t_token *parsed_list)
 {
 	t_token	*joint;
 	t_tree	*root;
 
+	if (!parsed_list)
+		return (NULL);
 	joint = m_find_joint_token(parsed_list);
 	root = ft_calloc(sizeof(t_tree), 1);
 	root->left = NULL;
@@ -124,7 +116,6 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	}
 	m_grow_tree(root, &joint, parsed_list);
 	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
-	m_free_tokens(&joint);
 	return (root);
 
 }
@@ -132,5 +123,6 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list)
 {
 	root = m_tree_builder(*parsed_list);
+	visualize_tree(root); // ----- debug
 	return (root);
 }
