@@ -23,8 +23,9 @@ char	**m_populate_cmd_array(t_token *start, int command_len, \
 	{
 		if (start && start->lexeme)
 		{
-			start->lexeme = m_quotes_and_expansion(start->lexeme, env_list);
-			command[i] = ft_strdup(start->lexeme);
+			// start->lexeme = m_quotes_and_expansion(start->lexeme, env_list);
+			// command[i] = ft_strdup(start->lexeme);
+			command[i] = m_quotes_and_expansion(start->lexeme, env_list);
 		}
 		else
 			command[i] = NULL;

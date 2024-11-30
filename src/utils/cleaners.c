@@ -26,7 +26,6 @@ char	ft_is_quotes_type(char *lexeme, int *start, int *end)
 	return (0);
 }
 
-// -- função para limpar as aspas nos casos do minishell
 char	*m_clean_quotes(char *lexeme)
 {
 	char	id_quote;
@@ -49,7 +48,7 @@ char	*m_clean_quotes(char *lexeme)
 			i++;
 		}
 		*new_lexeme = '\0';
-		new_lexeme -= (ft_strlen(lexeme) - 2); // Volta o ponteiro para o início / reduz linhas rs
+		new_lexeme -= (ft_strlen(lexeme) - 2);
 		free(lexeme);
 		return (new_lexeme);
 	}
