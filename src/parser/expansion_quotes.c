@@ -80,21 +80,23 @@ char	*m_get_expand_split(char *lexeme, t_env *env_list)
 	while (split[i])
 	{
 		dollar_position = ft_strchr(split[i], '$');
-		*dollar_position++;
-		if ((ft_strchr(split[i], '\'') && !ft_strchr(split[i], '\"'))
-			|| (ft_strchr(split[i], '\'') && ft_strchr(split[i], '\"') && split[i][0] == '\''))
-			new_expanded = m_clean_quotes_in_expansion(split[i]);
-		else if (ft_strchr(split[i], '\"') \
-			&& (!ft_isalnum(*dollar_position) && *dollar_position != '_'
-			&& *dollar_position != '?' && *dollar_position != '$'))
-			new_expanded = m_clean_quotes_in_expansion(split[i]);
-		// else if ((split[i][0] == '$' && split[i][1] == '\0')
-		// 	|| split[i][2] == '\"' || split[i][2] == ' ')
-		// 	new_expanded = m_clean_quotes_in_expansion(split[i]);
-		else if (ft_strchr(split[i], '\"'))
-			new_expanded = m_get_expand_string(split[i], env_list);
+		if (!dollar_position)
+			new_expanded = m_clean_quotes(split[i]);
 		else
-			new_expanded = m_get_expand_string(split[i], env_list);
+		{
+			dollar_position++;
+			if ((ft_strchr(split[i], '\'') && !ft_strchr(split[i], '\"'))
+				|| (ft_strchr(split[i], '\'') && ft_strchr(split[i], '\"') && split[i][0] == '\''))
+				new_expanded = m_clean_quotes(split[i]);
+			else if (ft_strchr(split[i], '\"') \
+				&& (!ft_isalnum(*dollar_position) && *dollar_position != '_'
+				&& *dollar_position != '?' && *dollar_position != '$'))
+				new_expanded = m_clean_quotes(split[i]);
+			// else if (ft_strchr(split[i], '\"'))
+			// 	new_expanded = m_get_expand_string(split[i], env_list);
+			else
+				new_expanded = m_get_expand_string(split[i], env_list);
+		}
 		temp = ft_strjoin_free(result, new_expanded);
 		result = temp;
 		i++;

@@ -105,7 +105,7 @@ char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 		else
 			return (m_get_expand_string(ft_strdup(lexeme), env_list));
 	}
-	return (m_clean_quotes(lexeme));
+	return (m_clean_quotes(ft_strdup(lexeme)));
 }
 
 t_token	*m_create_cmd_token(t_token *start, int command_len, t_env *env_list)
