@@ -66,8 +66,37 @@ char	*m_clean_quotes(char *lexeme)
 		}
 		*new_lexeme = '\0';
 		new_lexeme -= (ft_strlen(lexeme) - 2); // Volta o ponteiro para o início / reduz linhas rs
+		// free(lexeme);
+		return (new_lexeme);
+	}
+	return (ft_strdup(lexeme));
+}
+
+char	*m_clean_quotes_in_expansion(char *lexeme)
+{
+	char	id_quote;
+	char	*new_lexeme;
+	int		start;
+	int		end;
+	int		i;
+
+	start = -1;
+	end = -1;
+	id_quote = ft_is_quotes_type(lexeme, &start, &end);
+	if (id_quote)
+	{
+		new_lexeme = malloc(sizeof(char) * ((ft_strlen(lexeme) - 2) + 1));
+		i = 0;
+		while (lexeme[i])
+		{
+			if (i != start && i != end)
+				*new_lexeme++ = lexeme[i];
+			i++;
+		}
+		*new_lexeme = '\0';
+		new_lexeme -= (ft_strlen(lexeme) - 2); // Volta o ponteiro para o início / reduz linhas rs
 		free(lexeme);
 		return (new_lexeme);
 	}
-	return (lexeme);
+	return (ft_strdup(lexeme));
 }

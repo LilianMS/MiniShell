@@ -76,43 +76,34 @@ int	m_check_expand(char *lexeme)
 // 	return (ft_strdup(lexeme)); // Retorna original se nada se aplicar
 // }
 
-void print_char_array(char **array)
-{
-    int i = 0;
-    while (array[i])
-    {
-        printf("String %d: %s\n", i, array[i]);
-        i++;
-    }
-}
+// void print_char_array(char **array)
+// {
+//     int i = 0;
+//     while (array[i])
+//     {
+//         printf("String %d: %s\n", i, array[i]);
+//         i++;
+//     }
+// }
 
-char *ft_test_temp(char *lexeme, t_env *env_list) // debug
-{
-	char **split = split_by_quotes(lexeme);
-	print_char_array(split);
-	char *result = m_get_expand_split(split, env_list);
-	return (result);
-}
-
+// char *ft_test_temp(char *lexeme, t_env *env_list) // debug
+// {
+// 	char **split = split_by_quotes(lexeme);
+// 	print_char_array(split);
+// 	char *result = m_get_expand_split(split, env_list);
+// 	return (result);
+// }
 
 char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 {
-	// int	is_expand;
-
-	// is_expand = m_check_expand(lexeme);
-	// if (is_expand)
-	// {
-	// 	return (m_get_expand_string(lexeme, env_list));
-	// }
-
 	if (ft_strchr(lexeme, '$'))
 	{
 		if(ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
 		{
-			return (ft_test_temp(lexeme, env_list));
+			return (m_get_expand_split(lexeme, env_list));
 		}
 		else
-			return (m_get_expand_string(lexeme, env_list));
+			return (m_get_expand_string(ft_strdup(lexeme), env_list));
 	}
 	return (m_clean_quotes(lexeme));
 }

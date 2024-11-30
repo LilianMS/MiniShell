@@ -69,7 +69,10 @@ char	*m_get_expand_string(char *lexeme, t_env *env_list)
 	char	*result;
 	char	*dollar_position;
 
-	temp_cleaned_lexeme = m_clean_quotes(lexeme);
+	if (ft_strchr(lexeme, '\"'))
+		temp_cleaned_lexeme = m_clean_quotes_in_expansion(lexeme);
+	else
+		temp_cleaned_lexeme = lexeme;
 	dollar_position = ft_strchr(temp_cleaned_lexeme, '$');
 	if (!dollar_position) // Sem $
 		return (temp_cleaned_lexeme);
