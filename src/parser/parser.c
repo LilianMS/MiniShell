@@ -55,7 +55,7 @@ static void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list, \
 }
 
 static void	m_handle_redirection_tokens(t_token **aux_list, \
-										t_token **parsed_list)
+										t_token **parsed_list, t_env *env_list)
 {
 	t_token	*redir_token;
 	t_token	*file_token;
@@ -72,7 +72,8 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 			file_token->type = DELIMITER;
 		else
 			file_token->type = FILENAME;
-		file_token->lexeme = ft_strdup((*aux_list)->lexeme);
+		// file_token->lexeme = ft_strdup((*aux_list)->lexeme);
+		file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, env_list);
 		m_add_token(parsed_list, file_token);
 		*aux_list = (*aux_list)->next;
 	}
@@ -95,7 +96,7 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 			|| aux_list->type == REDIR_APPEND \
 			|| aux_list->type == REDIR_HEREDOC)
 		{
-			m_handle_redirection_tokens(&aux_list, parsed_list);
+			m_handle_redirection_tokens(&aux_list, parsed_list, env_list);
 		}
 		else
 		{
