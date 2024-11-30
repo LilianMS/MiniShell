@@ -54,4 +54,3 @@ char	*m_clean_quotes(char *lexeme)
 	}
 	return (lexeme);
 }
-

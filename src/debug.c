@@ -124,3 +124,13 @@ void	ft_debug_tests(t_mini *mini, t_token *parsed_list)
 			m_unset(mini->env_list, args);
 	}
 }
+
+void print_char_array(char **array) // debug
+{
+    int i = 0;
+    while (array[i])
+    {
+        ft_printf("String %d: %s\n", i, array[i]);
+        i++;
+    }
+}

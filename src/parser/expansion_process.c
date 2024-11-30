@@ -47,26 +47,6 @@ static char	*add_text_before_next_dollar(char *result, char **dollar_position)
 	return (temp);
 }
 
-// char	*m_process_after_dollar(char *dollar_position, t_env *env_list)
-// {
-// 	char	*result;
-// 	char	*expansion;
-// 	char	*temp;
-
-// 	result = ft_strdup("");
-// 	while (dollar_position)
-// 	{
-// 		if (m_is_special_cases_dollar(dollar_position))
-// 			expansion = process_special_dollar(&dollar_position);
-// 		else
-// 			expansion = process_regular_dollar(&dollar_position, env_list);
-// 		temp = ft_strjoin_free(result, expansion); // Usa join com free
-// 		result = add_text_before_next_dollar(temp, &dollar_position);
-// 	}
-// 	return (result);
-// }
-
-
 char	*m_process_after_dollar(char *dollar_position, t_env *env_list)
 {
 	char	*result;
