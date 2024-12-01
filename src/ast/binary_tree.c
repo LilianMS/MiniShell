@@ -116,6 +116,7 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	}
 	m_grow_tree(root, &joint, parsed_list);
 	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
+	m_free_tokens(&joint);
 	return (root);
 
 }
