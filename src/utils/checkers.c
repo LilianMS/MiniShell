@@ -49,6 +49,8 @@ int	check_invalid_chars(const char *input)
 
 int	m_check_line_input(const char *line)
 {
+	if (line == NULL || *line == '\0')
+		return (0);
 	if (!ft_check_quotes(line))
 	{
 		ft_putendl_fd("minishell: syntax error with open quotes", 2);
