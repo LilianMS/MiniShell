@@ -15,22 +15,20 @@ void	m_tree_cleaner(t_tree *tree_node)
 	}
 }
 
-t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list)
+void	m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list)
 {
 	t_token	*right;
 	t_token	*left;
 
 	right = NULL;
-	left = parsed_list;
+	left = NULL;
 	if(!root || !*joint || !parsed_list)
-		return (NULL);
+		return ;
 	right = (*joint)->next;
 	if(right)
 		right->prev = NULL;
 	if((*joint)->prev)
 		left = (*joint)->prev;
-	else
-		left = NULL;
 	if (left)
 		left->next = NULL;
 	root->type = (*joint)->type;
@@ -38,7 +36,6 @@ t_tree	*m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list)
 		root->content = ft_strdup((*joint)->lexeme);
 	root->right = m_tree_builder(right);
 	root->left = m_tree_builder(left);
-	return (root);
 }
 
 int	m_is_redir(int	token_type)
@@ -109,14 +106,22 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	root->right = NULL;
 	if (!joint && parsed_list->type == COMMAND)
 		m_allocate_command(&root, parsed_list);
-	if (!joint && parsed_list->type == FILENAME)
+	if (!joint && (parsed_list->type == FILENAME || parsed_list->type == DELIMITER))
 	{
 		root->content = ft_strdup(parsed_list->lexeme);
 		root->type = parsed_list->type;
 	}
 	m_grow_tree(root, &joint, parsed_list);
-	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
-	m_free_tokens(&joint);
+	// DEBUG - lista detalhada allocação dos nós da árvore (pré-printer)
+	if (root->content)
+		ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
+	if (root->command)
+		ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->command[0], root->type, root); // ----- debug
+	if (joint && joint->prev)
+	{
+		m_free_tokens(&joint);
+		joint = NULL;
+	}
 	return (root);
 
 }
