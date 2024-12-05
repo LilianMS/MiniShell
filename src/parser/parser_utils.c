@@ -1,5 +1,13 @@
 #include "../includes/parser.h"
 
+int	m_is_redir(int	token_type)
+{
+	return (token_type == REDIR_APPEND \
+		|| token_type == REDIR_HEREDOC \
+		|| token_type == REDIR_OUT \
+		|| token_type == REDIR_IN);
+}
+
 t_token	*m_create_cmd_token(t_token *start, int command_len, t_env *env_list)
 {
 	t_token	*token;

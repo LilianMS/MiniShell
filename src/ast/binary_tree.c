@@ -38,14 +38,6 @@ void	m_grow_tree(t_tree *root, t_token **joint)
 	root->left = m_tree_builder(left);
 }
 
-int	m_is_redir(int	token_type)
-{
-	return (token_type == REDIR_APPEND \
-		|| token_type == REDIR_HEREDOC \
-		|| token_type == REDIR_OUT \
-		|| token_type == REDIR_IN);
-}
-
 t_token	*m_find_joint_token(t_token	*tokens)
 {
 	t_token *rev_list;

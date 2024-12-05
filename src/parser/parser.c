@@ -82,13 +82,55 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 						STDERR_FILENO);
 }
 
-void	m_pre_process(t_token **aux_list)
+static void	m_post_redir_token_type(t_token **aux_list)
 {
-	while(*aux_list && (*aux_list)->type)
-	{
+	t_token *redir_token;
+	t_token *file_token;
 
+	redir_token = *aux_list;
+	m_copy_token(parsed_list, redir_token);
+	*aux_list = redir_token->next;
+	if (*aux_list && (*aux_list)->type == WORD)
+	{
+		file_token = ft_calloc(sizeof(t_token), 1);
+		if (!file_token)
+			return;
+		if (redir_token->type == REDIR_HEREDOC)
+			file_token->type = DELIMITER;
+		else
+			file_token->type = FILENAME;
+		// file_token->lexeme = ft_strdup((*aux_list)->lexeme);
+		file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, env_list);
+		m_add_token(parsed_list, file_token);
+		*aux_list = (*aux_list)->next;
 	}
+	else
+		ft_putstr_fd("Syntax error: expected a file or delimiter\n",
+					 STDERR_FILENO);
 }
+
+// t_token	*m_pre_process(t_token **token_list)
+// {
+// 	t_token	*aux_list;
+// 	t_token	*first_word;
+// 	t_token	*word_sublist;
+
+// 	aux_list = *token_list;
+// 	first_word = NULL;
+// 	if (aux_list->type == WORD)
+// 		first_word = aux_list;
+// 	while (aux_list)
+// 	{
+// 		while (aux_list && !m_is_redir((aux_list)->type))
+// 			aux_list = aux_list->next;
+// 		if (m_is_redir(aux_list))
+// 			aux_list = aux_list->next;
+// 		if (aux_list->type == WORD)
+// 			word_sublist = aux_list;
+		
+// 	}
+// 	return (aux_list);
+// }
 
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 						t_env *env_list)
@@ -96,14 +138,12 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 	t_token	*aux_list;
 
 	aux_list = *token_list;
-	// m_pre_process(aux_list); // reorganiza os nós antes de mallocar os novos nós de comando
+	// aux_list = *m_pre_process(aux_list); // reorganiza os nós antes de mallocar os novos nós de comando
 	while (aux_list)
 	{
 		if (aux_list->type == WORD)
 			m_handle_word_tokens(&aux_list, parsed_list, env_list);
-		else if (aux_list->type == REDIR_IN || aux_list->type == REDIR_OUT \
-			|| aux_list->type == REDIR_APPEND \
-			|| aux_list->type == REDIR_HEREDOC)
+		else if (m_is_redir(aux_list->type))
 		{
 			m_handle_redirection_tokens(&aux_list, parsed_list, env_list);
 		}

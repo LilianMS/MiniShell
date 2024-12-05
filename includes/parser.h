@@ -46,6 +46,7 @@ int		m_is_special_cases_dollar(char *lexeme);
 char	*m_expansion_special_cases(char *dollar_position);
 char	*m_process_after_dollar(char *dollar_position, t_env *env_list);
 
+int		m_is_redir(int	token_type);
 char	ft_is_quotes_type(char *lexeme, int *start, int *end);
 char	**split_by_quotes(char *input);
 char	*m_get_expand_split(char *lexeme, t_env *env_list);
