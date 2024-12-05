@@ -26,10 +26,10 @@ void	m_lexical_analysis(t_mini *mini)
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
 	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
-	// m_binary_tree(&parsed_list);
-	// m_execute_commands(&parsed_list); ?
+	mini->tree = m_binary_tree(mini->tree, &parsed_list);
 	if (m_is_builtin(parsed_list)) // ---------------- debug // uso em m_execute_commands
 		m_execute_builtin(mini, parsed_list); // ----- debug // uso em m_execute_commands
+	m_tree_cleaner(mini->tree);
 	m_free_tokens(&parsed_list);
 }
 
@@ -38,6 +38,7 @@ void	init_minishell(t_mini *mini, char **envp)
 	ft_bzero(mini, sizeof(t_mini));
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
+	mini->tree = NULL;
 }
 
 int	main(__attribute__((unused)) int argc,

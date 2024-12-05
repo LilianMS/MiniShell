@@ -115,3 +115,23 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 	}
 	return (*parsed_list);
 }
+
+// versão antiga
+
+// t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list)
+// {
+// 	t_token	*aux_list;
+
+// 	aux_list = *token_list;
+// 	while (aux_list)
+// 	{
+// 		if (aux_list->type == WORD)
+// 			m_handle_word_tokens(&aux_list, parsed_list, env_list);
+// 		else
+// 		{
+// 			m_copy_token(parsed_list, aux_list);
+// 			aux_list = aux_list->next;
+// 		}
+// 	}
+// 	return (*parsed_list);
+// }
