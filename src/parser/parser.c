@@ -82,12 +82,21 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 						STDERR_FILENO);
 }
 
+void	m_pre_process(t_token **aux_list)
+{
+	while(*aux_list && (*aux_list)->type)
+	{
+
+	}
+}
+
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 						t_env *env_list)
 {
 	t_token	*aux_list;
 
 	aux_list = *token_list;
+	// m_pre_process(aux_list); // reorganiza os nós antes de mallocar os novos nós de comando
 	while (aux_list)
 	{
 		if (aux_list->type == WORD)
