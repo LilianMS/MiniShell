@@ -15,14 +15,14 @@ void	m_tree_cleaner(t_tree *tree_node)
 	}
 }
 
-void	m_grow_tree(t_tree *root, t_token **joint, t_token *parsed_list)
+void	m_grow_tree(t_tree *root, t_token **joint)
 {
 	t_token	*right;
 	t_token	*left;
 
 	right = NULL;
 	left = NULL;
-	if(!root || !*joint || !parsed_list)
+	if(!root || !*joint)
 		return ;
 	right = (*joint)->next;
 	if(right)
@@ -111,7 +111,7 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 		root->content = ft_strdup(parsed_list->lexeme);
 		root->type = parsed_list->type;
 	}
-	m_grow_tree(root, &joint, parsed_list);
+	m_grow_tree(root, &joint);
 	// DEBUG - lista detalhada allocação dos nós da árvore (pré-printer)
 	if (root->content)
 		ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
