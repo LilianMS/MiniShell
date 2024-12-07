@@ -2,7 +2,7 @@
 
 static void	print_tree(t_tree *root, int distance);
 
-void		visualize_tree(t_tree *root)
+void	visualize_tree(t_tree *root)
 {
 	ft_printf(CYAN "Tree visualization:\n\n\n" RESET);
 	print_tree(root, 0);
@@ -20,6 +20,7 @@ static void	print_tree(t_tree *root, int distance)
 	print_left_branch(distance + 2, root->left);
 	print_tree(root->left, distance);
 }
+
 void	print_distance(int distance)
 {
 	for (int i = SPACES; i < distance; i++)
@@ -31,7 +32,7 @@ void	print_right_branch(int distance, t_tree *right)
 	if (!right)
 		return ;
 	print_distance(distance);
-    ft_printf("/\n");
+	ft_printf("/\n");
 }
 
 void	print_left_branch(int distance, t_tree *left)
@@ -39,7 +40,7 @@ void	print_left_branch(int distance, t_tree *left)
 	if (!left)
 		return ;
 	print_distance(distance);
-    ft_printf("\\\n");
+	ft_printf("\\\n");
 }
 
 void	print_item(t_tree *this_node, int distance)
@@ -50,7 +51,7 @@ void	print_item(t_tree *this_node, int distance)
 	print_distance(distance);
 	if (this_node->type == COMMAND && this_node->command)
 	{
-		while(this_node->command_len)
+		while (this_node->command_len)
 		{
 			ft_printf("%s ", this_node->command[i]);
 			i++;
