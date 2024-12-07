@@ -61,7 +61,7 @@ $(NAME): $(OBJS)
 	@echo " "
 	@echo "Creating file $(NAME) ..."
 	@echo " "
-	@$(CC) $(OBJS) $(INCLUDES) -o $(NAME) $(LIBS)
+	@$(CC) $(FLAGS) $(OBJS) $(INCLUDES) -o $(NAME) $(LIBS)
 
 clean:
 	@make clean -C $(LIBFT)/ --no-print-directory

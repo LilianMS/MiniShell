@@ -67,7 +67,6 @@ void	m_allocate_command(t_tree **root, t_token *parsed_list)
 {
 	int		i;
 	int		len;
-	char	**command;
 
 	i = 0;
 	len = 0;

@@ -130,15 +130,14 @@ static t_token	*m_find_target_node(t_token *aux_list)
 	t_token *target_node;
 	t_token *tmp;
 
-	target_node = NULL;
 	tmp = aux_list;
 	while (tmp && tmp->type != PIPE)
 	{
-		ft_printf("Entrou 2 !\n");
-		if (tmp->type == WORD \
-			&& tmp->prev && (tmp->prev->type == DELIMITER \
+		if (tmp->type == WORD && tmp->prev \
+			&& (tmp->prev->type == DELIMITER \
 			|| tmp->prev->type == FILENAME))
 		{
+			ft_printf("Entrou 2 !\n");
 			target_node = tmp;
 			return (target_node);
 		}
@@ -150,21 +149,26 @@ static t_token	*m_find_target_node(t_token *aux_list)
 static void	m_relocate_word_node(t_token **token_list, t_token \
 										*front_node, t_token *target_node)
 {
-	t_token *next_node_back;
 	t_token *next_node_front;
 
-	next_node_back = target_node->next;
-	next_node_front = front_node->next;
-	next_node_front = front_node->next;
-	target_node->prev = next_node_back;
-	next_node_back->prev = target_node->prev;
-	target_node->prev = front_node;
-	target_node->next = next_node_front;
-	target_node->prev = next_node_back;
-	next_node_back->prev = target_node->prev;
-	target_node->prev = front_node;
-	target_node->next = next_node_front;
-	front_node->next = target_node;
+	target_node->prev->next = target_node->next;
+	if (target_node->next)
+		target_node->next->prev = target_node->prev;
+	if ((front_node == *token_list) && front_node != WORD)
+	{
+		*token_list = target_node;
+		target_node->prev = NULL;
+		target_node->next = front_node;
+		front_node->prev = target_node;
+	}
+	else
+	{
+		next_node_front = front_node->next;
+		target_node->prev = front_node;
+		target_node->next = next_node_front;
+		front_node->next = target_node;
+		target_node->next->prev = target_node;
+	}
 }
 
 static void m_pre_process(t_token **token_list)
@@ -174,18 +178,25 @@ static void m_pre_process(t_token **token_list)
 	t_token *target_node;
 
 	aux_list = *token_list;
-	target_node = NULL;
+	target_node = m_find_target_node(aux_list);
 	front_node = aux_list;
 	// Implementar filtro para qndo não tiver palavra na frente do redir
 	while (aux_list)
 	{
+		if (!target_node)
+			break;
 		while (aux_list && aux_list->type != PIPE)
 		{
-			ft_printf("Entrou!");
-			target_node = m_find_target_node(aux_list);
+			ft_printf("Entrou!\n");
 			ft_printf("Target node=%s\n", target_node->lexeme);
 			front_node = m_find_last_arg(aux_list);
-			m_relocate_word_node(&aux_list, front_node, target_node);
+			if (!front_node)
+				front_node = *token_list;
+			ft_printf("Front node=%s\n", front_node->lexeme);
+			m_relocate_word_node(token_list, front_node, target_node);
+			target_node = m_find_target_node(aux_list);
+			if (!target_node)
+				break;
 			aux_list = aux_list->next;
 		}
 		if (aux_list && aux_list->type == PIPE)
