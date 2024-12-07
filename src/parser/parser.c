@@ -22,11 +22,7 @@ char	**m_populate_cmd_array(t_token *start, int command_len, \
 	while (i < command_len)
 	{
 		if (start && start->lexeme)
-		{
-			// start->lexeme = m_quotes_and_expansion(start->lexeme, env_list);
-			// command[i] = ft_strdup(start->lexeme);
 			command[i] = m_quotes_and_expansion(start->lexeme, env_list);
-		}
 		else
 			command[i] = NULL;
 		start = start->next;
@@ -74,9 +70,6 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 		m_add_token(parsed_list, file_token);
 		*aux_list = (*aux_list)->next;
 	}
-	else
-		ft_putstr_fd("Syntax error: expected a file or delimiter\n",
-					 STDERR_FILENO);
 }
 
 static void	m_add_post_redir_type(t_token **token_list)
@@ -99,18 +92,6 @@ static void	m_add_post_redir_type(t_token **token_list)
 	}
 	aux_list = *token_list;
 }
-
-// PSEUDO-CODE PRE-PROCESS
-//  DENTRO DE UM WHILE, ANDAR ATÉ FINALIZAR A LISTA (aux_list == NULL)
-//  DENTRO DESSE WHILE, FUNÇÃO RECURSIVA
-//  ESSA FUNÇÃO RECURSIVA ANDA NA LISTA ATÉ ACHAR UM PIPE, OU A LISTA ACABAR
-//  QUANDO ELA ACHA UM TOKEN DE PALAVRA QUE ATENDA OS REQUISITOS (APÓS DELIMITADOR/FILENAME E ANTES DE WORD/PIPE), ELA REALOCA A POSIÃO DAQUELE NÓ
-//  TARGET NODE PREV = PRIMEIRO TOKEN DE PALAVRA (OU SEU ÚLTIMO ARGUMENTO CORRESPONDENTE)
-//  TARGET NODE NEXT = NEXT DO TOKEN Q AGORA É SEU PREV (E É UM REDIRECT)
-//  NEXT DO TOKEN PREV APONTA PRA TARGET NODE
-//  PREV DO REDIRECT = TARGET NODE
-//  FAZ ISSO RESURSIVAMENTE COM TODOS OS NÓS QUE ATENDAM O REQUISITO
-// ACHOU UM PIPE, PÁRA E RETORNA UM POINTER PARA O PRÓXIMO NÓ (AEntendi.PÓS PIPE), QUE DEVERÁ SER UM COMANDO, E PROCURARÁ NOVAMENTE NA FUNÇÃO RECURSIVA O TARGET NODE, INICIANDO O CICLO NOVAMENTE, ATÉ A LISTA ACABAR.
 
 static t_token	*m_find_last_arg(t_token *aux_list)
 {
@@ -137,7 +118,6 @@ static t_token	*m_find_target_node(t_token *aux_list)
 			&& (tmp->prev->type == DELIMITER \
 			|| tmp->prev->type == FILENAME))
 		{
-			ft_printf("Entrou 2 !\n");
 			target_node = tmp;
 			return (target_node);
 		}
@@ -154,7 +134,7 @@ static void	m_relocate_word_node(t_token **token_list, t_token \
 	target_node->prev->next = target_node->next;
 	if (target_node->next)
 		target_node->next->prev = target_node->prev;
-	if ((front_node == *token_list) && front_node != WORD)
+	if (front_node->type != WORD && front_node == *token_list)
 	{
 		*token_list = target_node;
 		target_node->prev = NULL;
@@ -180,14 +160,12 @@ static void m_pre_process(t_token **token_list)
 	aux_list = *token_list;
 	target_node = m_find_target_node(aux_list);
 	front_node = aux_list;
-	// Implementar filtro para qndo não tiver palavra na frente do redir
 	while (aux_list)
 	{
 		if (!target_node)
 			break;
 		while (aux_list && aux_list->type != PIPE)
 		{
-			ft_printf("Entrou!\n");
 			ft_printf("Target node=%s\n", target_node->lexeme);
 			front_node = m_find_last_arg(aux_list);
 			if (!front_node)
