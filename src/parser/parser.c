@@ -136,8 +136,8 @@ static void	m_relocate_word_node(t_token **token_list, t_token \
 		target_node->next->prev = target_node->prev;
 	if (front_node->type != WORD && front_node == *token_list)
 	{
+		target_node->prev = (*token_list)->prev;
 		*token_list = target_node;
-		target_node->prev = NULL;
 		target_node->next = front_node;
 		front_node->prev = target_node;
 	}
@@ -158,10 +158,10 @@ static void m_pre_process(t_token **token_list)
 	t_token *target_node;
 
 	aux_list = *token_list;
-	target_node = m_find_target_node(aux_list);
 	front_node = aux_list;
 	while (aux_list)
 	{
+		target_node = m_find_target_node(aux_list);
 		if (!target_node)
 			break;
 		while (aux_list && aux_list->type != PIPE)
@@ -178,7 +178,10 @@ static void m_pre_process(t_token **token_list)
 			aux_list = aux_list->next;
 		}
 		if (aux_list && aux_list->type == PIPE)
+		{
 			aux_list = aux_list->next;
+			token_list = &aux_list;
+		}
 	}
 }
 
