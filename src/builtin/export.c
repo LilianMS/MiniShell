@@ -88,3 +88,52 @@ int	m_export(t_env *env_list, char **args)
 	}
 	return (0);
 }
+
+void print_sorted_env(t_env *env_list) {
+    t_env *temp = env_list;
+    int count = 0;
+
+    // Contar o número de variáveis
+    while (temp) {
+        count++;
+        temp = temp->next;
+    }
+
+    // Criar array de ponteiros para nomes
+    char **env_array = malloc(count * sizeof(char *));
+    temp = env_list;
+    for (int i = 0; i < count; i++) {
+        env_array[i] = temp->name;
+        temp = temp->next;
+    }
+
+    // Ordenar o array de nomes
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (ft_strcmp(env_array[i], env_array[j]) > 0) {
+                char *temp = env_array[i];
+                env_array[i] = env_array[j];
+                env_array[j] = temp;
+            }
+        }
+    }
+
+    // Exibir variáveis no formato "declare -x VAR=\"VALUE\""
+    for (int i = 0; i < count; i++) {
+        temp = env_list;
+        while (temp) {
+            if (ft_strcmp(env_array[i], temp->name) == 0) {
+                if (temp->value) {
+                    ft_printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
+                } else {
+                    ft_printf("declare -x %s\n", temp->name);
+                }
+                break;
+            }
+            temp = temp->next;
+        }
+    }
+
+    // Liberar memória
+    free(env_array);
+}
