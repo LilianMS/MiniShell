@@ -169,7 +169,7 @@ t_token	*m_find_pipe(t_token **token_list)
 	return (NULL);
 }
 
-static void m_pre_process(t_token **token_list)
+static void	m_pre_process(t_token **token_list)
 {
 	t_token *aux_list;
 	t_token *front_node;
@@ -179,7 +179,7 @@ static void m_pre_process(t_token **token_list)
 	while (aux_list)
 	{
 		target_node = m_find_target_node(aux_list);
-		ft_printf("Target node 01=%s\n", target_node->lexeme);
+		// ft_printf("Target node 01=%s\n", target_node->lexeme);
 		if (!target_node)
 			break;
 		while (aux_list && aux_list->type != PIPE)
@@ -197,11 +197,12 @@ static void m_pre_process(t_token **token_list)
 			// ft_printf("Target node 02=%s\n", target_node->lexeme);
 			aux_list = aux_list->next;
 		}
-		if (aux_list && aux_list->type == PIPE)
-		{
-			aux_list = aux_list->next;
-			token_list = &aux_list;
-		}
+		if (!m_find_pipe(&aux_list))
+			break ;
+		else
+			aux_list = m_find_pipe(&aux_list);
+		aux_list = aux_list->next;
+		token_list = &aux_list;
 	}
 }
 
