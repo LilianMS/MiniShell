@@ -151,6 +151,24 @@ static void	m_relocate_word_node(t_token **token_list, t_token \
 	}
 }
 
+t_token	*m_find_pipe(t_token **token_list)
+{
+	t_token *aux_list;
+	t_token *pipe_node;
+
+	aux_list = *token_list;
+	while (aux_list)
+	{
+		if (aux_list->type == PIPE)
+		{
+			pipe_node = aux_list;
+			return (pipe_node);
+		}
+		aux_list = aux_list->next;
+	}
+	return (NULL);
+}
+
 static void m_pre_process(t_token **token_list)
 {
 	t_token *aux_list;
@@ -158,23 +176,25 @@ static void m_pre_process(t_token **token_list)
 	t_token *target_node;
 
 	aux_list = *token_list;
-	front_node = aux_list;
 	while (aux_list)
 	{
 		target_node = m_find_target_node(aux_list);
+		ft_printf("Target node 01=%s\n", target_node->lexeme);
 		if (!target_node)
 			break;
 		while (aux_list && aux_list->type != PIPE)
 		{
-			ft_printf("Target node=%s\n", target_node->lexeme);
+			// ft_printf("Target node=%s\n", target_node->lexeme);
 			front_node = m_find_last_arg(aux_list);
 			if (!front_node)
 				front_node = *token_list;
 			ft_printf("Front node=%s\n", front_node->lexeme);
-			m_relocate_word_node(token_list, front_node, target_node);
+			if (target_node)
+				m_relocate_word_node(token_list, front_node, target_node);
+			ft_printf("Aux_list=%s\n", aux_list->lexeme);
+			ft_printf("Aux_list type=%i\n", aux_list->type);
 			target_node = m_find_target_node(aux_list);
-			if (!target_node)
-				break;
+			// ft_printf("Target node 02=%s\n", target_node->lexeme);
 			aux_list = aux_list->next;
 		}
 		if (aux_list && aux_list->type == PIPE)
