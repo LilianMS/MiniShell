@@ -42,5 +42,5 @@ void	m_print_sorted_env(t_env *env_list)
 			ft_printf("declare -x %s\n", temp->name);
 		temp = temp->next;
 	}
-	m_free_env_list(&sorted);
+	m_free_env_list(sorted);
 }

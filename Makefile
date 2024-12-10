@@ -27,6 +27,7 @@ SRC= minishell.c \
 	 builtin/echo.c \
 	 builtin/pwd.c \
 	 builtin/export.c \
+	 builtin/export_utils.c \
 	 builtin/unset.c \
 	 builtin/env.c \
 	 builtin/exit.c \

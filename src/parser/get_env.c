@@ -9,7 +9,10 @@ t_env	*m_create_env_node(char *name, char *value)
 	if (!new_node)
 		return (NULL);
 	new_node->name = ft_strdup(name);
-	new_node->value = ft_strdup(value);
+	if (!value)
+		new_node->value = NULL;
+	else
+		new_node->value = ft_strdup(value);
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);
