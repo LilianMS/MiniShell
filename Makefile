@@ -16,12 +16,13 @@ SRC= minishell.c \
 	 parser/parser.c \
 	 parser/parser_utils.c \
 	 parser/get_env.c \
-	 ast/binary_tree.c \
-	 ast/tree_printer.c \
 	 parser/expansion.c \
 	 parser/expansion_utils.c \
 	 parser/expansion_process.c \
 	 parser/expansion_quotes.c \
+	 parser/pre_process.c \
+	 ast/binary_tree.c \
+	 ast/tree_printer.c \
 	 utils/checkers.c \
 	 utils/cleaners.c \
 	 builtin/echo.c \
