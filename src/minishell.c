@@ -56,7 +56,6 @@ int	main(__attribute__((unused)) int argc,
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		add_history(mini.line);
 		m_lexical_analysis(&mini);
 		free(mini.line);
 	}

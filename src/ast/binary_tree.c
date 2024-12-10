@@ -22,12 +22,12 @@ void	m_grow_tree(t_tree *root, t_token **joint)
 
 	right = NULL;
 	left = NULL;
-	if(!root || !*joint)
+	if (!root || !*joint)
 		return ;
 	right = (*joint)->next;
-	if(right)
+	if (right)
 		right->prev = NULL;
-	if((*joint)->prev)
+	if ((*joint)->prev)
 		left = (*joint)->prev;
 	if (left)
 		left->next = NULL;
@@ -38,19 +38,27 @@ void	m_grow_tree(t_tree *root, t_token **joint)
 	root->left = m_tree_builder(left);
 }
 
+int	m_is_redir(int token_type)
+{
+	return (token_type == REDIR_APPEND \
+		|| token_type == REDIR_HEREDOC \
+		|| token_type == REDIR_OUT \
+		|| token_type == REDIR_IN);
+}
+
 t_token	*m_find_joint_token(t_token	*tokens)
 {
-	t_token *rev_list;
+	t_token	*rev_list;
 
 	if (!tokens)
 		return (NULL);
 	rev_list = m_find_last_token(tokens);
 	while (rev_list && rev_list->type != PIPE)
-			rev_list = rev_list->prev;
+		rev_list = rev_list->prev;
 	if (rev_list && rev_list->type == PIPE)
 	{
-			rev_list->lexeme = ft_strdup("(pipe)"); //debug
-			return (rev_list);
+		rev_list->lexeme = ft_strdup("(pipe)"); //debug
+		return (rev_list);
 	}
 	rev_list = m_find_last_token(tokens);
 	while (rev_list && !m_is_redir(rev_list->type))
@@ -114,7 +122,6 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 		joint = NULL;
 	}
 	return (root);
-
 }
 
 t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list)
