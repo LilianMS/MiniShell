@@ -65,13 +65,42 @@ static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 	ft_printf("new name: %s, value: %s\n", name, value); // debug
 }
 
+// int	m_export(t_env *env_list, char **args)
+// {
+// 	int		i;
+// 	char	*name;
+// 	char	*value;
+
+// 	i = 1;
+// 	while (args[i])
+// 	{
+// 		name = NULL;
+// 		value = NULL;
+// 		if (!exp_parse_input(args[i], &name, &value) || !exp_is_valid_name(name))
+// 		{
+// 			m_print_error("export", args[i], "not a valid identifier");
+// 		}
+// 		else
+// 			exp_update_or_add_env(&env_list, name, value);
+// 		free(name);
+// 		free(value);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
 int	m_export(t_env *env_list, char **args)
 {
-	int		i;
 	char	*name;
 	char	*value;
+	int		i;
 
 	i = 1;
+	if (!args[1])
+	{
+		m_print_sorted_env(env_list);
+		return (0);
+	}
 	while (args[i])
 	{
 		name = NULL;
@@ -79,9 +108,9 @@ int	m_export(t_env *env_list, char **args)
 		if (!exp_parse_input(args[i], &name, &value) || !exp_is_valid_name(name))
 		{
 			m_print_error("export", args[i], "not a valid identifier");
-		}
-		else
+		} else {
 			exp_update_or_add_env(&env_list, name, value);
+		}
 		free(name);
 		free(value);
 		i++;
@@ -89,51 +118,34 @@ int	m_export(t_env *env_list, char **args)
 	return (0);
 }
 
-void print_sorted_env(t_env *env_list) {
-    t_env *temp = env_list;
-    int count = 0;
+int m_export(t_env *env_list, char **args) {
+    int i = 1;
+    char *name;
+    char *value;
 
-    // Contar o número de variáveis
-    while (temp) {
-        count++;
-        temp = temp->next;
+    if (!args[1]) {
+        // Sem argumentos, listar variáveis em ordem alfabética
+        print_sorted_env(env_list);
+        return 0;
     }
 
-    // Criar array de ponteiros para nomes
-    char **env_array = malloc(count * sizeof(char *));
-    temp = env_list;
-    for (int i = 0; i < count; i++) {
-        env_array[i] = temp->name;
-        temp = temp->next;
-    }
+    while (args[i]) {
+        name = NULL;
+        value = NULL;
 
-    // Ordenar o array de nomes
-    for (int i = 0; i < count - 1; i++) {
-        for (int j = i + 1; j < count; j++) {
-            if (ft_strcmp(env_array[i], env_array[j]) > 0) {
-                char *temp = env_array[i];
-                env_array[i] = env_array[j];
-                env_array[j] = temp;
-            }
+        // Parseia o argumento para separar nome e valor
+        if (!exp_parse_input(args[i], &name, &value) || !exp_is_valid_name(name)) {
+            m_print_error("export", args[i], "not a valid identifier");
+        } else {
+            // Se o valor for NULL, substitua por uma string vazia
+            if (!value)
+                value = ft_strdup("");
+            exp_update_or_add_env(&env_list, name, value);
         }
-    }
 
-    // Exibir variáveis no formato "declare -x VAR=\"VALUE\""
-    for (int i = 0; i < count; i++) {
-        temp = env_list;
-        while (temp) {
-            if (ft_strcmp(env_array[i], temp->name) == 0) {
-                if (temp->value) {
-                    ft_printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
-                } else {
-                    ft_printf("declare -x %s\n", temp->name);
-                }
-                break;
-            }
-            temp = temp->next;
-        }
+        free(name);
+        free(value); // Garantir que sempre liberamos memória, mesmo que seja ""
+        i++;
     }
-
-    // Liberar memória
-    free(env_array);
+    return 0;
 }
