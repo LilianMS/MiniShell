@@ -179,30 +179,33 @@ static void	m_pre_process(t_token **token_list)
 	while (aux_list)
 	{
 		target_node = m_find_target_node(aux_list);
-		// ft_printf("Target node 01=%s\n", target_node->lexeme);
-		if (!target_node)
+		if (target_node)
+			ft_printf("00 - TARGET_NODE 01: %s\n\n", target_node->lexeme);
+		if ((aux_list->type != WORD) && !target_node)
 			break;
 		while (aux_list && aux_list->type != PIPE)
 		{
-			// ft_printf("Target node=%s\n", target_node->lexeme);
-			front_node = m_find_last_arg(aux_list);
+			front_node = m_find_last_arg(*token_list);
 			if (!front_node)
 				front_node = *token_list;
-			ft_printf("Front node=%s\n", front_node->lexeme);
+			ft_printf("01 - FRONT_NODE: %s\n", front_node->lexeme);
 			if (target_node)
 				m_relocate_word_node(token_list, front_node, target_node);
-			ft_printf("Aux_list=%s\n", aux_list->lexeme);
-			ft_printf("Aux_list type=%i\n", aux_list->type);
+			ft_printf("02 - AUX_LIST FOR TARGET_NODE: %s - TYPE:%i\n\n", aux_list->lexeme, aux_list->type);
 			target_node = m_find_target_node(aux_list);
-			// ft_printf("Target node 02=%s\n", target_node->lexeme);
+			if (target_node)
+				ft_printf("03 - TARGET_NODE after realocation: %s\n", target_node->lexeme);
 			aux_list = aux_list->next;
+			if (aux_list)
+				ft_printf("04 - AUX_LIST AFTER NEXT: %s - TYPE:%i\n\n", aux_list->lexeme, aux_list->type);
 		}
-		if (!m_find_pipe(&aux_list))
-			break ;
-		else
-			aux_list = m_find_pipe(&aux_list);
-		aux_list = aux_list->next;
-		token_list = &aux_list;
+		if (aux_list && aux_list->type == PIPE)
+		{
+			aux_list = aux_list->next;
+			token_list = &aux_list;
+			ft_printf("05 - TOKEN LIST: %s\n", (*token_list)->lexeme);
+			ft_printf("06 - AUX LIST after inner while: %s\n", aux_list->lexeme);
+		}
 	}
 }
 

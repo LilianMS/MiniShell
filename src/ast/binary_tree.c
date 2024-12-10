@@ -103,11 +103,11 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 		root->type = parsed_list->type;
 	}
 	m_grow_tree(root, &joint);
-	// DEBUG - lista detalhada allocação dos nós da árvore (pré-printer)
-	if (root->content)
-		ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
-	if (root->command)
-		ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->command[0], root->type, root); // ----- debug
+	// // DEBUG - lista detalhada allocação dos nós da árvore (pré-printer)
+	// if (root->content)
+	// 	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
+	// if (root->command)
+	// 	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->command[0], root->type, root); // ----- debug
 	if (joint && joint->prev)
 	{
 		m_free_tokens(&joint);
