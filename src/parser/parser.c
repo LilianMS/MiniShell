@@ -151,22 +151,11 @@ static void	m_relocate_word_node(t_token **token_list, t_token \
 	}
 }
 
-t_token	*m_find_pipe(t_token **token_list)
+t_token	**m_update_token_list_address(t_token **token_list, t_token **new_address)
 {
-	t_token *aux_list;
-	t_token *pipe_node;
-
-	aux_list = *token_list;
-	while (aux_list)
-	{
-		if (aux_list->type == PIPE)
-		{
-			pipe_node = aux_list;
-			return (pipe_node);
-		}
-		aux_list = aux_list->next;
-	}
-	return (NULL);
+	*new_address = (*new_address)->next;
+	token_list = new_address;
+	return (token_list);
 }
 
 static void	m_pre_process(t_token **token_list)
@@ -179,8 +168,6 @@ static void	m_pre_process(t_token **token_list)
 	while (aux_list)
 	{
 		target_node = m_find_target_node(aux_list);
-		if (target_node)
-			ft_printf("00 - TARGET_NODE 01: %s\n\n", target_node->lexeme);
 		if ((aux_list->type != WORD) && !target_node)
 			break;
 		while (aux_list && aux_list->type != PIPE)
@@ -188,24 +175,13 @@ static void	m_pre_process(t_token **token_list)
 			front_node = m_find_last_arg(*token_list);
 			if (!front_node)
 				front_node = *token_list;
-			ft_printf("01 - FRONT_NODE: %s\n", front_node->lexeme);
 			if (target_node)
 				m_relocate_word_node(token_list, front_node, target_node);
-			ft_printf("02 - AUX_LIST FOR TARGET_NODE: %s - TYPE:%i\n\n", aux_list->lexeme, aux_list->type);
 			target_node = m_find_target_node(aux_list);
-			if (target_node)
-				ft_printf("03 - TARGET_NODE after realocation: %s\n", target_node->lexeme);
 			aux_list = aux_list->next;
-			if (aux_list)
-				ft_printf("04 - AUX_LIST AFTER NEXT: %s - TYPE:%i\n\n", aux_list->lexeme, aux_list->type);
 		}
 		if (aux_list && aux_list->type == PIPE)
-		{
-			aux_list = aux_list->next;
-			token_list = &aux_list;
-			ft_printf("05 - TOKEN LIST: %s\n", (*token_list)->lexeme);
-			ft_printf("06 - AUX LIST after inner while: %s\n", aux_list->lexeme);
-		}
+			token_list = m_update_token_list_address(token_list, &aux_list);
 	}
 }
 
@@ -231,3 +207,43 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 	}
 	return (*parsed_list);
 }
+
+// static void m_pre_process(t_token **token_list)
+// {
+// 	t_token *aux_list;
+// 	t_token *front_node;
+// 	t_token *target_node;
+
+// 	aux_list = *token_list;
+// 	while (aux_list)
+// 	{
+// 		target_node = m_find_target_node(aux_list);
+// 		if (target_node)
+// 			ft_printf("00 - TARGET_NODE 01: %s\n\n", target_node->lexeme);
+// 		if ((aux_list->type != WORD) && !target_node)
+// 			break;
+// 		while (aux_list && aux_list->type != PIPE)
+// 		{
+// 			front_node = m_find_last_arg(*token_list);
+// 			if (!front_node)
+// 				front_node = *token_list;
+// 			ft_printf("01 - FRONT_NODE: %s\n", front_node->lexeme);
+// 			if (target_node)
+// 				m_relocate_word_node(token_list, front_node, target_node);
+// 			ft_printf("02 - AUX_LIST FOR TARGET_NODE: %s - TYPE:%i\n\n", aux_list->lexeme, aux_list->type);
+// 			target_node = m_find_target_node(aux_list);
+// 			if (target_node)
+// 				ft_printf("03 - TARGET_NODE after realocation: %s\n", target_node->lexeme);
+// 			aux_list = aux_list->next;
+// 			if (aux_list)
+// 				ft_printf("04 - AUX_LIST AFTER NEXT: %s - TYPE:%i\n\n", aux_list->lexeme, aux_list->type);
+// 		}
+// 		if (aux_list && aux_list->type == PIPE)
+// 		{
+// 			aux_list = aux_list->next;
+// 			token_list = &aux_list;
+// 			ft_printf("05 - TOKEN LIST: %s\n", (*token_list)->lexeme);
+// 			ft_printf("06 - AUX LIST after inner while: %s\n", aux_list->lexeme);
+// 		}
+// 	}
+// }
