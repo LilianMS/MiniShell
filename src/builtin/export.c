@@ -1,6 +1,6 @@
 #include "../includes/builtin.h"
 
-void	m_print_error(char *cmd, char *arg, char *msg) // -- debug
+void	m_print_error(char *cmd, char *arg, char *msg)
 {
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(arg, 2);
@@ -43,21 +43,6 @@ static int	exp_parse_input(char *arg, char **name, char **value)
 	return (0);
 }
 
-// static int	exp_parse_input(char *arg, char **name, char **value)
-// {
-// 	char	*equal_pos;
-
-// 	if (!arg || !arg[0])
-// 		return (0);
-// 	equal_pos = ft_strchr(arg, '=');
-// 	if (equal_pos && equal_pos[1] != '\0' && equal_pos[1] != ' ')
-// 	{
-// 		*name = ft_substr(arg, 0, equal_pos - arg);
-// 		*value = ft_strdup(equal_pos + 1);
-// 	}
-// 	return (*name != NULL);
-// }
-
 void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 {
 	t_env	*current;
@@ -81,56 +66,6 @@ void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 	new_node = m_create_env_node(name, value);
 	m_add_node_env(env_list, new_node);
 }
-
-
-// static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
-// {
-// 	t_env	*temp;
-
-// 	temp = *env_list;
-// 	while (temp)
-// 	{
-// 		if (ft_strcmp(temp->name, name) == 0)
-// 		{
-// 			if (value)
-// 			{
-// 				if (temp->value)
-// 					free(temp->value);
-// 				temp->value = ft_strdup(value);
-// 				ft_printf("update name: %s, value: %s\n", temp->name, temp->value); // debug
-// 				return ;
-// 			}
-// 			break ;
-// 		}
-// 		temp = temp->next;
-// 	}
-// 	m_add_node_env(env_list, m_create_env_node(name, value));
-// 	ft_printf("new name: %s, value: %s\n", name, value); // debug
-// }
-
-// int	m_export(t_env *env_list, char **args)
-// {
-// 	int		i;
-// 	char	*name;
-// 	char	*value;
-
-// 	i = 1;
-// 	while (args[i])
-// 	{
-// 		name = NULL;
-// 		value = NULL;
-// 		if (!exp_parse_input(args[i], &name, &value) || !exp_is_valid_name(name))
-// 		{
-// 			m_print_error("export", args[i], "not a valid identifier");
-// 		}
-// 		else
-// 			exp_update_or_add_env(&env_list, name, value);
-// 		free(name);
-// 		free(value);
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 int m_export(t_env *env_list, char **args)
 {
