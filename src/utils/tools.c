@@ -21,6 +21,20 @@ void	m_sig_int(int signum)
 	}
 }
 
+char	*m_get_delimiter_lexeme(t_token *parsed_list)
+{
+	t_token	*current;
+
+	current = parsed_list;
+	while (current)
+	{
+		if (current->type == DELIMITER)
+			return (current->lexeme);
+		current = current->next;
+	}
+	return (NULL);
+}
+
 void	m_lexical_analysis(t_mini *mini)
 {
 	t_token	*token_list;
@@ -45,7 +59,8 @@ void	m_lexical_analysis(t_mini *mini)
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);
 	if (m_is_builtin(parsed_list)) // ---------------- debug // uso em m_execute_commands
 		m_execute_builtin(mini, parsed_list); // ----- debug // uso em m_execute_commands
-	print_parsed_command(parsed_list); // --------- debug
+	// if(m_get_delimiter_lexeme(parsed_list)) // ---------------- debug // uso em m_execute_commands
+	// 	m_heredoc(parsed_list); // ----- debug // uso em m_execute_commands
 	m_tree_cleaner(mini->tree);
 	m_free_tokens(&parsed_list);
 }

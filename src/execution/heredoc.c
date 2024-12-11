@@ -49,17 +49,18 @@ void	aux_heredoc(const char *delimiter, int temp_fd)
 	}
 }
 
-void	m_heredoc(char **args)
+void	m_heredoc(t_token *parsed_list)
 {
 	const char	*delimiter;
 	int			temp_fd;
 
-	if (!args[1])
+	delimiter = m_get_delimiter_lexeme(parsed_list);
+	if (!delimiter)
 	{
 		ft_putendl_fd("heredoc: syntax error", STDERR_FILENO);
 		return ;
 	}
-	delimiter = args[1];
+	// delimiter = args[1];
 	temp_fd = create_temp_file();
 	if (temp_fd == -1)
 		return ;
@@ -71,5 +72,5 @@ void	m_heredoc(char **args)
 		return ;
 	}
 	close(temp_fd); // Fechar o arquivo temporário
-	ft_printf("heredoc: %s\nexec?", delimiter); // ---debug
+	ft_printf("heredoc: exec?\n"); // ---debug
 }
