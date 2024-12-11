@@ -1,11 +1,9 @@
 #include "../includes/builtin.h"
 
-void	m_print_error(char *cmd, char *arg, char *msg) // -- debug
+void	m_print_error(char *cmd, char *arg, char *msg)
 {
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": `", 2);
 	ft_putstr_fd(arg, 2);
-	ft_putstr_fd("`: ", 2);
 	ft_putendl_fd(msg, 2);
 }
 
@@ -32,59 +30,67 @@ static int	exp_parse_input(char *arg, char **name, char **value)
 	if (!arg || !arg[0])
 		return (0);
 	equal_pos = ft_strchr(arg, '=');
-	if (equal_pos && equal_pos[1] != '\0' && equal_pos[1] != ' ')
+	if (equal_pos)
 	{
 		*name = ft_substr(arg, 0, equal_pos - arg);
 		*value = ft_strdup(equal_pos + 1);
 	}
-	return (*name != NULL);
+	else
+	{
+		*name = ft_strdup(arg);
+		*value = NULL;
+	}
+	return (0);
 }
 
-static void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
+void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 {
-	t_env	*temp;
+	t_env	*current;
+	t_env	*new_node;
 
-	temp = *env_list;
-	while (temp)
+	current = *env_list;
+	while (current)
 	{
-		if (ft_strcmp(temp->name, name) == 0)
+		if (ft_strcmp(current->name, name) == 0)
 		{
+			if (current->value)
+				free(current->value);
 			if (value)
-			{
-				if (temp->value)
-					free(temp->value);
-				temp->value = ft_strdup(value);
-				ft_printf("update name: %s, value: %s\n", temp->name, temp->value); // debug
-				return ;
-			}
-			break ;
+				current->value = ft_strdup(value);
+			else
+				current->value = NULL;
+			return ;
 		}
-		temp = temp->next;
+		current = current->next;
 	}
-	m_add_node_env(env_list, m_create_env_node(name, value));
-	ft_printf("new name: %s, value: %s\n", name, value); // debug
+	new_node = m_create_env_node(name, value);
+	m_add_node_env(env_list, new_node);
 }
 
 int	m_export(t_env *env_list, char **args)
 {
-	int		i;
 	char	*name;
 	char	*value;
+	int		i;
 
 	i = 1;
-	while (args[i])
+	if (!args[1])
+		m_print_sorted_env(env_list);
+	else
 	{
-		name = NULL;
-		value = NULL;
-		if (!exp_parse_input(args[i], &name, &value) || !exp_is_valid_name(name))
+		while (args[i])
 		{
-			m_print_error("export", args[i], "not a valid identifier");
+			name = NULL;
+			value = NULL;
+			exp_parse_input(args[i], &name, &value);
+			if (!exp_is_valid_name(name))
+				m_print_error("export: `", args[i], "': not a valid identifier"); // acertar print error
+			else
+				exp_update_or_add_env(&env_list, name, value);
+			free(name);
+			free(value);
+			i++;
 		}
-		else
-			exp_update_or_add_env(&env_list, name, value);
-		free(name);
-		free(value);
-		i++;
 	}
 	return (0);
 }

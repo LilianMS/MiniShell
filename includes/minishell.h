@@ -8,6 +8,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <fcntl.h>
 
 # include "tokenizer.h"
 # include "parser.h"
@@ -31,8 +32,14 @@ struct s_mini
 void	m_lexical_analysis(t_mini *mini);
 char	*m_clean_quotes(char *lexeme);
 int		m_check_line_input(const char *line);
+void	init_minishell(t_mini *mini, char **envp);
+void	m_sig_int(int signum);
+int		m_is_input_null(t_mini *mini);
 
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);
+
+void	m_heredoc(t_token *parsed_list); // heredoc debug
+char	*m_get_delimiter_lexeme(t_token *parsed_list); // heredoc debug
 
 #endif

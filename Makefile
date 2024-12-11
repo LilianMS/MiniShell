@@ -25,13 +25,16 @@ SRC= minishell.c \
 	 ast/tree_printer.c \
 	 utils/checkers.c \
 	 utils/cleaners.c \
+	 utils/tools.c \
 	 builtin/echo.c \
 	 builtin/pwd.c \
 	 builtin/export.c \
+	 builtin/export_utils.c \
 	 builtin/unset.c \
 	 builtin/env.c \
 	 builtin/exit.c \
 	 builtin/builtin_utils.c \
+	 execution/heredoc.c \
 	 debug.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))

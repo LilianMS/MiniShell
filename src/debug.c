@@ -83,9 +83,9 @@ void	print_parsed_tokens(t_token **tokens)
 void	list_printer(t_token **parsed_list)
 {
 	int		parsed_list_len;
-	t_token	*curr;
+	// t_token	*curr;
 
-	curr = *parsed_list;
+	// curr = *parsed_list;
 	parsed_list_len = list_size(parsed_list);
 	fprintf(stderr, "List size: %d\n", parsed_list_len);
 	fprintf(stderr, "List content:\n");
