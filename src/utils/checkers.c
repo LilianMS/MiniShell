@@ -29,7 +29,7 @@ static int	is_quoted(char c, char *quote)
 
 int	check_invalid_chars(const char *input)
 {
-	const char	*invalid_chars = "();\\";
+	const char	*invalid_chars = "();\\&";
 	char		quote;
 
 	quote = '\0'; // Rastreamos se estamos dentro de aspas
@@ -42,6 +42,11 @@ int	check_invalid_chars(const char *input)
 		}
 		if (ft_strchr(invalid_chars, *input))
 			return (1); // Encontrou um caractere inválido fora das aspas
+		if (ft_strchr("|", *input))
+		{
+			if (*(input + 1) == '|')
+				return (1); // Encontrou um caractere inválido fora das aspas
+		}
 		input++;
 	}
 	return (0); // Nenhum caractere inválido fora das aspas
@@ -64,4 +69,14 @@ int	m_check_line_input(const char *line)
 		return (0);
 	}
 	return (1);
+}
+
+int	m_is_input_null(t_mini *mini)
+{
+	if (!mini->line)
+	{
+		ft_putendl_fd("exit", STDOUT_FILENO);
+		return (1);
+	}
+	return (0);
 }

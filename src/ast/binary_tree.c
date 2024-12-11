@@ -97,7 +97,8 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	root->right = NULL;
 	if (!joint && parsed_list->type == COMMAND)
 		m_allocate_command(&root, parsed_list);
-	if (!joint && (parsed_list->type == FILENAME || parsed_list->type == DELIMITER))
+	if (!joint && (parsed_list->type == FILENAME \
+		|| parsed_list->type == DELIMITER))
 	{
 		root->content = ft_strdup(parsed_list->lexeme);
 		root->type = parsed_list->type;

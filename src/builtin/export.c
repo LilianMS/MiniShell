@@ -3,9 +3,7 @@
 void	m_print_error(char *cmd, char *arg, char *msg) // -- debug
 {
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": `", 2);
 	ft_putstr_fd(arg, 2);
-	ft_putstr_fd("`: ", 2);
 	ft_putendl_fd(msg, 2);
 }
 
@@ -35,7 +33,6 @@ static int	exp_parse_input(char *arg, char **name, char **value)
 	if (equal_pos)
 	{
 		*name = ft_substr(arg, 0, equal_pos - arg);
-		// if (equal_pos[1] != '\0' && equal_pos[1] != ' ')
 		*value = ft_strdup(equal_pos + 1);
 	}
 	else
@@ -43,7 +40,6 @@ static int	exp_parse_input(char *arg, char **name, char **value)
 		*name = ft_strdup(arg);
 		*value = NULL;
 	}
-	// return (*name != NULL);
 	return (0);
 }
 
@@ -153,11 +149,9 @@ int m_export(t_env *env_list, char **args)
 			value = NULL;
 			exp_parse_input(args[i], &name, &value);
 			if (!exp_is_valid_name(name))
-				m_print_error("export", args[i], "not a valid identifier");
+				m_print_error("export: `", args[i], "': not a valid identifier");
 			else
-			{
-                	exp_update_or_add_env(&env_list, name, value);
-            }
+                exp_update_or_add_env(&env_list, name, value);
 			free(name);
 			free(value);
 			i++;

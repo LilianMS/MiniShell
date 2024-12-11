@@ -25,6 +25,7 @@ SRC= minishell.c \
 	 ast/tree_printer.c \
 	 utils/checkers.c \
 	 utils/cleaners.c \
+	 utils/tools.c \
 	 builtin/echo.c \
 	 builtin/pwd.c \
 	 builtin/export.c \

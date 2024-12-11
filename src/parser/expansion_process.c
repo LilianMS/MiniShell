@@ -34,7 +34,8 @@ static char	*add_text_before_next_dollar(char *result, char **dollar_position)
 	next_dollar = ft_strchr(*dollar_position, '$');
 	if (next_dollar)
 	{
-		text_before_next_dollar = ft_substr(*dollar_position, 0, next_dollar - *dollar_position);
+		text_before_next_dollar = ft_substr(*dollar_position, 0, \
+			next_dollar - *dollar_position);
 		temp = ft_strjoin(result, text_before_next_dollar);
 		free(text_before_next_dollar);
 		*dollar_position = next_dollar;

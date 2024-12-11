@@ -21,7 +21,8 @@ static t_token	*m_find_target_node(t_token *aux_list)
 	tmp = aux_list;
 	while (tmp && tmp->type != PIPE)
 	{
-		if (tmp->type == WORD && tmp->prev && (tmp->prev->type == DELIMITER || tmp->prev->type == FILENAME))
+		if (tmp->type == WORD && tmp->prev && (tmp->prev->type == DELIMITER \
+			|| tmp->prev->type == FILENAME))
 		{
 			target_node = tmp;
 			return (target_node);
@@ -31,7 +32,8 @@ static t_token	*m_find_target_node(t_token *aux_list)
 	return (NULL);
 }
 
-static void	m_relocate_word_node(t_token **token_list, t_token *front_node, t_token *target_node)
+static void	m_relocate_word_node(t_token **token_list, t_token *front_node, \
+	t_token *target_node)
 {
 	t_token	*next_node_front;
 
@@ -73,7 +75,7 @@ void	m_pre_process(t_token **token_list)
 	{
 		target_node = m_find_target_node(aux_list);
 		if ((aux_list->type != WORD) && !target_node)
-			break;
+			break ;
 		while (aux_list && aux_list->type != PIPE)
 		{
 			front_node = m_find_last_arg(*token_list);
