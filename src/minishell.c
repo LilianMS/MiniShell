@@ -1,7 +1,7 @@
 #include "../includes/minishell.h"
 
 // Variável global para armazenar o status do sinal
-// volatile sig_atomic_t	g_signal_status = 0;
+volatile sig_atomic_t	g_signal_status = 0;
 
 int	main(int ac, char **av, char **envp)
 {
