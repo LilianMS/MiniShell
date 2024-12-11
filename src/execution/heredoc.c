@@ -2,7 +2,7 @@
 
 void	ft_replace_chr(char *str, char a, char replace)
 {
-	char *is_char;
+	char	*is_char;
 
 	is_char = strchr(str, a);
 	if (is_char)

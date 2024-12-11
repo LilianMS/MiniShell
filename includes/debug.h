@@ -19,13 +19,13 @@ typedef struct s_tree		t_tree;
 
 struct s_var_types
 {
-	char *content;
-	char **command;
-	int type;
-	int index;
-	t_tree *left;
-	t_tree *right;
-	t_tree *parent;
+	char	*content;
+	char	**command;
+	int		type;
+	int		index;
+	t_tree	*left;
+	t_tree	*right;
+	t_tree	*parent;
 };
 
 //functions to debug

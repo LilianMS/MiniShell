@@ -1,8 +1,8 @@
 #include "../includes/parser.h"
 
-void m_add_post_redir_type(t_token **token_list)
+void	m_add_post_redir_type(t_token **token_list)
 {
-	t_token *aux_list;
+	t_token	*aux_list;
 
 	aux_list = *token_list;
 	while (aux_list)
@@ -20,7 +20,7 @@ void m_add_post_redir_type(t_token **token_list)
 	aux_list = *token_list;
 }
 
-int	m_is_redir(int	token_type)
+int	m_is_redir(int token_type)
 {
 	return (token_type == REDIR_APPEND \
 		|| token_type == REDIR_HEREDOC \

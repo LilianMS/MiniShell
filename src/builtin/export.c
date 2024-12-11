@@ -59,7 +59,7 @@ void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 				current->value = ft_strdup(value);
 			else
 				current->value = NULL;
-			return;
+			return ;
 		}
 		current = current->next;
 	}
@@ -67,7 +67,7 @@ void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 	m_add_node_env(env_list, new_node);
 }
 
-int m_export(t_env *env_list, char **args)
+int	m_export(t_env *env_list, char **args)
 {
 	char	*name;
 	char	*value;
@@ -84,9 +84,9 @@ int m_export(t_env *env_list, char **args)
 			value = NULL;
 			exp_parse_input(args[i], &name, &value);
 			if (!exp_is_valid_name(name))
-				m_print_error("export: `", args[i], "': not a valid identifier");
+				m_print_error("export: `", args[i], "': not a valid identifier"); // acertar print error
 			else
-                exp_update_or_add_env(&env_list, name, value);
+				exp_update_or_add_env(&env_list, name, value);
 			free(name);
 			free(value);
 			i++;
