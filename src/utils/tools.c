@@ -45,6 +45,7 @@ void	m_lexical_analysis(t_mini *mini)
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);
 	if (m_is_builtin(parsed_list)) // ---------------- debug // uso em m_execute_commands
 		m_execute_builtin(mini, parsed_list); // ----- debug // uso em m_execute_commands
+	print_parsed_command(parsed_list); // --------- debug
 	m_tree_cleaner(mini->tree);
 	m_free_tokens(&parsed_list);
 }

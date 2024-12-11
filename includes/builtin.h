@@ -32,4 +32,6 @@ int		m_is_builtin(t_token *parsed_list);
 void	m_execute_builtin(t_mini *mini, t_token *parsed_list);
 void	m_print_sorted_env(t_env *env_list);
 
+void	m_heredoc(char **args); // heredoc debug
+
 #endif

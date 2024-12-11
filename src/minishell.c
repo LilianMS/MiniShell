@@ -3,9 +3,10 @@
 // Variável global para armazenar o status do sinal
 volatile sig_atomic_t	g_signal_status = 0;
 
-int	main(__attribute__((unused)) int argc,
-	__attribute__((unused)) char **argv, char **envp)
+int	main(int ac, char **av, char **envp)
 {
+	(void)ac;
+	(void)av;
 	t_mini	mini;
 
 	// g_signal_status = 11;
