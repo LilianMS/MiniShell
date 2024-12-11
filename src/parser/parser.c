@@ -22,11 +22,7 @@ char	**m_populate_cmd_array(t_token *start, int command_len, \
 	while (i < command_len)
 	{
 		if (start && start->lexeme)
-		{
-			// start->lexeme = m_quotes_and_expansion(start->lexeme, env_list);
-			// command[i] = ft_strdup(start->lexeme);
 			command[i] = m_quotes_and_expansion(start->lexeme, env_list);
-		}
 		else
 			command[i] = NULL;
 		start = start->next;
@@ -63,23 +59,17 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 	redir_token = *aux_list;
 	m_copy_token(parsed_list, redir_token);
 	*aux_list = redir_token->next;
-	if (*aux_list && (*aux_list)->type == WORD)
+	if (*aux_list && ((*aux_list)->type == DELIMITER \
+					|| (*aux_list)->type == FILENAME))
 	{
 		file_token = ft_calloc(sizeof(t_token), 1);
 		if (!file_token)
 			return ;
-		if (redir_token->type == REDIR_HEREDOC)
-			file_token->type = DELIMITER;
-		else
-			file_token->type = FILENAME;
-		// file_token->lexeme = ft_strdup((*aux_list)->lexeme);
 		file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, env_list);
+		file_token->type = (*aux_list)->type;
 		m_add_token(parsed_list, file_token);
 		*aux_list = (*aux_list)->next;
 	}
-	else
-		ft_putstr_fd("Syntax error: expected a file or delimiter\n", \
-						STDERR_FILENO);
 }
 
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
@@ -87,17 +77,15 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 {
 	t_token	*aux_list;
 
+	m_add_post_redir_type(token_list); //adiciona os tipos DELIMITER e FILENAME nos nós, diretamente na token_list -> precisaremos disso para a m_pre_process
+	m_pre_process(token_list); // reorganiza os nós antes de mallocar os novos nós de comando
 	aux_list = *token_list;
 	while (aux_list)
 	{
 		if (aux_list->type == WORD)
 			m_handle_word_tokens(&aux_list, parsed_list, env_list);
-		else if (aux_list->type == REDIR_IN || aux_list->type == REDIR_OUT \
-			|| aux_list->type == REDIR_APPEND \
-			|| aux_list->type == REDIR_HEREDOC)
-		{
+		else if (m_is_redir(aux_list->type))
 			m_handle_redirection_tokens(&aux_list, parsed_list, env_list);
-		}
 		else
 		{
 			m_copy_token(parsed_list, aux_list);
@@ -106,23 +94,3 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 	}
 	return (*parsed_list);
 }
-
-// versão antiga
-
-// t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list)
-// {
-// 	t_token	*aux_list;
-
-// 	aux_list = *token_list;
-// 	while (aux_list)
-// 	{
-// 		if (aux_list->type == WORD)
-// 			m_handle_word_tokens(&aux_list, parsed_list, env_list);
-// 		else
-// 		{
-// 			m_copy_token(parsed_list, aux_list);
-// 			aux_list = aux_list->next;
-// 		}
-// 	}
-// 	return (*parsed_list);
-// }

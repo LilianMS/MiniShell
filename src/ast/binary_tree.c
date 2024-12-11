@@ -38,14 +38,6 @@ void	m_grow_tree(t_tree *root, t_token **joint)
 	root->left = m_tree_builder(left);
 }
 
-int	m_is_redir(int token_type)
-{
-	return (token_type == REDIR_APPEND \
-		|| token_type == REDIR_HEREDOC \
-		|| token_type == REDIR_OUT \
-		|| token_type == REDIR_IN);
-}
-
 t_token	*m_find_joint_token(t_token	*tokens)
 {
 	t_token	*rev_list;
@@ -75,7 +67,6 @@ void	m_allocate_command(t_tree **root, t_token *parsed_list)
 {
 	int		i;
 	int		len;
-	char	**command;
 
 	i = 0;
 	len = 0;
@@ -112,11 +103,11 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 		root->type = parsed_list->type;
 	}
 	m_grow_tree(root, &joint);
-	// DEBUG - lista detalhada allocação dos nós da árvore (pré-printer)
-	if (root->content)
-		ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
-	if (root->command)
-		ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->command[0], root->type, root); // ----- debug
+	// // DEBUG - lista detalhada allocação dos nós da árvore (pré-printer)
+	// if (root->content)
+	// 	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->content, root->type, root); // ----- debug
+	// if (root->command)
+	// 	ft_printf("Tree root: %s / Type: %d / Address: %p \n", root->command[0], root->type, root); // ----- debug
 	if (joint && joint->prev)
 	{
 		m_free_tokens(&joint);
