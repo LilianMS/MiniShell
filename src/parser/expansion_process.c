@@ -69,3 +69,25 @@ char	*m_process_after_dollar(char *dollar_position, t_env *env_list)
 	}
 	return (result);
 }
+
+char	*m_set_split_quotes(char *lexeme)
+{
+	char	**split;
+	char	*result;
+	char	*new_str;
+	char	*temp;
+	int		i;
+
+	split = split_by_quotes(lexeme);
+	result = ft_strdup("");
+	i = 0;
+	while (split[i])
+	{
+		new_str = m_clean_quotes(split[i]);
+		temp = ft_strjoin_free(result, new_str);
+		result = temp;
+		i++;
+	}
+	free(split);
+	return (result);
+}

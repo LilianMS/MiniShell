@@ -84,5 +84,7 @@ char	*m_quotes_and_expansion(char *lexeme, t_env *env_list)
 		else
 			return (m_get_expand_string(ft_strdup(lexeme), env_list));
 	}
+	else if (ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
+		return (m_set_split_quotes(lexeme));
 	return (m_clean_quotes(ft_strdup(lexeme)));
 }
