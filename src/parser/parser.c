@@ -78,7 +78,7 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 	t_token	*aux_list;
 
 	m_add_post_redir_type(token_list); //adiciona os tipos DELIMITER e FILENAME nos nós, diretamente na token_list -> precisaremos disso para a m_pre_process
-	m_pre_process(token_list); // reorganiza os nós antes de mallocar os novos nós de comando
+	m_reorganize_tokens_if_redir(token_list); // reorganiza os nós antes de mallocar os novos nós de comando
 	aux_list = *token_list;
 	while (aux_list)
 	{

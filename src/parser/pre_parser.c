@@ -64,21 +64,29 @@ static t_token	**m_update_token_list_address(t_token **token_list, t_token **new
 	return (token_list);
 }
 
-void	m_pre_process(t_token **token_list)
+void	m_reorganize_tokens_if_redir(t_token **token_list)
 {
 	t_token	*aux_list;
 	t_token	*front_node;
 	t_token	*target_node;
+	int		i;
 
+	i = 0;
 	aux_list = *token_list;
 	while (aux_list)
 	{
 		target_node = m_find_target_node(aux_list);
-		if ((aux_list->type != WORD) && !target_node)
+		if ((aux_list->type != WORD \
+			|| !m_is_redir(aux_list->type)) && !target_node)
 			break ;
 		while (aux_list && aux_list->type != PIPE)
 		{
 			front_node = m_find_last_arg(*token_list);
+			if (front_node)
+				ft_printf("front_node 0%i: %s\n", i, front_node->lexeme);
+			else
+				ft_printf("front_node 0%i: NULL\n", i);
+			ft_printf("token_list 0%i: %s\n", i, (*token_list)->lexeme);
 			if (!front_node)
 				front_node = *token_list;
 			if (target_node)

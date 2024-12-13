@@ -46,7 +46,7 @@ int		m_is_special_cases_dollar(char *lexeme);
 char	*m_expansion_special_cases(char *dollar_position);
 char	*m_process_after_dollar(char *dollar_position, t_env *env_list);
 
-void	m_pre_process(t_token **token_list);
+void	m_reorganize_tokens_if_redir(t_token **token_list);
 void	m_add_post_redir_type(t_token **token_list);
 int		m_is_redir(int token_type);
 
