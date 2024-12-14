@@ -41,6 +41,7 @@ void	aux_heredoc(const char *delimiter, int temp_fd)
 		if (bytes_read <= 0)
 			break ;
 		buffer[bytes_read] = '\0';
+		add_history(buffer);
 		ft_replace_chr(buffer, '\n', '\0');
 		if (ft_strcmp(buffer, delimiter) == 0)
 			break ;
@@ -60,17 +61,50 @@ void	m_heredoc(t_token *parsed_list)
 		ft_putendl_fd("heredoc: syntax error", STDERR_FILENO);
 		return ;
 	}
-	// delimiter = args[1];
 	temp_fd = create_temp_file();
 	if (temp_fd == -1)
 		return ;
 	aux_heredoc(delimiter, temp_fd);
-	if (dup2(temp_fd, STDIN_FILENO) == -1)
-	{
-		perror("Error redirecting stdin");
-		close(temp_fd);
-		return ;
-	}
 	close(temp_fd); // Fechar o arquivo temporário
 	ft_printf("heredoc: exec?\n"); // ---debug
 }
+
+
+// falta desabilitar sinal de control C durante a execução do heredoc
+// reabilitar o sinal de control C após a execução do heredoc
+// adicionar o conteúdo do arquivo temporário ao final da lista de argumentos
+
+
+
+// void	aux_heredoc(const char *delimiter, int temp_fd)
+// {
+// 	char	buffer[1024];
+// 	char	*history_block = NULL;
+// 	char	*temp;
+// 	ssize_t	bytes_read;
+
+// 	history_block = ft_strjoin("<< ", delimiter);
+// 	history_block = ft_strjoin(history_block, "\n");
+// 	while (1)
+// 	{
+// 		write(1, "> ", 2);
+// 		bytes_read = read(0, buffer, sizeof(buffer) - 1); // Ler entrada do usuário
+// 		if (bytes_read <= 0)
+// 			break;
+// 		buffer[bytes_read] = '\0'; // Garantir que termina com '\0'
+// 		ft_replace_chr(buffer, '\n', '\0');
+// 		if (ft_strcmp(buffer, delimiter) == 0)
+// 			break;
+// 		write(temp_fd, buffer, ft_strlen(buffer));
+// 		write(temp_fd, "\n", 1);
+// 		temp = history_block;
+// 		history_block = ft_strjoin(temp, buffer);
+// 		history_block = ft_strjoin(history_block, "\n");
+// 		free(temp);
+// 		rl_replace_line(history_block, 0);
+// 		rl_redisplay();
+// 	}
+// 	if (history_block)
+// 		add_history(history_block);
+// 	free(history_block);
+// }
