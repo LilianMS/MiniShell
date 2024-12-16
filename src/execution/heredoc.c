@@ -29,7 +29,7 @@ int	open_temp_file(void)
 	return (fd);
 }
 
-void	aux_heredoc(const char *delimiter, int temp_fd)
+void	aux_heredoc(const char *delimiter, int temp_fd, int *i)
 {
 	char	buffer[1024];
 	ssize_t	bytes_read;
@@ -44,7 +44,10 @@ void	aux_heredoc(const char *delimiter, int temp_fd)
 		add_history(buffer);
 		ft_replace_chr(buffer, '\n', '\0');
 		if (ft_strcmp(buffer, delimiter) == 0)
+		{
+			*i = 1;
 			break ;
+		}
 		write(temp_fd, buffer, ft_strlen(buffer));
 		write(temp_fd, "\n", 1);
 	}
@@ -54,7 +57,9 @@ void	m_heredoc(t_token *parsed_list)
 {
 	const char	*delimiter;
 	int			temp_fd;
+	int			i;
 
+	i = 0;
 	delimiter = m_get_delimiter_lexeme(parsed_list);
 	if (!delimiter)
 	{
@@ -64,14 +69,16 @@ void	m_heredoc(t_token *parsed_list)
 	temp_fd = create_temp_file();
 	if (temp_fd == -1)
 		return ;
-	aux_heredoc(delimiter, temp_fd);
+	aux_heredoc(delimiter, temp_fd, &i);
 	close(temp_fd); // Fechar o arquivo temporário
+	if (i == 0)
+		ft_printf("minishell: warning: here-document at line 1 delimited by end-of-file (wanted `%s'\n", delimiter);
+	unlink(".heredoc_tmp");
 	ft_printf("heredoc: exec?\n"); // ---debug
 }
 
 
-// falta desabilitar sinal de control C durante a execução do heredoc
-// reabilitar o sinal de control C após a execução do heredoc
+// bash não desabilita o sinal de controle C durante a execução do heredoc
 // adicionar o conteúdo do arquivo temporário ao final da lista de argumentos
 
 
