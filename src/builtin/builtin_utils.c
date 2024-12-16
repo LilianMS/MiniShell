@@ -40,6 +40,8 @@ void	m_execute_builtin(t_mini *mini, t_token *parsed_list)
 	builtin = m_is_builtin(parsed_list);
 	if (builtin == -1)
 		return ;
+	else
+		print_parsed_command(parsed_list); // --------- debug
 	if (builtin == PWD)
 		ft_pwd();
 	// if (builtin == CD)

@@ -65,6 +65,16 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 		file_token = ft_calloc(sizeof(t_token), 1);
 		if (!file_token)
 			return ;
+		if ((*aux_list)->type == DELIMITER) // sinalizar se é aspas ou não em DELIMITER
+		{
+			if (ft_strchr((*aux_list)->lexeme, '\"') \
+				|| ft_strchr((*aux_list)->lexeme, '\''))
+				file_token->quote = 1;
+			else
+				file_token->quote = 0;
+			ft_printf("DELIMITER: %s\n", (*aux_list)->lexeme); // ----- debug
+			ft_printf("quote: %d\n", file_token->quote); // ----- debug
+		}
 		file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, env_list);
 		file_token->type = (*aux_list)->type;
 		m_add_token(parsed_list, file_token);

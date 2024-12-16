@@ -20,6 +20,7 @@ struct s_token
 	int						type;
 	int						command_len;
 	int						position;
+	int						quote;
 	struct s_token			*next;
 	struct s_token			*prev;
 };
