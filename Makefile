@@ -20,7 +20,7 @@ SRC= minishell.c \
 	 parser/expansion_utils.c \
 	 parser/expansion_process.c \
 	 parser/expansion_quotes.c \
-	 parser/pre_process.c \
+	 parser/pre_parser.c \
 	 ast/binary_tree.c \
 	 ast/tree_printer.c \
 	 utils/checkers.c \

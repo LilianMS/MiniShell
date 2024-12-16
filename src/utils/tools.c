@@ -37,7 +37,7 @@ char	*m_get_delimiter_lexeme(t_token *parsed_list)
 
 void	m_lexical_analysis(t_mini *mini)
 {
-	t_token	*token_list;
+	t_token	* token_list;
 	t_token	*parsed_list;
 
 	token_list = NULL;

@@ -21,7 +21,8 @@ static t_token	*m_find_target_node(t_token *aux_list)
 	tmp = aux_list;
 	while (tmp && tmp->type != PIPE)
 	{
-		if (tmp->type == WORD && tmp->prev && (tmp->prev->type == DELIMITER \
+		if (tmp->type == WORD && tmp->prev \
+			&& (tmp->prev->type == DELIMITER \
 			|| tmp->prev->type == FILENAME))
 		{
 			target_node = tmp;
@@ -43,9 +44,11 @@ static void	m_relocate_word_node(t_token **token_list, t_token *front_node, \
 	if (front_node->type != WORD && front_node == *token_list)
 	{
 		target_node->prev = (*token_list)->prev;
-		*token_list = target_node;
+		if ((*token_list)->prev)
+			(*token_list)->prev->next = target_node;
 		target_node->next = front_node;
 		front_node->prev = target_node;
+		*token_list = target_node;
 	}
 	else
 	{
@@ -64,17 +67,19 @@ static t_token	**m_update_token_list_address(t_token **token_list, t_token **new
 	return (token_list);
 }
 
-void	m_pre_process(t_token **token_list)
+void	m_reorganize_tokens_if_redir(t_token **token_list)
 {
 	t_token	*aux_list;
 	t_token	*front_node;
 	t_token	*target_node;
 
+	// int		i; // DEBUG!
+	// i = 0;
 	aux_list = *token_list;
 	while (aux_list)
 	{
 		target_node = m_find_target_node(aux_list);
-		if ((aux_list->type != WORD) && !target_node)
+		if (aux_list->type != WORD && !m_is_redir(aux_list->type) && !target_node)
 			break ;
 		while (aux_list && aux_list->type != PIPE)
 		{
@@ -90,3 +95,17 @@ void	m_pre_process(t_token **token_list)
 			token_list = m_update_token_list_address(token_list, &aux_list);
 	}
 }
+
+//DEBUG!
+
+// ft_printf("BEFORE REALOCATION\n");
+// ft_printf("token_list 0%i -> lexeme: %s & type: %i\n", i, (*token_list)->lexeme, (*token_list)->type);
+// if (target_node)
+// 	ft_printf("target_node 0%i-> lexeme: %s & type: %i\n", i, target_node->lexeme, target_node->type);
+// ft_printf("front_node 0%i-> lexeme: %s & type: %i\n", i, front_node->lexeme, front_node->type);
+
+// ft_printf("\n\nAFTER REALOCATION\n");
+// ft_printf("token_list 0%i -> lexeme: %s & type: %i\n", ++i, (*token_list)->lexeme, (*token_list)->type);
+// if (target_node)
+// 	ft_printf("target_node 0%i-> lexeme: %s & type: %i\n", i, target_node->lexeme, target_node->type);
+// ft_printf("front_node 0%i-> lexeme: %s & type: %i\n", i, front_node->lexeme, front_node->type);
