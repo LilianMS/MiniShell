@@ -48,6 +48,7 @@ t_token	*m_create_token(char *lexeme, int type)
 		token->lexeme = ft_strdup(lexeme);
 		free(lexeme);
 	}
+	token->quote = 0;
 	token->type = type;
 	token->next = NULL;
 	token->prev = NULL;

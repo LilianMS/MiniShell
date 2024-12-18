@@ -67,7 +67,7 @@ void	m_lexical_analysis(t_mini *mini)
 	if (m_is_builtin(parsed_list)) // ---------------- debug // uso em m_execute_commands
 		m_execute_builtin(mini, parsed_list); // ----- debug // uso em m_execute_commands
 	if(m_get_delimiter_lexeme(parsed_list)) // ---------------- debug // uso em m_execute_commands
-		m_heredoc(parsed_list); // ----- debug // uso em m_execute_commands
+		m_heredoc(&parsed_list); // ----- debug // uso em m_execute_commands
 	m_tree_cleaner(mini->tree);
 	m_free_tokens(&parsed_list);
 }

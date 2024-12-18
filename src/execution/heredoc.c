@@ -4,7 +4,7 @@ void	ft_replace_chr(char *str, char a, char replace)
 {
 	char	*is_char;
 
-	is_char = strchr(str, a);
+	is_char = ft_strchr(str, a);
 	if (is_char)
 		*is_char = replace;
 }
@@ -29,38 +29,88 @@ int	open_temp_file(void)
 	return (fd);
 }
 
-void	aux_heredoc(const char *delimiter, int temp_fd, int *i)
+void	update_history(char *line, char **history_block)
 {
-	char	buffer[1024];
-	ssize_t	bytes_read;
+	// Concatena a linha no bloco do heredoc
+		char *new_block;
+		if (*history_block)
+			new_block = malloc(strlen(*history_block) + strlen(line) + 2);
+		else
+			new_block = malloc(strlen(line) + 2);
+		if (!new_block)
+		{
+			perror("Error allocating memory");
+			free(line);
+			return;
+		}
+		if (*history_block)
+		{
+			ft_strcpy(new_block, *history_block);
+			ft_strcat(new_block, "\n");
+			free(*history_block);
+		}
+		else
+		{
+			new_block[0] = '\0';
+		}
+		ft_strcat(new_block, line);
+		*history_block = new_block;
+}
 
+
+void	aux_heredoc(char *delimiter, int temp_fd, int *i)
+{
+	char	*line;
+	char	*history_block = NULL;
+	// char	*temp;
+
+	// history_block = ft_strjoin("<< ", delimiter);
+	// temp = history_block;
+	// history_block = ft_strjoin(temp, "\n");
+	// free(temp);
+	history_block = NULL;
 	while (1)
 	{
-		write(1, "> ", 2); // Exibir prompt
-		bytes_read = read(0, buffer, sizeof(buffer) - 1); // Ler entrada do usuário
-		if (bytes_read <= 0)
-			break ;
-		buffer[bytes_read] = '\0';
-		add_history(buffer);
-		ft_replace_chr(buffer, '\n', '\0');
-		if (ft_strcmp(buffer, delimiter) == 0)
-		{
+		line = readline("> ");
+        if (!line)
+            break; // Usuário pressionou Ctrl+D
+        if (ft_strcmp(line, delimiter) == 0)
+        {
 			*i = 1;
-			break ;
-		}
-		write(temp_fd, buffer, ft_strlen(buffer));
+            free(line);
+            break; // Encontrou o delimitador
+        }
+        if (*line != '\0') // Ignora linhas vazias
+            add_history(line);
+
+		update_history(line, &history_block);
+		// ft_replace_chr(buffer, '\n', '\0');
+		// if (ft_strcmp(buffer, delimiter) == 0)
+		// {
+		// 	*i = 1;
+		// 	break ;
+		// }
+
+		write(temp_fd, line, ft_strlen(line));
 		write(temp_fd, "\n", 1);
+		free(line);
+	}
+	if (history_block)
+	{
+		add_history(history_block);
+		rl_replace_line(history_block, 0);
+		free(history_block);
 	}
 }
 
-void	m_heredoc(t_token *parsed_list)
+void	m_heredoc(t_token **parsed_list)
 {
-	const char	*delimiter;
-	int			temp_fd;
-	int			i;
+	char	*delimiter;
+	int		temp_fd;
+	int		i;
 
 	i = 0;
-	delimiter = m_get_delimiter_lexeme(parsed_list);
+	delimiter = m_get_delimiter_lexeme(*parsed_list);
 	if (!delimiter)
 	{
 		ft_putendl_fd("heredoc: syntax error", STDERR_FILENO);
@@ -114,4 +164,30 @@ void	m_heredoc(t_token *parsed_list)
 // 	if (history_block)
 // 		add_history(history_block);
 // 	free(history_block);
+// }
+
+
+
+// void	aux_heredoc(char *delimiter, int temp_fd, int *i)
+// {
+// 	char	buffer[1024];
+// 	ssize_t	bytes_read;
+
+// 	while (1)
+// 	{
+// 		write(1, "> ", 2); // Exibir prompt
+// 		bytes_read = read(0, buffer, sizeof(buffer) - 1); // Ler entrada do usuário
+// 		if (bytes_read <= 0)
+// 			break ;
+// 		buffer[bytes_read] = '\0';
+// 		add_history(buffer);
+// 		ft_replace_chr(buffer, '\n', '\0');
+// 		if (ft_strcmp(buffer, delimiter) == 0)
+// 		{
+// 			*i = 1;
+// 			break ;
+// 		}
+// 		write(temp_fd, buffer, ft_strlen(buffer));
+// 		write(temp_fd, "\n", 1);
+// 	}
 // }
