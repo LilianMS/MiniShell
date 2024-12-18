@@ -35,6 +35,7 @@ SRC= minishell.c \
 	 builtin/exit.c \
 	 builtin/builtin_utils.c \
 	 execution/heredoc.c \
+	 execution/execution.c \
 	 debug.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
