@@ -73,8 +73,6 @@ void	m_reorganize_tokens_if_redir(t_token **token_list)
 	t_token	*front_node;
 	t_token	*target_node;
 
-	// int		i; // DEBUG!
-	// i = 0;
 	aux_list = *token_list;
 	while (aux_list)
 	{
@@ -95,17 +93,3 @@ void	m_reorganize_tokens_if_redir(t_token **token_list)
 			token_list = m_update_token_list_address(token_list, &aux_list);
 	}
 }
-
-//DEBUG!
-
-// ft_printf("BEFORE REALOCATION\n");
-// ft_printf("token_list 0%i -> lexeme: %s & type: %i\n", i, (*token_list)->lexeme, (*token_list)->type);
-// if (target_node)
-// 	ft_printf("target_node 0%i-> lexeme: %s & type: %i\n", i, target_node->lexeme, target_node->type);
-// ft_printf("front_node 0%i-> lexeme: %s & type: %i\n", i, front_node->lexeme, front_node->type);
-
-// ft_printf("\n\nAFTER REALOCATION\n");
-// ft_printf("token_list 0%i -> lexeme: %s & type: %i\n", ++i, (*token_list)->lexeme, (*token_list)->type);
-// if (target_node)
-// 	ft_printf("target_node 0%i-> lexeme: %s & type: %i\n", i, target_node->lexeme, target_node->type);
-// ft_printf("front_node 0%i-> lexeme: %s & type: %i\n", i, front_node->lexeme, front_node->type);
