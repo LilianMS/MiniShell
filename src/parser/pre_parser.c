@@ -72,9 +72,9 @@ void	m_reorganize_tokens_if_redir(t_token **token_list)
 	t_token *aux_list;
 	t_token	*front_node;
 	t_token	*target_node;
-	int		i;
 
-	i = 0;
+	// int		i; // DEBUG!
+	// i = 0;
 	aux_list = *token_list;
 	while (aux_list)
 	{
