@@ -32,27 +32,29 @@ int	m_is_builtin(t_tree *tree_node)
 	return (-1);
 }
 
-void	m_execute_builtin(t_mini *mini, t_token **parsed_list)
+int	m_execute_builtin(t_mini *mini, t_token **parsed_list)
 {
 	char	**args;
 	int		builtin;
+	int		exit_status;
 
 	args = mini->tree->command;
 	builtin = m_is_builtin(mini->tree);
 	if (builtin == -1)
-		return ;
+		exit_status = 1;
 	if (builtin == PWD)
-		ft_pwd();
+		exit_status = ft_pwd();
 	// if (builtin == CD)
-	// 	ft_cd(args);
+	// 	ft_cd(args); //---> cd retorna erro de permissão negada se tentar acessar uma pasta sem permissão
 	if (builtin == ECHO)
-		ft_echo(args);
+		exit_status = ft_echo(args);
 	if (builtin == ENV)
-		m_env(mini->env_list);
+		exit_status = m_env(mini->env_list);
 	if (builtin == EXPORT)
-		m_export(mini->env_list, args);
+		exit_status = m_export(mini->env_list, args);
 	if (builtin == UNSET)
-		m_unset(mini->env_list, args);
+		exit_status = m_unset(mini->env_list, args);
 	if (builtin == EXIT)
-		m_exit(&mini, parsed_list);
+		exit_status = m_exit(&mini, parsed_list);
+	return (exit_status);
 }
