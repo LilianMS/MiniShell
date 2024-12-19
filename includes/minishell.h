@@ -39,8 +39,9 @@ int		m_is_input_null(t_mini *mini);
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);
 
-void	m_heredoc(t_token **parsed_list); // heredoc debug
-char	*m_get_delimiter_lexeme(t_token *parsed_list); // heredoc debug
+void	m_heredoc(t_token **parsed_list);
+void	aux_heredoc(char *delimiter, int temp_fd, int *i);
+char	*m_get_delimiter_lexeme(t_token *parsed_list);
 
 char	*m_get_exit_status(void);
 void	m_update_exit_status(int code_exit);

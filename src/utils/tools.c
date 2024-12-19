@@ -24,27 +24,6 @@ void	m_sig_int(int signum)
 	}
 }
 
-char	*m_get_delimiter_lexeme(t_token *parsed_list)
-{
-	t_token	*current;
-
-	current = parsed_list;
-	while (current)
-	{
-		if (current->type == DELIMITER)
-		{
-			ft_printf("DELIMITER: %s\n", current->lexeme); // ----- debug
-			if (current->quote == 0)
-				ft_printf("expandir in heredoc: %s\n", current->lexeme); // ----- debug
-			else
-				ft_printf("não expandir in heredoc: %s\n", current->lexeme); // ----- debug
-			return (current->lexeme);
-		}
-		current = current->next;
-	}
-	return (NULL);
-}
-
 void	m_lexical_analysis(t_mini *mini)
 {
 	t_token	* token_list;
