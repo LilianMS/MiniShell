@@ -31,8 +31,8 @@ int	open_temp_file(void)
 
 void	update_history(char *line, char **history_block)
 {
-	// Concatena a linha no bloco do heredoc
-		char *new_block;
+		char	*new_block;
+
 		if (*history_block)
 			new_block = malloc(strlen(*history_block) + strlen(line) + 2);
 		else
@@ -41,7 +41,7 @@ void	update_history(char *line, char **history_block)
 		{
 			perror("Error allocating memory");
 			free(line);
-			return;
+			return ;
 		}
 		if (*history_block)
 		{
@@ -50,9 +50,7 @@ void	update_history(char *line, char **history_block)
 			free(*history_block);
 		}
 		else
-		{
 			new_block[0] = '\0';
-		}
 		ft_strcat(new_block, line);
 		*history_block = new_block;
 }
@@ -61,29 +59,31 @@ void	update_history(char *line, char **history_block)
 void	aux_heredoc(char *delimiter, int temp_fd, int *i)
 {
 	char	*line;
-	char	*history_block = NULL;
-	// char	*temp;
-
-	// history_block = ft_strjoin("<< ", delimiter);
-	// temp = history_block;
-	// history_block = ft_strjoin(temp, "\n");
-	// free(temp);
+	char	*history_block;
+	
+	line = NULL;
 	history_block = NULL;
+	update_history(ft_strjoin("<< ", delimiter), &history_block);
 	while (1)
 	{
 		line = readline("> ");
         if (!line)
-            break; // Usuário pressionou Ctrl+D
+            break ; // Usuário pressionou Ctrl+D
         if (ft_strcmp(line, delimiter) == 0)
         {
 			*i = 1;
             free(line);
-            break; // Encontrou o delimitador
+            break ; // Encontrou o delimitador
         }
-        if (*line != '\0') // Ignora linhas vazias
-            add_history(line);
+        // if (*line != '\0') // Ignora linhas vazias
+            // add_history(line);
 
 		update_history(line, &history_block);
+		// if (history_block)
+		// {
+		// 	add_history(history_block);
+		// 	rl_replace_line(history_block, 0);
+		// }
 		// ft_replace_chr(buffer, '\n', '\0');
 		// if (ft_strcmp(buffer, delimiter) == 0)
 		// {
@@ -95,12 +95,16 @@ void	aux_heredoc(char *delimiter, int temp_fd, int *i)
 		write(temp_fd, "\n", 1);
 		free(line);
 	}
+	update_history(delimiter, &history_block);
 	if (history_block)
 	{
 		add_history(history_block);
 		rl_replace_line(history_block, 0);
 		free(history_block);
 	}
+	if (line)
+		free(line);
+	// free(history_block);
 }
 
 void	m_heredoc(t_token **parsed_list)

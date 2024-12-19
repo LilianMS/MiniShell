@@ -22,7 +22,7 @@ char	*m_expansion_special_cases(char *dollar_position)
 	if (ft_strncmp(dollar_position, "$$", 2) == 0)
 		expansion = ft_itoa(m_get_pid());
 	else if (ft_strncmp(dollar_position, "$?", 2) == 0)
-		expansion = m_set_get_status(127); // 127 é o valor padrão para $? quando não há status -- o ultimo foi a execução de $?
+		expansion = m_expand_exit_status(); // nos testes o valor de status depois de chamada de $? é 127 porque ele não é um comando, apenas expande... então 127 virá durante a execução de comandos para comandos não encontrados
 	else if (dollar_position[1] && ft_isdigit(dollar_position[1]))
 		expansion = ft_strdup("");
 	else

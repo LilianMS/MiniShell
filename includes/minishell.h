@@ -42,4 +42,7 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_
 void	m_heredoc(t_token **parsed_list); // heredoc debug
 char	*m_get_delimiter_lexeme(t_token *parsed_list); // heredoc debug
 
+char	*m_get_exit_status(void);
+void	m_update_exit_status(int code_exit);
+
 #endif

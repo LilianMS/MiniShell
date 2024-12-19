@@ -4,6 +4,8 @@
 
 void	init_minishell(t_mini *mini, char **envp)
 {
+	signal(SIGINT, m_sig_int);
+	signal(SIGQUIT, SIG_IGN);
 	ft_bzero(mini, sizeof(t_mini));
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
@@ -14,6 +16,7 @@ void	m_sig_int(int signum)
 {
 	if (signum == SIGINT)
 	{
+		g_signal_status = 128 + signum;
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);

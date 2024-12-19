@@ -9,11 +9,10 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	t_mini	mini;
 
-	// g_signal_status = 11;
+	g_signal_status = 11;
 	init_minishell(&mini, envp);
 	while (1)
 	{
-		signal(SIGINT, m_sig_int);
 		mini.line = readline("minishell> ");
 		if (m_is_input_null(&mini))
 			break ;
