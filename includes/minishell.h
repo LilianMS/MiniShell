@@ -29,17 +29,17 @@ struct s_mini
 	t_env	*env_list;
 	t_tree	*tree;
 	t_hdoc	*hdoc; // temporario para heredoc
-};
+} ;
 
 struct s_hdoc
 {
-	char	*delimiter;
 	char	*cmd;
 	int		temp_fd;
-	int		i;
-	t_token	*parsed_list;
+	char	*delimiter;
+	int		exit_flag;
 	t_env	*env_list;
-};
+	t_token	*parsed_list;
+} ;
 
 // Lexical Analysis Functions
 void	m_lexical_analysis(t_mini *mini);
@@ -52,12 +52,13 @@ int		m_is_input_null(t_mini *mini);
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);
 
-// void	m_heredoc(t_token **parsed_list);
-// void	aux_heredoc(char *delimiter, int temp_fd, int *i, t_token *parsed_list);
+// heredoc functions
 void	m_heredoc(t_token **parsed_list, t_mini mini);
-void	aux_heredoc(t_hdoc *hdoc);
-char	*m_get_delimiter_lexeme(t_token *parsed_list);
+void	m_aux_heredoc(t_hdoc *hdoc);
+char	*m_heredoc_get_delimiter(t_token *parsed_list);
+void	m_heredoc_update_command_list(t_token **parsed_list, t_hdoc *hdoc);
 
+// g_signal_status
 char	*m_get_exit_status(void);
 void	m_update_exit_status(int code_exit);
 

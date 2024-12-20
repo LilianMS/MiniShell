@@ -7,6 +7,11 @@ int	ft_echo(char **args)
 
 	i = 1;
 	n_option = 0;
+	if (!args[i])
+	{
+		write(1, "\n", 1);
+		return (0);
+	}
 	while (args[i] && ft_strcmp(args[i], "-n") == 0)
 	{
 		n_option = 1;

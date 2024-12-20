@@ -6,7 +6,6 @@ pid_t	m_get_pid(void)
 	return (8888);
 }
 
-
 // função para setar e pegar o status do sinal ao chamar $?
 char	*m_expand_exit_status(void)
 {

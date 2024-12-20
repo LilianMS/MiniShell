@@ -10,12 +10,11 @@ void	init_minishell(t_mini *mini, char **envp)
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
 	mini->tree = NULL;
-	// temporario para heredoc
+	// init heredoc
 	mini->hdoc = malloc(sizeof(t_hdoc));
 	ft_bzero(mini->hdoc, sizeof(t_hdoc));
-	mini->hdoc->delimiter = NULL;
 	mini->hdoc->temp_fd = 0;
-	mini->hdoc->i = 0;
+	mini->hdoc->delimiter = NULL;
 	mini->hdoc->parsed_list = NULL;
 	mini->hdoc->env_list = mini->env_list;
 }
@@ -53,7 +52,7 @@ void	m_lexical_analysis(t_mini *mini)
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
 	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
-	if(m_get_delimiter_lexeme(parsed_list)) // ---------------- debug // uso em m_execute_commands
+	if (m_heredoc_get_delimiter(parsed_list)) // ---------------- debug // uso em m_execute_commands
 		m_heredoc(&parsed_list, *mini); // ----- debug // uso em m_execute_commands
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);
 	if (m_is_builtin(parsed_list)) // ---------------- debug // uso em m_execute_commands

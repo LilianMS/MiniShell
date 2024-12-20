@@ -10,12 +10,14 @@ int	m_validate_tokens(t_token **tokens)
 		if ((m_is_redir(current->type) \
 			&& (current->next == NULL || current->next->type != WORD)) \
 			|| (current->type == PIPE && (current->next == NULL \
-			|| (current->next->type != WORD && !m_is_redir(current->next->type)))))
+			|| (current->next->type != WORD \
+			&& !m_is_redir(current->next->type)))))
 		{
-				ft_putendl_fd("Error: Expected a word or input redirection after the pipe.", 2);
-				return (0);
+			ft_putendl_fd("Error: Expected word or redirection after pipe", 2);
+			return (0);
 		}
-		if (current->type == PIPE && (current->prev == NULL || current->prev->type != WORD))
+		if (current->type == PIPE \
+			&& (current->prev == NULL || current->prev->type != WORD))
 		{
 			ft_putendl_fd("Error: Expected a word before the operator.", 2);
 			return (0);
@@ -25,4 +27,3 @@ int	m_validate_tokens(t_token **tokens)
 	m_add_post_redir_type(tokens);
 	return (1);
 }
-
