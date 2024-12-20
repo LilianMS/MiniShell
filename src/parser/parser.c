@@ -88,6 +88,10 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 	t_token	*aux_list;
 
 	// m_add_post_redir_type(token_list); //adiciona os tipos DELIMITER e FILENAME nos nós, diretamente na token_list -> precisaremos disso para a m_pre_process
+	
+	// lilian: coloquei a função acima no    m_validate_tokens
+	// assim que validar os tokens, já adiciona os tipos DELIMITER e FILENAME
+
 	m_reorganize_tokens_if_redir(token_list); // reorganiza os nós antes de mallocar os novos nós de comando
 	aux_list = *token_list;
 	while (aux_list)
