@@ -51,7 +51,7 @@ void	m_lexical_analysis(t_mini *mini)
 		}
 	}
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
-	// list_printer(&parsed_list); // ----- debug
+	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
 	if(m_get_delimiter_lexeme(parsed_list)) // ---------------- debug // uso em m_execute_commands
 		m_heredoc(&parsed_list, *mini); // ----- debug // uso em m_execute_commands

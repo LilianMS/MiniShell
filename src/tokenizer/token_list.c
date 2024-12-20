@@ -5,6 +5,9 @@ void	free_cmd_array(char **command)
 {
 	int	i;
 
+	if (!command)
+		return;
+
 	i = 0;
 	while (command[i])
 	{

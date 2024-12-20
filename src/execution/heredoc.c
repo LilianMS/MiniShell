@@ -46,29 +46,89 @@ void	read_fd_to_string(t_hdoc **hdoc)
 	(*hdoc)->cmd[st.st_size] = '\0';
 }
 
-void	update_command_list_with_temp_fd(t_token **parsed_list, t_hdoc *hdoc)
+void	allocate_new_command(char ***new_command, char **current_command, int i)
 {
-	t_token		*current;
-	int			i;
-
-	reset_file_pointer(&hdoc->temp_fd, ".heredoc_tmp");
-	read_fd_to_string(&hdoc);
-	current = *parsed_list;
-	while (current)
+	int	j;
+	
+	*new_command = malloc(sizeof(char *) * (i + 2));
+	if (!*new_command)
 	{
-		if (current->type == REDIR_HEREDOC)
-		{
-			i = 0;
-			while (current->command[i] != NULL)
-				i++;
-			current->command[i] = hdoc->cmd;
-			current->command[i + 1] = NULL;
-			break ;
-		}
-		current = current->next;
+		perror("Error allocating memory");
+		exit(EXIT_FAILURE);
 	}
-	free(hdoc->cmd);
+	j = 0;
+	while (j < i)
+	{
+		(*new_command)[j] = current_command[j];
+		j++;
+	}
 }
+
+void update_command_list_with_temp_fd(t_token **parsed_list, t_hdoc *hdoc)
+{
+    t_token *current;
+    int i;
+
+    reset_file_pointer(&hdoc->temp_fd, ".heredoc_tmp");
+    read_fd_to_string(&hdoc);
+    current = *parsed_list;
+    while (current)
+	{
+        if (current->type == COMMAND)
+		{
+            i = 0;
+            while (current->command[i] != NULL)
+                i++;
+            char **new_command;
+            allocate_new_command(&new_command, current->command, i);
+            free(current->command);
+            current->command = new_command;
+            current->command[i] = hdoc->cmd;
+            current->command[i + 1] = NULL;
+            break;
+        }
+        current = current->next;
+    }
+}
+
+// void	update_command_list_with_temp_fd(t_token **parsed_list, t_hdoc *hdoc)
+// {
+// 	char	**new_command;
+// 	t_token	*current;
+// 	int		i;
+// 	int		j;
+
+// 	reset_file_pointer(&hdoc->temp_fd, ".heredoc_tmp");
+// 	read_fd_to_string(&hdoc);
+// 	current = *parsed_list;
+// 	while (current)
+// 	{
+// 		if (current->type == COMMAND)
+// 		{
+// 			i = 0;
+// 			while (current->command[i] != NULL)
+// 				i++;
+// 			new_command = malloc(sizeof(char *) * (i + 2));
+// 			if (!new_command)
+// 			{
+// 				perror("Error allocating memory");
+// 				exit(EXIT_FAILURE);
+// 			}
+// 			j = 0;
+// 			while (j < i)
+// 			{
+// 				new_command[j] = current->command[j];
+// 				j++;
+// 			}
+// 			free(current->command);
+// 			current->command = new_command;
+// 			current->command[i] = hdoc->cmd;
+// 			current->command[i + 1] = NULL;
+// 			break ;
+// 		}
+// 		current = current->next;
+// 	}
+// }
 
 void	m_heredoc(t_token **parsed_list, t_mini mini)
 {
@@ -88,7 +148,8 @@ void	m_heredoc(t_token **parsed_list, t_mini mini)
 	if (hdoc->temp_fd == -1)
 		return ;
 	aux_heredoc(hdoc);
-	// update_command_list_with_temp_fd(parsed_list, hdoc);
+	update_command_list_with_temp_fd(parsed_list, hdoc); // fix
+
 	// reset_file_pointer(&hdoc->temp_fd, ".heredoc_tmp");
 	// read_fd_to_string(&hdoc);
 	close(hdoc->temp_fd);
