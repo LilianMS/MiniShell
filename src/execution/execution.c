@@ -1,86 +1,5 @@
 #include "../../includes/minishell.h"
 
-static char **m_find_paths(char **envp)
-{
-	int i;
-	char **paths;
-
-	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
-		i++;
-	if (envp[i])
-	{
-		paths = ft_split(envp[i] + 5, ':');
-		return (paths);
-	}
-	return (NULL);
-}
-
-char *m_create_path(char *cmd_path, char **node_cmd, char **envp)
-{
-	char *path;
-	char **env_paths;
-	int i;
-	int exit_status;
-
-	i = 0;
-	env_paths = m_find_paths(envp);
-	while (env_paths[i])
-	{
-		path = ft_strjoin(env_paths[i++], "/");
-		cmd_path = ft_strjoin(path, node_cmd[0]);
-		free(path);
-		exit_status = m_check_cmd(cmd_path); // está pegando o status de saída errado! >> arrumar >> nao sei se precisa estar aqui
-		if (exit_status == 0)
-		{
-			free_cmd_array(env_paths);
-			return (cmd_path);
-		}
-		free(cmd_path);
-	}
-	free_cmd_array(env_paths); // --> reutilizando a função que dá free no array de comandos
-	return (NULL);
-}
-
-static int	env_list_size(t_env *env_list)
-{
-	int i;
-
-	i = 0;
-	while (env_list)
-	{
-		env_list = env_list->next;
-		i++;
-	}
-	return (i);
-}
-
-char	**m_env_list_to_array(t_env *env_list)
-{
-	t_env	*tmp;
-	char	**envp;
-	char	*tmp_str;
-	int		i;
-
-	tmp = env_list;
-	i = env_list_size(env_list);
-	envp = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!envp)
-		return (NULL);
-	i = 0;
-	while (env_list)
-	{
-		envp[i] = ft_strjoin(env_list->name, "=");
-		tmp_str = envp[i];
-		envp[i] = ft_strjoin(envp[i], env_list->value);
-		free(tmp_str);
-		env_list = env_list->next;
-		i++;
-	}
-	envp[i] = NULL;
-	return (envp);
-}
-
 int m_check_cmd(char *cmd_path)
 {
 	int exit_status;
@@ -115,14 +34,11 @@ int m_execute_command(char **tree_node_cmd, t_env *env_list)
 	return (1);
 }
 
-void m_execution(t_mini *mini, t_token **parsed_list)
+void	m_simple_command(t_mini *mini, t_token **parsed_list)
 {
-	int	pid;
+	int pid;
 
 	pid = 0;
-	if (!mini->tree)
-		mini->exit_status = 1;
-	
 	if (mini->tree->type == COMMAND)
 	{
 		if (m_is_builtin(mini->tree) != -1)
@@ -146,6 +62,20 @@ void m_execution(t_mini *mini, t_token **parsed_list)
 			}
 		}
 	}
+}
+
+void	m_execution(t_mini *mini, t_token **parsed_list)
+{
+	int	pid;
+
+	pid = 0;
+	if (!mini->tree)
+		mini->exit_status = 1;
+
+	if (mini->tree->type == COMMAND \
+		&& mini->tree->left == NULL \
+		&& mini->tree->right == NULL)
+		m_simple_command(mini, parsed_list);
 	m_tree_cleaner(mini->tree);
 	// m_free_env_list(mini->env_list);
 	m_free_tokens(parsed_list);
