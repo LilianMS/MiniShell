@@ -21,5 +21,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	rl_clear_history();
 	m_free_env_list(mini.env_list);
+	free(mini.hdoc);
 	return (0);
 }

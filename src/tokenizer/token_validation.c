@@ -1,10 +1,10 @@
 #include "../includes/tokenizer.h"
 
-int	m_validate_tokens(t_token *tokens)
+int	m_validate_tokens(t_token **tokens)
 {
 	t_token	*current;
 
-	current = tokens;
+	current = *tokens;
 	while (current != NULL)
 	{
 		if ((m_is_redir(current->type) \
@@ -22,6 +22,7 @@ int	m_validate_tokens(t_token *tokens)
 		}
 		current = current->next;
 	}
+	m_add_post_redir_type(tokens);
 	return (1);
 }
 
