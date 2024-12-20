@@ -65,7 +65,7 @@ void	write_to_temp_file(t_hdoc *hdoc, char *line)
 	t_token	*current;
 	char	*expanded_line;
 
-	current = hdoc->parsed_list;
+	current = hdoc->token_list;
 	while (current)
 	{
 		if (current->type == DELIMITER \

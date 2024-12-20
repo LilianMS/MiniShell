@@ -57,29 +57,43 @@ void	heredoc_alloc_new_cmd(char ***new_cmd, char **current_cmd, int i)
 	}
 }
 
-void	m_heredoc_update_command_list(t_token **parsed_list, t_hdoc *hdoc)
+void	m_heredoc_update_command_list(t_token **token_list, t_hdoc *hdoc)
 {
-	t_token	*current;
-	char	**new_command;
-	int		i;
+	t_token	*new_token;
 
 	ft_reset_file_pointer(&hdoc->temp_fd, ".heredoc_tmp");
 	heredoc_read_fd_to_string(&hdoc);
-	current = *parsed_list;
-	while (current)
-	{
-		if (current->type == COMMAND)
-		{
-			i = 0;
-			while (current->command[i] != NULL)
-				i++;
-			heredoc_alloc_new_cmd(&new_command, current->command, i);
-			free(current->command);
-			current->command = new_command;
-			current->command[i] = hdoc->cmd;
-			current->command[i + 1] = NULL;
-			break ;
-		}
-		current = current->next;
-	}
+
+	// adicionar um nó do tipo WORD com o conteúdo de hdoc->cmd
+
+	new_token = m_create_token(hdoc->cmd, WORD);
+	m_add_token(token_list, new_token);
+	
 }
+
+// void	m_heredoc_update_command_list(t_token **parsed_list, t_hdoc *hdoc)
+// {
+// 	t_token	*current;
+// 	char	**new_command;
+// 	int		i;
+
+// 	ft_reset_file_pointer(&hdoc->temp_fd, ".heredoc_tmp");
+// 	heredoc_read_fd_to_string(&hdoc);
+// 	current = *parsed_list;
+// 	while (current)
+// 	{
+// 		if (current->type == COMMAND)
+// 		{
+// 			i = 0;
+// 			while (current->command[i] != NULL)
+// 				i++;
+// 			heredoc_alloc_new_cmd(&new_command, current->command, i);
+// 			free(current->command);
+// 			current->command = new_command;
+// 			current->command[i] = hdoc->cmd;
+// 			current->command[i + 1] = NULL;
+// 			break ;
+// 		}
+// 		current = current->next;
+// 	}
+// }

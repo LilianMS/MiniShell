@@ -21,14 +21,14 @@ typedef struct s_mini	t_mini;
 typedef struct s_token	t_token;
 typedef struct s_env	t_env;
 typedef struct s_tree	t_tree;
-typedef struct s_hdoc	t_hdoc; // temporario para heredoc
+typedef struct s_hdoc	t_hdoc;
 
 struct s_mini
 {
 	char	*line;
 	t_env	*env_list;
 	t_tree	*tree;
-	t_hdoc	*hdoc; // temporario para heredoc
+	t_hdoc	*hdoc;
 } ;
 
 struct s_hdoc
@@ -38,7 +38,7 @@ struct s_hdoc
 	char	*delimiter;
 	int		exit_flag;
 	t_env	*env_list;
-	t_token	*parsed_list;
+	t_token	*token_list;
 } ;
 
 // Lexical Analysis Functions
@@ -53,7 +53,7 @@ int		m_is_input_null(t_mini *mini);
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);
 
 // heredoc functions
-void	m_heredoc(t_token **parsed_list, t_mini mini);
+void	m_heredoc(t_token **token_list, t_mini mini);
 void	m_aux_heredoc(t_hdoc *hdoc);
 char	*m_heredoc_get_delimiter(t_token *parsed_list);
 void	m_heredoc_update_command_list(t_token **parsed_list, t_hdoc *hdoc);
