@@ -1,30 +1,53 @@
 #include "../../includes/minishell.h"
 
+// void	m_print_exit_status(int exit_status)
+// {
+// 	if (exit_status == 126)
+// 		ft_putstr_fd("\033[31mError: Permission denied\033[37m\n", 2);
+// 	else if (exit_status == 127)
+// 		ft_putstr_fd("\033[31mError: Command not found\033[37m\n", 2);
+// }
+
+static char	**m_find_paths(char **envp)
+{
+	int		i;
+	char	**paths;
+
+	i = 0;
+	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
+		i++;
+	if (envp[i])
+	{
+		paths = ft_split(envp[i] + 5, ':');
+		return (paths);
+	}
+	return (NULL);
+}
+
 char	*m_create_path(char *cmd_path, char **node_cmd, char **envp)
 {
 	char	*path;
 	char	**env_paths;
 	int		i;
+	int		exit_status;
 
 	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
-		i++;
-	env_paths = ft_split(envp[i] + 5, ':');
-	i = 0;
+	env_paths = m_find_paths(envp);
 	while (env_paths[i])
 	{
-		path = ft_strjoin(env_paths[i], "/");
+		path = ft_strjoin(env_paths[i++], "/");
 		cmd_path = ft_strjoin(path, node_cmd[0]);
 		free(path);
-		if (m_check_cmd(cmd_path) == 0)
+		exit_status = m_check_cmd(cmd_path); //está pegando o status de saída errado! >> arrumar
+		if (exit_status == 0)
 		{
 			free_cmd_array(env_paths);
 			return (cmd_path);
 		}
 		free(cmd_path);
-		i++;
 	}
-	free_cmd_array(env_paths);
+	free_cmd_array(env_paths); // --> reutilizando a função que dá free no array de comandos
+	m_print_exit_status(exit_status);
 	return (NULL);
 }
 
@@ -62,15 +85,9 @@ int	m_check_cmd(char *cmd_path)
 
 	exit_status = 0;
 	if (access(cmd_path, F_OK) == -1)
-	{
-		ft_putstr_fd("\033[31mError: Command not found\033[37m\n", 2);
 		exit_status = 127;
-	}
 	if (access(cmd_path, X_OK) == -1)
-	{
-		ft_putstr_fd("\033[31mError: Permission denied\033[37m\n", 2);
 		exit_status = 126;
-	}
 	return (exit_status);
 }
 
@@ -86,12 +103,6 @@ int	m_execute_command(char **tree_node_cmd, t_env *env_list)
 	if (!env)
 		return (1);
 	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
-	if (cmd_path == NULL)
-	{
-		ft_putstr_fd("\033[31mError: Command not found\033[37m\n", 2);
-		exit_status = 127;
-	}
-	// exit_status = m_check_cmd(cmd_path);
 	if (exit_status != 0)
 		return (exit_status);
 	if (execve(cmd_path, tree_node_cmd, env) == -1)
