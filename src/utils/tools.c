@@ -2,6 +2,18 @@
 #include "debug.h" // ----- debug
 #include "builtin.h" // ----- debug
 
+void	m_sig_int(int signum)
+{
+	if (signum == SIGINT)
+	{
+		g_signal_status = 128 + signum;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
 void	init_minishell(t_mini *mini, char **envp)
 {
 	signal(SIGINT, m_sig_int);
@@ -14,21 +26,11 @@ void	init_minishell(t_mini *mini, char **envp)
 	mini->hdoc = malloc(sizeof(t_hdoc));
 	ft_bzero(mini->hdoc, sizeof(t_hdoc));
 	mini->hdoc->temp_fd = 0;
+	mini->hdoc->suffix_doc = -1;
 	mini->hdoc->delimiter = NULL;
+	mini->hdoc->filename = NULL;
 	mini->hdoc->token_list = NULL;
 	mini->hdoc->env_list = mini->env_list;
-}
-
-void	m_sig_int(int signum)
-{
-	if (signum == SIGINT)
-	{
-		g_signal_status = 128 + signum;
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
 }
 
 void	m_lexical_analysis(t_mini *mini)
@@ -49,11 +51,13 @@ void	m_lexical_analysis(t_mini *mini)
 			return ;
 		}
 	}
+	mini->parsed_list = parsed_list; // -----------------------
 	if (m_heredoc_get_delimiter(token_list)) // ---------------- debug // uso em m_execute_commands
 		m_heredoc(&token_list, *mini); // ----- debug // uso em m_execute_commands
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
 	list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
+	mini->parsed_list = parsed_list; // -----------------------
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);
 	if (m_is_builtin(parsed_list)) // ---------------- debug // uso em m_execute_commands
 		m_execute_builtin(mini, parsed_list); // ----- debug // uso em m_execute_commands

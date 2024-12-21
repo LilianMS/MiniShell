@@ -16,11 +16,12 @@ typedef struct s_automat	t_automat;
 struct s_token
 {
 	char					*lexeme;
+	char					*filename;
 	char					**command;
 	int						type;
-	int						command_len;
-	int						position;
 	int						quote;
+	int						position;
+	int						command_len;
 	struct s_token			*next;
 	struct s_token			*prev;
 };

@@ -60,7 +60,7 @@ char	*m_heredoc_expansion(char *lexeme, t_env *env_list)
 	return (m_clean_quotes(ft_strdup(lexeme)));
 }
 
-void	write_to_temp_file(t_hdoc *hdoc, char *line)
+void	heredoc_write_to_file(t_hdoc *hdoc, char *line)
 {
 	t_token	*current;
 	char	*expanded_line;
@@ -85,6 +85,17 @@ void	write_to_temp_file(t_hdoc *hdoc, char *line)
 	free(line);
 }
 
+// void	heredoc_sigint(int signum)
+// {
+// 	if (signum == SIGINT)
+// 	{
+// 		g_signal_status = 130; // Código para interrupção do heredoc
+// 		write(STDOUT_FILENO, "\n", 1); // Exibe uma nova linha limpa
+// 		rl_replace_line("", 0); // Limpa a linha atual
+// 		rl_done = 1; // Sinaliza para readline que a entrada deve ser finalizada
+// 	}
+// }
+
 void	m_aux_heredoc(t_hdoc *hdoc)
 {
 	char	*line;
@@ -93,17 +104,22 @@ void	m_aux_heredoc(t_hdoc *hdoc)
 	line = NULL;
 	history_block = NULL;
 	init_history_block(&history_block, hdoc->delimiter);
-	while (1)
+	// g_signal_status = 0;
+	// signal(SIGINT, heredoc_sigint);
+	while ((line = readline("> ")) != NULL)
 	{
-		line = readline("> ");
-		if (!line || ft_strcmp(line, hdoc->delimiter) == 0)
+		// line = readline("> ");
+		if (g_signal_status == 130)
+			line = NULL;
+		if (!line || ft_strcmp(line, hdoc->delimiter) == 0 \
+			|| g_signal_status == 130)
 		{
-			if (line)
+			if (line && g_signal_status != 130)
 				hdoc->exit_flag = 1;
 			break ;
 		}
 		update_history(line, &history_block);
-		write_to_temp_file(hdoc, line);
+		heredoc_write_to_file(hdoc, line);
 	}
 	if (hdoc->exit_flag == 1)
 		update_history(hdoc->delimiter, &history_block);

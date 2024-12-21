@@ -10,6 +10,7 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+#include <sys/ioctl.h>
 
 # include "tokenizer.h"
 # include "parser.h"
@@ -29,14 +30,17 @@ struct s_mini
 	t_env	*env_list;
 	t_tree	*tree;
 	t_hdoc	*hdoc;
+	t_token	*parsed_list;
 } ;
 
 struct s_hdoc
 {
 	char	*cmd;
-	int		temp_fd;
 	char	*delimiter;
+	char	*filename;
+	int		temp_fd;
 	int		exit_flag;
+	int		suffix_doc;
 	t_env	*env_list;
 	t_token	*token_list;
 } ;
