@@ -85,17 +85,6 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line)
 	free(line);
 }
 
-// void	heredoc_sigint(int signum)
-// {
-// 	if (signum == SIGINT)
-// 	{
-// 		g_signal_status = 130; // Código para interrupção do heredoc
-// 		write(STDOUT_FILENO, "\n", 1); // Exibe uma nova linha limpa
-// 		rl_replace_line("", 0); // Limpa a linha atual
-// 		rl_done = 1; // Sinaliza para readline que a entrada deve ser finalizada
-// 	}
-// }
-
 void	m_aux_heredoc(t_hdoc *hdoc)
 {
 	char	*line;
@@ -104,8 +93,6 @@ void	m_aux_heredoc(t_hdoc *hdoc)
 	line = NULL;
 	history_block = NULL;
 	init_history_block(&history_block, hdoc->delimiter);
-	// g_signal_status = 0;
-	// signal(SIGINT, heredoc_sigint);
 	while ((line = readline("> ")) != NULL)
 	{
 		// line = readline("> ");
