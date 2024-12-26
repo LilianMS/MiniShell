@@ -60,7 +60,7 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_
 void	m_heredoc(t_token **token_list, t_mini mini);
 void	m_aux_heredoc(t_hdoc *hdoc);
 char	*m_heredoc_get_delimiter(t_token *parsed_list);
-void	m_heredoc_update_command_list(t_token **parsed_list, t_hdoc *hdoc);
+void	m_heredoc_delete_files(t_mini *mini);
 
 // g_signal_status
 char	*m_get_exit_status(void);

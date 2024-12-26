@@ -42,5 +42,6 @@ int	main(int ac, char **av, char **envp)
 	m_free_env_list(mini.env_list);
 	m_heredoc_delete_files(&mini);
 	free(mini.hdoc);
+
 	return (0);
 }
