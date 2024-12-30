@@ -93,16 +93,17 @@ int	m_close_fd(int fd)
 
 int	m_execute_redir(t_mini *mini)
 {
-	int	exit_status;
+	int		exit_status;
 
 	exit_status = 0; //mudar para receber o código certo
+	ft_printf("filename = %s\n\n", mini->tree->right->content);
 	if (mini->tree->type == REDIR_OUT)
-		mini->fd = open(mini->tree->command[0], O_WRONLY|O_CREAT|O_TRUNC);
+		mini->fd = open(mini->tree->right->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
 		mini->fd = -1;
 	if (mini->fd == -1)
 	{
-		perror(mini->tree->command[0]);
+		perror(mini->tree->right->content);
 		return (1);
 	}
 	dup2(mini->fd, STDOUT_FILENO);
