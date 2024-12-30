@@ -28,7 +28,7 @@ typedef struct s_tree		t_tree;
 struct s_mini
 {
 	int		exit_status;
-	int		fds;
+	int		fd;
 	char	*line;
 	t_env	*env_list;
 	t_tree	*tree;
