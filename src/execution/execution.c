@@ -7,7 +7,7 @@ int m_check_cmd(char *cmd_path)
 	exit_status = 0;
 	if (access(cmd_path, F_OK) == -1)
 		exit_status = 127;
-	if (access(cmd_path, X_OK) == -1)
+	else if (access(cmd_path, X_OK) == -1)
 		exit_status = 126;
 	return (exit_status);
 }
@@ -66,9 +66,6 @@ void	m_simple_command(t_mini *mini, t_token **parsed_list)
 
 void	m_execution(t_mini *mini, t_token **parsed_list)
 {
-	int	pid;
-
-	pid = 0;
 	if (!mini->tree)
 		mini->exit_status = 1;
 

@@ -57,12 +57,10 @@ static int env_list_size(t_env *env_list)
 
 char **m_env_list_to_array(t_env *env_list)
 {
-	t_env *tmp;
 	char **envp;
 	char *tmp_str;
 	int i;
 
-	tmp = env_list;
 	i = env_list_size(env_list);
 	envp = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!envp)
