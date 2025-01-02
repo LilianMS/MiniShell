@@ -16,12 +16,15 @@ void	m_sig_int(int signum)
 
 void	init_minishell(t_mini *mini, char **envp)
 {
-	signal(SIGINT, m_sig_int);
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, m_sig_int);
+	// signal(SIGQUIT, SIG_IGN);
+	isatty(STDOUT_FILENO);
 	ft_bzero(mini, sizeof(t_mini));
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
 	mini->tree = NULL;
+	mini->backup_fd_in = dup(STDIN_FILENO);
+	tcgetattr(STDIN_FILENO, &mini->term);
 	// init heredoc
 	mini->hdoc = malloc(sizeof(t_hdoc));
 	ft_bzero(mini->hdoc, sizeof(t_hdoc));

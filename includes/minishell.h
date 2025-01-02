@@ -10,7 +10,8 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <sys/stat.h>
-#include <sys/ioctl.h>
+# include <sys/ioctl.h>
+# include <termios.h>
 
 # include "tokenizer.h"
 # include "parser.h"
@@ -23,14 +24,17 @@ typedef struct s_token	t_token;
 typedef struct s_env	t_env;
 typedef struct s_tree	t_tree;
 typedef struct s_hdoc	t_hdoc;
+typedef struct termios	t_termios;
 
 struct s_mini
 {
 	char	*line;
+	int		backup_fd_in;
 	t_env	*env_list;
 	t_tree	*tree;
 	t_hdoc	*hdoc;
 	t_token	*parsed_list;
+	t_termios		term;
 } ;
 
 struct s_hdoc
@@ -65,5 +69,7 @@ void	m_heredoc_delete_files(t_mini *mini);
 // g_signal_status
 char	*m_get_exit_status(void);
 void	m_update_exit_status(int code_exit);
+
+void	m_exec_signals(int pid);
 
 #endif

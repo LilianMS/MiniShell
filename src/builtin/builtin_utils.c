@@ -46,7 +46,7 @@ void	m_execute_builtin(t_mini *mini, t_token *parsed_list)
 		ft_pwd();
 	// if (builtin == CD)
 	// 	ft_cd(args);
-	if (builtin == ECHO)
+	if (builtin == ECO)
 		ft_echo(args);
 	if (builtin == ENV)
 		m_env(mini->env_list);

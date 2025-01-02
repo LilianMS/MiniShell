@@ -13,7 +13,7 @@ enum e_builtin
 	NO_BUILTIN,
 	PWD,
 	CD,
-	ECHO,
+	ECO,
 	ENV,
 	EXPORT,
 	UNSET,

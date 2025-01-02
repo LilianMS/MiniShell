@@ -60,6 +60,20 @@ void	m_heredoc_update_token_list(t_token **token_list, t_hdoc *hdoc)
 	}
 }
 
+void	m_sig_heredoc(int signal __attribute__((unused)))
+{
+	g_signal_status = 128 + SIGINT;
+	ft_putendl_fd("", STDOUT_FILENO);
+	close(STDIN_FILENO);
+}
+
+void	heredoc_signals(void)
+{
+	signal(SIGINT, m_sig_heredoc);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGPIPE, SIG_IGN);
+}
+
 void	m_heredoc(t_token **token_list, t_mini mini)
 {
 	t_hdoc	*hdoc;
@@ -77,6 +91,7 @@ void	m_heredoc(t_token **token_list, t_mini mini)
 	hdoc->temp_fd = heredoc_create_file(&hdoc);
 	if (hdoc->temp_fd == -1)
 		return ;
+	heredoc_signals();
 	m_aux_heredoc(hdoc);
 	if (hdoc->exit_flag == 0)
 		ft_printf("minishell: warning: here-document at line 1 delimited by end-of-file (wanted `%s'\n", hdoc->delimiter);
@@ -84,4 +99,5 @@ void	m_heredoc(t_token **token_list, t_mini mini)
 		m_heredoc_update_token_list(token_list, hdoc);
 	close(hdoc->temp_fd);
 	ft_printf("heredoc: exec?\n"); // ---debug
+	m_exec_signals(1);
 }
