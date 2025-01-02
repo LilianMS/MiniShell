@@ -66,17 +66,16 @@ int	m_simple_command(t_mini *mini, t_token **parsed_list)
 	t_redir redir_fd;
 
 	pid = 0;
-	if (mini->tree->type == COMMAND)
+	// if (mini->tree->type == COMMAND)
+	// {
+	if (m_is_builtin(mini->tree->left) != -1)
 	{
-		if (m_is_builtin(mini->tree) != -1) {
+		if (m_execute_redir(mini, &redir_fd)) 
+			mini->exit_status = 1;
+		else 
 		{
-			if (m_execute_redir(mini, &redir_fd)) 
-				mini->exit_status = 1;
-			else 
-			{
-				mini->exit_status = m_execute_builtin(mini, parsed_list);
-				m_restore_redirect(&redir_fd);
-			}
+			mini->exit_status = m_execute_builtin(mini, parsed_list);
+			m_restore_redirect(&redir_fd);
 		}
 	}
 	else
@@ -93,7 +92,6 @@ int	m_simple_command(t_mini *mini, t_token **parsed_list)
 			waitpid(pid, &mini->exit_status, 0);
 			mini->exit_status = WEXITSTATUS(mini->exit_status);
 		}
-	}
 	}
 	return (mini->exit_status);
 }
@@ -131,15 +129,14 @@ void	m_execution(t_mini *mini, t_token **parsed_list)
 {
 	if (!mini->tree)
 		mini->exit_status = 1;
-
 	if (mini->tree->type == COMMAND \
 		&& mini->tree->left == NULL \
 		&& mini->tree->right == NULL)
 		mini->exit_status = m_simple_command(mini, parsed_list);
-	// else if (mini->tree->type == REDIR_OUT
-	// 	&& mini->tree->left->type == COMMAND
-	// 	&& mini->tree->right->type == FILENAME)
-	// 	mini->exit_status = m_execute_redir(mini);
+	else if (mini->tree->type == REDIR_OUT \
+		&& mini->tree->left->type == COMMAND \
+		&& mini->tree->right->type == FILENAME)
+		mini->exit_status = m_simple_command(mini, parsed_list);
 	m_tree_cleaner(mini->tree);
 	// m_free_env_list(mini->env_list);
 	m_free_tokens(parsed_list);
