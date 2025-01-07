@@ -18,6 +18,7 @@ struct s_redir {
     int stdin_backup;
     int stdout_backup;
     int stderr_backup;
+    int current_fd;
 };
 
 //Functions
