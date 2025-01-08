@@ -98,18 +98,19 @@ int	m_close_fd(int fd)
 
 int	m_execute_redir_in(t_mini *mini, t_redir *redir_fd)
 {
-	m_init_redirect(redir_fd);
 	if (mini->tree->type == REDIR_IN)
 		redir_fd->current_fd = open(mini->tree->right->content, O_RDONLY);
 	if (redir_fd->current_fd == -1)
 	{
 		perror("minishell: input redirection");
+		m_restore_redirect(redir_fd);
 		return (1);
 	}
 	if(dup2(redir_fd->current_fd, STDIN_FILENO) == -1)
 	{
 		perror("minishell: dup2 error");
 		close(redir_fd->current_fd);
+		m_restore_redirect(redir_fd);
 		return (1);
 	}
 	close(redir_fd->current_fd);
@@ -118,7 +119,6 @@ int	m_execute_redir_in(t_mini *mini, t_redir *redir_fd)
 
 int	m_execute_redir_out_append(t_mini *mini, t_redir *redir_fd)
 {
-	m_init_redirect(redir_fd);
 	if (mini->tree->type == REDIR_OUT)
 		redir_fd->current_fd = open(mini->tree->right->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (mini->tree->type == REDIR_APPEND)
@@ -126,12 +126,14 @@ int	m_execute_redir_out_append(t_mini *mini, t_redir *redir_fd)
 	if (redir_fd->current_fd == -1)
 	{
 		perror("minishell: output redirection");
+		m_restore_redirect(redir_fd);
 		return (1);
 	}
 	if(dup2(redir_fd->current_fd, STDOUT_FILENO) == -1)
 	{
 		perror("minishell: dup2 error");
 		close(redir_fd->current_fd);
+		m_restore_redirect(redir_fd);
 		return (1);
 	}
 	close(redir_fd->current_fd);
@@ -154,21 +156,11 @@ int	m_execute_all_redirs(t_mini*mini, t_redir *redir_fd, t_tree *node)
 	while (current && m_is_redir(current->type))
 	{
 		if (current->type == REDIR_IN)
-		{
-			if (m_execute_redir_in(mini, redir_fd))
-			{
-				m_restore_redirect(redir_fd);
-				return (1);
-			}
-		}
-		else if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
-		{
-			if (m_execute_redir_out_append(mini, redir_fd))
-			{
-				m_restore_redirect(redir_fd);
-				return (1);
-			}
-		}
+			m_execute_redir_in(mini, redir_fd);
+		else if (current->type == REDIR_OUT)
+			m_execute_redir_out_append(mini, redir_fd);
+		else if (current->type == REDIR_APPEND)
+			m_execute_redir_out_append(mini, redir_fd);
 		current = current->left;
 	}
 	return (0);
