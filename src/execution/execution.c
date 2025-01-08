@@ -99,7 +99,7 @@ int	m_close_fd(int fd)
 int	m_execute_redir_in(t_mini *mini, t_redir *redir_fd)
 {
 	m_init_redirect(redir_fd);
-	if (mini->tree->type == REDIR_IN || mini->tree->type == REDIR_HEREDOC)
+	if (mini->tree->type == REDIR_IN)
 		redir_fd->current_fd = open(mini->tree->right->content, O_RDONLY);
 	if (redir_fd->current_fd == -1)
 	{
@@ -138,26 +138,59 @@ int	m_execute_redir_out_append(t_mini *mini, t_redir *redir_fd)
 	return (0);
 }
 
+t_tree	*m_find_command_node(t_tree *node)
+{
+	while (node && node->type != COMMAND)
+			node = node->left;
+	return (node);
+}
+
+int	m_execute_all_redirs(t_mini*mini, t_redir *redir_fd, t_tree *node)
+{
+	t_tree *current;
+
+	m_init_redirect(redir_fd);
+	current = node;
+	while (current && m_is_redir(current->type))
+	{
+		if (current->type == REDIR_IN)
+		{
+			if (m_execute_redir_in(mini, redir_fd))
+			{
+				m_restore_redirect(redir_fd);
+				return (1);
+			}
+		}
+		else if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
+		{
+			if (m_execute_redir_out_append(mini, redir_fd))
+			{
+				m_restore_redirect(redir_fd);
+				return (1);
+			}
+		}
+		current = current->left;
+	}
+	return (0);
+}
+
 int	m_handle_redir(t_mini *mini, t_redir *redir_fd, t_token **parsed_list)
 {
 	t_tree	*original_root;
+	t_tree	*cmd_node;
 	int		status;
 
 	status = 0;
 	original_root = mini->tree;
-	if(mini->tree->type == REDIR_IN || mini->tree->type == REDIR_HEREDOC)
+	if (m_execute_all_redirs(mini, redir_fd, mini->tree))
+		return (1);
+	cmd_node = m_find_command_node(mini->tree);
+	if (!cmd_node)
 	{
-		if (m_execute_redir_in(mini, redir_fd))
-			return (m_close_fd(redir_fd->current_fd));
+		m_restore_redirect(redir_fd);
+		return (1);
 	}
-	else if (mini->tree->type == REDIR_OUT || mini->tree->type == REDIR_APPEND)
-	{
-		if (m_execute_redir_out_append(mini, redir_fd))
-			return (m_close_fd(redir_fd->current_fd));
-	}
-	// if (m_execute_redir(mini, redir_fd))
-	// 	return (m_close_fd(redir_fd->current_fd));
-	mini->tree = mini->tree->left;
+	mini->tree = cmd_node;
 	status = m_simple_command(mini, parsed_list);
 	m_restore_redirect(redir_fd);
 	mini->tree = original_root;
