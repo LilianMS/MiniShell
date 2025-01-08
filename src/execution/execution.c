@@ -68,7 +68,7 @@ int	m_simple_command(t_mini *mini, t_token **parsed_list)
 	pid = 0;
 	if (mini->tree->type == COMMAND)
 	{
-		if (m_is_builtin(mini->tree->left) != -1)
+		if (m_is_builtin(mini->tree) != -1)
 			mini->exit_status = m_execute_builtin(mini, parsed_list);
 		else
 		{
@@ -98,12 +98,18 @@ int	m_close_fd(int fd)
 
 int	m_handle_redir(t_mini *mini, t_redir *redir_fd, t_token **parsed_list)
 {
+	t_tree	*original_root;
+	int		status;
+
+	status = 0;
+	original_root = mini->tree;
 	if (m_execute_redir(mini, redir_fd))
 		return (m_close_fd(redir_fd->current_fd));
 	mini->tree = mini->tree->left;
-	mini->exit_status = m_simple_command(mini, parsed_list);
+	status = m_simple_command(mini, parsed_list);
 	m_restore_redirect(redir_fd);
-	return (mini->exit_status);
+	mini->tree = original_root;
+	return (status);
 }
 
 int	m_execute_redir(t_mini *mini, t_redir *redir_fd)

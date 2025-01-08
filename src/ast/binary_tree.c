@@ -34,6 +34,7 @@ void	m_grow_tree(t_tree *root, t_token **joint)
 	root->type = (*joint)->type;
 	if ((*joint)->lexeme)
 		root->content = ft_strdup((*joint)->lexeme);
+	// root->parent = root;
 	root->right = m_tree_builder(right);
 	root->left = m_tree_builder(left);
 }
