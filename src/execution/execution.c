@@ -108,6 +108,8 @@ int	m_execute_redir_in(t_mini *mini, t_redir *redir_fd)
 	}
 	if(dup2(redir_fd->current_fd, STDIN_FILENO) == -1)
 	{
+		ft_putnbr_fd(redir_fd->current_fd, STDERR_FILENO);
+		ft_putendl_fd(mini->tree->right->content, STDERR_FILENO);
 		perror("minishell: dup2 error");
 		close(redir_fd->current_fd);
 		m_restore_redirect(redir_fd);
@@ -131,6 +133,8 @@ int	m_execute_redir_out_append(t_mini *mini, t_redir *redir_fd)
 	}
 	if(dup2(redir_fd->current_fd, STDOUT_FILENO) == -1)
 	{
+		ft_putnbr_fd(redir_fd->current_fd, STDERR_FILENO);
+		ft_putendl_fd(" OUT", STDERR_FILENO);
 		perror("minishell: dup2 error");
 		close(redir_fd->current_fd);
 		m_restore_redirect(redir_fd);
@@ -142,26 +146,38 @@ int	m_execute_redir_out_append(t_mini *mini, t_redir *redir_fd)
 
 t_tree	*m_find_command_node(t_tree *node)
 {
-	while (node && node->type != COMMAND)
-			node = node->left;
-	return (node);
+	t_tree	*current;
+
+	current = node;
+	if (current->left)
+	{
+		while (current && current->type != COMMAND)
+				current = current->left;
+	}
+	return (current);
 }
 
-int	m_execute_all_redirs(t_mini*mini, t_redir *redir_fd, t_tree *node)
+int	m_execute_all_redirs(t_mini *mini, t_redir *redir_fd, t_tree *node)
 {
 	t_tree *current;
 
 	m_init_redirect(redir_fd);
+	current = m_find_command_node(node);
+	if (current->type == COMMAND)
+		current = current->parent;
 	current = node;
 	while (current && m_is_redir(current->type))
 	{
+		//ALTERAR HEREDOC PARA ACEITAR T_TREE AO INVÉS DE T_TOKEN
+		// if (mini->tree->type == REDIR_HEREDOC)
+		// 	m_heredoc(parsed_list);
 		if (current->type == REDIR_IN)
 			m_execute_redir_in(mini, redir_fd);
 		else if (current->type == REDIR_OUT)
 			m_execute_redir_out_append(mini, redir_fd);
 		else if (current->type == REDIR_APPEND)
 			m_execute_redir_out_append(mini, redir_fd);
-		current = current->left;
+		current = current->parent;
 	}
 	return (0);
 }

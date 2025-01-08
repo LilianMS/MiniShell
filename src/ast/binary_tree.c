@@ -34,7 +34,6 @@ void	m_grow_tree(t_tree *root, t_token **joint)
 	root->type = (*joint)->type;
 	if ((*joint)->lexeme)
 		root->content = ft_strdup((*joint)->lexeme);
-	// root->parent = root;
 	root->right = m_tree_builder(right);
 	root->left = m_tree_builder(left);
 }
@@ -91,7 +90,7 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	t_tree	*root;
 
 	if (!parsed_list)
-		return (NULL);
+		return (NULL); // root->parent = root;
 	joint = m_find_joint_token(parsed_list);
 	root = ft_calloc(sizeof(t_tree), 1);
 	root->left = NULL;
@@ -113,9 +112,26 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	return (root);
 }
 
+void	m_add_parent(t_tree *root)
+{
+	if (!root)
+		return ;
+	if (root->left)
+	{
+		root->left->parent = root;
+		m_add_parent(root->left);
+	}
+	if (root->right)
+	{
+		root->right->parent = root;
+		m_add_parent(root->right);
+	}
+}
+
 t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list)
 {
 	root = m_tree_builder(*parsed_list);
+	m_add_parent(root);
 	visualize_tree(root); // ----- debug
 	return (root);
 }
