@@ -96,27 +96,33 @@ int	m_close_fd(int fd)
 	return (1);
 }
 
-int	m_handle_redir(t_mini *mini, t_redir *redir_fd, t_token **parsed_list)
+int	m_execute_redir_in(t_mini *mini, t_redir *redir_fd)
 {
-	t_tree	*original_root;
-	int		status;
-
-	status = 0;
-	original_root = mini->tree;
-	if (m_execute_redir(mini, redir_fd))
-		return (m_close_fd(redir_fd->current_fd));
-	mini->tree = mini->tree->left;
-	status = m_simple_command(mini, parsed_list);
-	m_restore_redirect(redir_fd);
-	mini->tree = original_root;
-	return (status);
+	m_init_redirect(redir_fd);
+	if (mini->tree->type == REDIR_IN || mini->tree->type == REDIR_HEREDOC)
+		redir_fd->current_fd = open(mini->tree->right->content, O_RDONLY);
+	if (redir_fd->current_fd == -1)
+	{
+		perror("minishell: input redirection");
+		return (1);
+	}
+	if(dup2(redir_fd->current_fd, STDIN_FILENO) == -1)
+	{
+		perror("minishell: dup2 error");
+		close(redir_fd->current_fd);
+		return (1);
+	}
+	close(redir_fd->current_fd);
+	return (0);
 }
 
-int	m_execute_redir(t_mini *mini, t_redir *redir_fd)
+int	m_execute_redir_out_append(t_mini *mini, t_redir *redir_fd)
 {
 	m_init_redirect(redir_fd);
 	if (mini->tree->type == REDIR_OUT)
 		redir_fd->current_fd = open(mini->tree->right->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (mini->tree->type == REDIR_APPEND)
+		redir_fd->current_fd = open(mini->tree->right->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (redir_fd->current_fd == -1)
 	{
 		perror("minishell: output redirection");
@@ -130,6 +136,32 @@ int	m_execute_redir(t_mini *mini, t_redir *redir_fd)
 	}
 	close(redir_fd->current_fd);
 	return (0);
+}
+
+int	m_handle_redir(t_mini *mini, t_redir *redir_fd, t_token **parsed_list)
+{
+	t_tree	*original_root;
+	int		status;
+
+	status = 0;
+	original_root = mini->tree;
+	if(mini->tree->type == REDIR_IN || mini->tree->type == REDIR_HEREDOC)
+	{
+		if (m_execute_redir_in(mini, redir_fd))
+			return (m_close_fd(redir_fd->current_fd));
+	}
+	else if (mini->tree->type == REDIR_OUT || mini->tree->type == REDIR_APPEND)
+	{
+		if (m_execute_redir_out_append(mini, redir_fd))
+			return (m_close_fd(redir_fd->current_fd));
+	}
+	// if (m_execute_redir(mini, redir_fd))
+	// 	return (m_close_fd(redir_fd->current_fd));
+	mini->tree = mini->tree->left;
+	status = m_simple_command(mini, parsed_list);
+	m_restore_redirect(redir_fd);
+	mini->tree = original_root;
+	return (status);
 }
 
 void	m_execution(t_mini *mini, t_token **parsed_list)
