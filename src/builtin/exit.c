@@ -1,5 +1,8 @@
 #include "../includes/builtin.h"
 
+//TRATAR ERROS (SE RECEBER STRING OU MAIS DE 1 PARÂMETRO)
+//PRECISA TRATAR LONG (LONG?) INT
+
 int	m_exit(t_mini **mini, t_token **parsed_list)
 {
 	ft_putendl_fd("exit", STDOUT_FILENO);

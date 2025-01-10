@@ -97,6 +97,7 @@ int	m_exec_pipe_command(t_mini *mini, t_token **parsed_list, t_tree *original_ro
 			status = m_execute_command(mini->tree->command, mini->env_list);
 	}
 	mini->tree = original_root;
+	m_free_everything(mini, parsed_list);
 	return (status);
 }
 
