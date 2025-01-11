@@ -43,7 +43,7 @@ int m_execute_command(char **tree_node_cmd, t_env *env_list)
 
 int	m_simple_command(t_mini *mini, t_token **parsed_list)
 {
-	int pid;
+	pid_t pid;
 
 	pid = 0;
 	if (mini->tree->type == COMMAND)
@@ -84,52 +84,33 @@ t_tree *m_find_leftmost_pipe(t_tree *node)
 	return (current);
 }
 
-int	m_exec_pipe_command(t_mini *mini, t_token **parsed_list, t_tree *original_root)
-{
-	int status;
+// int	m_exec_pipe_command(t_mini *mini, t_token **parsed_list)
+// {
+// 	pid_t pid;
 
-	status = 0;
-	if (mini->tree->type == COMMAND)
-	{
-		if (m_is_builtin(mini->tree) != -1)
-			status = m_execute_builtin(mini, parsed_list);
-		else
-			status = m_execute_command(mini->tree->command, mini->env_list);
-	}
-	mini->tree = original_root;
-	m_free_everything(mini, parsed_list);
-	return (status);
-}
-
-int	m_execute_pipe(t_mini *mini, t_redir *redir_fd, t_token **parsed_list, t_tree *cmd_node)
-{
-	pid_t pid;
-	t_tree *original_root;
-
-	original_root = mini->tree;
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("minishell: fork");
-		return (1);
-	}
-	if (pid == 0)
-	{
-		mini->tree = cmd_node;
-		if (m_is_redir(mini->tree->type))
-			m_execute_all_redirs(redir_fd, mini->tree);
-		if (mini->tree->type == COMMAND)
-			exit(mini->exit_status = m_exec_pipe_command(mini, parsed_list, original_root));
-		mini->tree = original_root;
-		m_free_everything(mini, parsed_list);
-		exit(1);
-	}
-	return (pid);
-}
-
-// FUNÇÃO QUE LIDA COM PIPE DEVE ABRIR PIPE(PIPEFD) PARA CADA PIPE QUE FOR ENCONTRADO NA LINHA DE COMANDO
-// DEVE FECHAR O PIPE(PIPEFD) APÓS A EXECUÇÃO DO COMANDO (???????)
-// NO PROCESSO FILHO A BUILTIN PRECISA EXECUTAR COM FORK TAMBÉM - OU SEJA, A M_SIMPLE_COMMAND NÃO SERVE NESSE CASO.
+// 	pid = 0;
+// 	if (mini->tree->type == COMMAND)
+// 	{
+// 		if (m_is_builtin(mini->tree) != -1)
+// 			mini->exit_status = m_execute_builtin(mini, parsed_list);
+// 		else
+// 		{
+// 			pid = fork();
+// 			if (pid == 0)
+// 			{
+// 				mini->exit_status = m_execute_command(mini->tree->command, mini->env_list);
+// 				m_free_everything(mini, parsed_list);
+// 				exit(mini->exit_status);
+// 			}
+// 			else
+// 			{
+// 				waitpid(pid, &mini->exit_status, 0);
+// 				mini->exit_status = WEXITSTATUS(mini->exit_status);
+// 			}
+// 		}
+// 	}
+// 	return (mini->exit_status);
+// }
 
 int m_handle_pipe(t_mini *mini, t_redir *redir_fd, t_token **parsed_list)
 {
@@ -169,21 +150,26 @@ int m_handle_pipe(t_mini *mini, t_redir *redir_fd, t_token **parsed_list)
 	return (1);
 }
 
-void m_execution(t_mini *mini, t_token **parsed_list)
+void m_execution(t_tree *tree_node, t_mini *mini, t_token **parsed_list)
 {
-	t_redir redir_fd;
+	t_redir	redir_fd;
 
 	ft_bzero(&redir_fd, sizeof(t_redir));
-	if (!mini->tree)
-		mini->exit_status = 1;
+	// if (!mini->tree)
+	// 	mini->exit_status = 1;
 	if (mini->tree->type == COMMAND)
 		mini->exit_status = m_simple_command(mini, parsed_list);
-	else if (m_is_redir(mini->tree->type))
+	else if (m_is_redir(tree_node->type))
 		mini->exit_status = m_handle_redir(mini, &redir_fd, parsed_list);
-	else if (mini->tree->type == PIPE)
+	else if (tree_node->type == PIPE)
 		mini->exit_status = m_handle_pipe(mini, &redir_fd, parsed_list);
-	if (mini->tree->content)
-		ft_putendl_fd(mini->tree->content, STDERR_FILENO); //	-->debug
+	// if (tree_node->content)
+	// {
+	// 	int i = 0;
+	// 	ft_putendl_fd(mini->tree->content, STDERR_FILENO);	//	-->debug
+	// 	ft_putnbr_fd(i++, STDERR_FILENO); //	-->debug
+	// 	ft_putendl_fd("", STDERR_FILENO);	//	-->debug
+	// }
 	m_tree_cleaner(mini->tree);
 	m_free_tokens(parsed_list);
 }
