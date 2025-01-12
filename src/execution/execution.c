@@ -55,6 +55,7 @@ int	m_simple_command(t_tree *node, t_mini *mini)
 			if (pid == 0)
 			{
 				mini->exit_status = m_execute_command(node->command, mini->env_list);
+				// msg d erro
 				m_free_everything(mini);
 				exit(mini->exit_status);
 			}
@@ -65,7 +66,7 @@ int	m_simple_command(t_tree *node, t_mini *mini)
 			}
 		}
 	}
-	m_tree_cleaner(mini->tree);
+	// m_tree_cleaner(mini->tree);
 	return (mini->exit_status);
 }
 
@@ -98,8 +99,8 @@ int	m_exec_pipe_command(t_tree *node, t_mini *mini)
 	if (m_is_builtin(node) != -1)
 	{
 		mini->exit_status = m_execute_builtin(node, mini);
-		m_free_everything(mini);
-		exit(mini->exit_status);
+		// m_free_everything(mini);
+		// exit(mini->exit_status);
 	}
 	else
 	{
@@ -189,7 +190,9 @@ void	m_execution(t_tree *node, t_mini *mini)
 		mini->exit_status = m_handle_pipe(node, mini);
 	else
 		mini->exit_status = m_exec_pipe_others(node, mini, &redir_fd);
-	// m_free_everything(mini);
+	// if (mini->tree && mini->env_list)
+	// 	m_free_everything(mini);
+	// m_tree_cleaner(mini->tree);
 }
 
 

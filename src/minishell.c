@@ -19,6 +19,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		m_lexical_analysis(&mini);
 		free(mini.line);
+		m_tree_cleaner(mini.tree);
 	}
 	rl_clear_history();
 	m_free_env_list(mini.env_list);
