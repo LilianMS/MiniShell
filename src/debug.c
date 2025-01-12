@@ -106,7 +106,7 @@ void	ft_debug_tests(t_mini *mini, t_token *parsed_list)
 		return ;
 	args = parsed_list->command;
 	if (ft_strcmp(parsed_list->command[0], "exit") == 0)
-		m_exit(&mini, &parsed_list);
+		m_exit(&mini);
 	if (ft_strcmp(parsed_list->command[0], "env") == 0)
 		m_env(mini->env_list);
 	if (ft_strncmp(parsed_list->command[0], "echo", 4) == 0)

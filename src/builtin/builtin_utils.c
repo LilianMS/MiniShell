@@ -32,14 +32,14 @@ int	m_is_builtin(t_tree *tree_node)
 	return (-1);
 }
 
-int	m_execute_builtin(t_mini *mini, t_token **parsed_list)
+int	m_execute_builtin(t_tree *tree_node, t_mini *mini)
 {
 	char	**args;
 	int		builtin;
 	int		exit_status;
 
-	args = mini->tree->command;
-	builtin = m_is_builtin(mini->tree);
+	args = tree_node->command;
+	builtin = m_is_builtin(tree_node);
 	if (builtin == -1)
 		exit_status = 1;
 	if (builtin == PWD)
@@ -55,6 +55,6 @@ int	m_execute_builtin(t_mini *mini, t_token **parsed_list)
 	if (builtin == UNSET)
 		exit_status = m_unset(mini->env_list, args);
 	if (builtin == EXIT)
-		exit_status = m_exit(&mini, parsed_list);
+		exit_status = m_exit(&mini);
 	return (exit_status);
 }

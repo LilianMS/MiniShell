@@ -22,18 +22,17 @@ struct s_redir {
 };
 
 //Functions
-void	m_execution(t_mini *mini, t_token **parsed_list);
+void	m_execution(t_tree *node, t_mini *mini);
+int		m_simple_command(t_tree *node, t_mini *mini);
 int		m_execute_command(char **tree_node_cmd, t_env *env_list);
 char	*m_create_path(char *cmd_path, char **node_cmd, char **envp);
 char	**m_env_list_to_array(t_env *env_list);
 int		m_check_cmd(char *cmd_path);
+int		m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd);
 int		m_execute_all_redirs(t_redir *redir_fd, t_tree *node);
 void	m_init_redirect(t_redir *redir_fd);
 void	m_restore_redirect(t_redir *redir_fd);
-int		m_handle_redir(t_mini *mini, t_redir *redir_fd, t_token **parsed_list);
-void	m_init_redirect(t_redir *redir_fd);
-void	m_restore_redirect(t_redir *redir_fd);
 int		m_close_fd(int fd);
-int		m_simple_command(t_mini *mini, t_token **parsed_list);
+int		m_handle_pipe(t_tree *node, t_mini *mini);
 
 #endif
