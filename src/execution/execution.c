@@ -65,23 +65,50 @@ int	m_simple_command(t_tree *node, t_mini *mini)
 			}
 		}
 	}
+	m_tree_cleaner(mini->tree);
 	return (mini->exit_status);
 }
 
-// t_tree *m_find_leftmost_pipe(t_tree *node)
-// {
-// 	t_tree *current;
+int	m_exec_pipe_others(t_tree *node, t_mini *mini, t_redir *redir_fd)
+{
+	t_tree *cmd_node;
 
-// 	current = node;
-// 	while (current && current->left && current->type == PIPE)
-// 		current = current->left;
-// 	if (current->type != PIPE)
-// 		current = current->parent;
-// 	ft_putendl_fd(current->content, STDERR_FILENO);			//	-->debug
-// 	ft_putstr_fd(current->left->command[0], STDERR_FILENO); //	-->debug
-// 	ft_putendl_fd("", STDERR_FILENO);						//				-->debug
-// 	return (current);
-// }
+	if (m_is_redir(node->type))
+	{
+		if (m_execute_all_redirs(redir_fd, node))
+		{
+			// m_free_everything(mini);
+			return (1);
+		}
+		cmd_node = m_find_command_node(node);
+		if (!cmd_node)
+		{
+			m_restore_redirect(redir_fd);
+			return (1);
+		}
+	}
+	else
+		cmd_node = node;
+	mini->exit_status = m_exec_pipe_command(cmd_node, mini);
+	return (mini->exit_status);
+}
+
+int	m_exec_pipe_command(t_tree *node, t_mini *mini)
+{
+	if (m_is_builtin(node) != -1)
+	{
+		mini->exit_status = m_execute_builtin(node, mini);
+		m_free_everything(mini);
+		exit(mini->exit_status);
+	}
+	else
+	{
+		mini->exit_status = m_execute_command(node->command, mini->env_list);
+		m_free_everything(mini);
+		exit(mini->exit_status);
+	}
+	return (mini->exit_status);
+}
 
 int	m_handle_fork_error(int *pipefd)
 {
@@ -154,22 +181,15 @@ void	m_execution(t_tree *node, t_mini *mini)
 	t_redir	redir_fd;
 
 	ft_bzero(&redir_fd, sizeof(t_redir));  
-	// if (!mini->tree)
-	// 	mini->exit_status = 1;
-	if (mini->tree->type == COMMAND)
+	if (node->type == COMMAND && !node->parent)
 		mini->exit_status = m_simple_command(node, mini);
-	else if (m_is_redir(node->type)) // arrumar para receber tree_node
+	else if (m_is_redir(node->type) && !node->parent)
 		mini->exit_status = m_handle_redir(node, mini, &redir_fd);
 	else if (node->type == PIPE)
 		mini->exit_status = m_handle_pipe(node, mini);
-	// if (tree_node->content)
-	// {
-	// 	int i = 0;
-	// 	ft_putendl_fd(mini->tree->content, STDERR_FILENO);	//	-->debug
-	// 	ft_putnbr_fd(i++, STDERR_FILENO); //	-->debug
-	// 	ft_putendl_fd("", STDERR_FILENO);	//	-->debug
-	// }
-	m_tree_cleaner(mini->tree);
+	else
+		mini->exit_status = m_exec_pipe_others(node, mini, &redir_fd);
+	// m_free_everything(mini);
 }
 
 

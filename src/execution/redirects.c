@@ -12,8 +12,6 @@ static int	m_execute_redir_in(t_tree *current, t_redir *redir_fd)
 	}
 	if (dup2(redir_fd->current_fd, STDIN_FILENO) == -1)
 	{
-		ft_putnbr_fd(redir_fd->current_fd, STDERR_FILENO);	   // -->debug
-		ft_putendl_fd(current->right->content, STDERR_FILENO); // -->debug
 		perror("minishell: dup2 error");
 		close(redir_fd->current_fd);
 		m_restore_redirect(redir_fd);
@@ -28,7 +26,8 @@ static int	m_execute_redir_out_append(t_tree *current, t_redir *redir_fd)
 	if (current->type == REDIR_OUT)
 	{
 		redir_fd->current_fd = open(current->right->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		ft_putendl_fd(current->right->content, STDERR_FILENO); // -->debug
+		ft_putstr_fd(current->right->content, STDERR_FILENO); // -->debug
+		ft_putendl_fd(" >> DEBUG", STDERR_FILENO); // -->debug
 	}
 	else if (current->type == REDIR_APPEND)
 		redir_fd->current_fd = open(current->right->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -40,8 +39,6 @@ static int	m_execute_redir_out_append(t_tree *current, t_redir *redir_fd)
 	}
 	if (dup2(redir_fd->current_fd, STDOUT_FILENO) == -1)
 	{
-		ft_putnbr_fd(redir_fd->current_fd, STDERR_FILENO); // -->debug
-		ft_putendl_fd(" OUT", STDERR_FILENO);			   // -->debug
 		perror("minishell: dup2 error");
 		close(redir_fd->current_fd);
 		m_restore_redirect(redir_fd);
