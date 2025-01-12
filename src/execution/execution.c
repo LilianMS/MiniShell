@@ -158,8 +158,8 @@ void	m_execution(t_tree *node, t_mini *mini)
 	// 	mini->exit_status = 1;
 	if (mini->tree->type == COMMAND)
 		mini->exit_status = m_simple_command(node, mini);
-	// else if (m_is_redir(node->type)) // arrumar para receber tree_node
-	// 	mini->exit_status = m_handle_redir(mini, &redir_fd, parsed_list);
+	else if (m_is_redir(node->type)) // arrumar para receber tree_node
+		mini->exit_status = m_handle_redir(node, mini, &redir_fd);
 	else if (node->type == PIPE)
 		mini->exit_status = m_handle_pipe(node, mini);
 	// if (tree_node->content)
