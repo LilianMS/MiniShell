@@ -75,14 +75,14 @@ int	m_exec_redir_command(t_tree *node, t_mini *mini)
 	if (m_is_builtin(node) != -1)
 	{
 		status = m_execute_builtin(node, mini);
-		ft_putendl_fd("builtin execution error", STDERR_FILENO);
+		perror("minishell: builtin execution error");
 		m_free_everything(mini);
 		exit(status);
 	}
 	else
 	{
 		status = m_execute_command(node->command, mini);
-		ft_putendl_fd("builtin execution error", STDERR_FILENO);
+		perror("minishell: external command execution error");
 		m_free_everything(mini);
 		exit(status);
 	}
@@ -138,7 +138,7 @@ int	m_handle_pipe(t_tree *node, t_mini *mini)
 		return (-1);
 	if (pipe(pipefd) == -1)
 	{
-		ft_putendl_fd("pipe error", STDERR_FILENO);
+		perror("minishell: pipe error");
 		return (1);
 	}
 	pid[0] = m_fork_and_exec(pipefd, node->left, 0, mini);
@@ -171,10 +171,7 @@ void	m_execution(t_tree *node, t_mini *mini)
 		mini->exit_status = m_handle_redir(node, mini, &redir_fd);
 	else if (node->type == PIPE)
 		mini->exit_status = m_handle_pipe(node, mini);
-	// else
-	// 	mini->exit_status = m_exec_pipe_others(node, mini, &redir_fd);
-	// m_free_everything(mini);
-	// m_tree_cleaner(mini->tree);
+	
 }
 
 
