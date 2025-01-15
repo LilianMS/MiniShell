@@ -92,7 +92,7 @@ int	m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd)
 	if (m_execute_all_redirs(redir_fd, node))
 		return (1);
 	cmd_node = m_find_command_node(node);
-	if (!cmd_node)
+	if (cmd_node->type != COMMAND)
 	{
 		m_restore_redirect(redir_fd);
 		return (1);
