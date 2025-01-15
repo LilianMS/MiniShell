@@ -99,7 +99,7 @@ int	m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd)
 		m_restore_redirect(redir_fd);
 		return (1);
 	}
-	status = m_simple_command(cmd_node, mini);
+	status = m_exec_redir_command(cmd_node, mini);
 	m_restore_redirect(redir_fd);
 	return (status);
 }

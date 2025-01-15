@@ -24,7 +24,7 @@ struct s_redir {
 //Functions
 void	m_execution(t_tree *node, t_mini *mini);
 int		m_simple_command(t_tree *node, t_mini *mini);
-int		m_execute_command(char **tree_node_cmd, t_env *env_list);
+int		m_execute_command(char **tree_node_cmd, t_mini *mini);
 char	*m_create_path(char *cmd_path, char **node_cmd, char **envp);
 char	**m_env_list_to_array(t_env *env_list);
 int		m_check_cmd(char *cmd_path);
@@ -37,6 +37,6 @@ int		m_close_fd(int fd);
 int		m_handle_pipe(t_tree *node, t_mini *mini);
 void	m_free_everything(t_mini *mini);
 int		m_exec_pipe_others(t_tree *node, t_mini *mini, t_redir *redir_fd);
-int		m_exec_pipe_command(t_tree *node, t_mini *mini);
+int		m_exec_redir_command(t_tree *node, t_mini *mini);
 
 #endif
