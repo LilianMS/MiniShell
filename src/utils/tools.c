@@ -16,9 +16,7 @@ void	m_sig_int(int signum)
 
 void	init_minishell(t_mini *mini, char **envp)
 {
-	// signal(SIGINT, m_sig_int);
-	// signal(SIGQUIT, SIG_IGN);
-	isatty(STDOUT_FILENO);
+	// isatty(STDOUT_FILENO);
 	ft_bzero(mini, sizeof(t_mini));
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
