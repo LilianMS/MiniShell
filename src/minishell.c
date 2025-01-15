@@ -3,6 +3,17 @@
 // Variável global para armazenar o status do sinal
 volatile sig_atomic_t	g_signal_status = 0;
 
+int	m_minishell_on(t_mini *mini)
+{
+	// int		status;
+	t_token	*parsed_list;
+
+	parsed_list = m_lexical_analysis(mini);
+	mini->tree = m_binary_tree(mini->tree, &parsed_list);
+	m_execution(mini->tree, mini);
+	return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
@@ -17,7 +28,7 @@ int	main(int ac, char **av, char **envp)
 		mini.line = readline("minishell> ");
 		if (m_is_input_null(&mini))
 			break ;
-		m_lexical_analysis(&mini);
+		m_minishell_on(&mini); //---> Organizei para centralizar os processos de tokenização, parser e execução dentro dessa nova função
 		free(mini.line);
 		m_tree_cleaner(mini.tree);
 	}

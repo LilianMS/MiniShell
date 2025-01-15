@@ -35,7 +35,7 @@ char	*m_get_delimiter_lexeme(t_token *parsed_list)
 	return (NULL);
 }
 
-void	m_lexical_analysis(t_mini *mini)
+t_token	*m_lexical_analysis(t_mini *mini)
 {
 	t_token	* token_list;
 	t_token	*parsed_list;
@@ -43,19 +43,18 @@ void	m_lexical_analysis(t_mini *mini)
 	token_list = NULL;
 	parsed_list = NULL;
 	if (!m_check_line_input(mini->line))
-		return ;
+		return (NULL);
 	m_tokenize(&token_list, mini->line);
 	if (token_list != NULL)
 	{
 		if (!m_validate_tokens(token_list))
 		{
 			m_free_tokens(&token_list);
-			return ;
+			return (NULL);
 		}
 	}
 	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
-	list_printer(&parsed_list); // ----- debug
+	// list_printer(&parsed_list); // ----- debug
 	m_free_tokens(&token_list);
-	mini->tree = m_binary_tree(mini->tree, &parsed_list);
-	m_execution(mini->tree, mini);
+	return (parsed_list);
 }
