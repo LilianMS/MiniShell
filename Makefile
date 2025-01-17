@@ -26,6 +26,7 @@ SRC= minishell.c \
 	 utils/checkers.c \
 	 utils/cleaners.c \
 	 utils/tools.c \
+	 utils/signals.c \
 	 builtin/echo.c \
 	 builtin/pwd.c \
 	 builtin/export.c \
@@ -34,7 +35,6 @@ SRC= minishell.c \
 	 builtin/env.c \
 	 builtin/exit.c \
 	 builtin/builtin_utils.c \
-	 execution/heredoc.c \
 	 execution/execution.c \
 	 execution/exec_path.c \
 	 execution/redirects.c \

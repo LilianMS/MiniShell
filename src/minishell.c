@@ -16,17 +16,32 @@ int	m_minishell_on(t_mini *mini)
 	return (0);
 }
 
+void	m_init_signals(void)
+{
+	signal(SIGINT, m_sig_int);
+	signal(SIGQUIT, SIG_IGN); // enquanto roda o minishell iginora os sinais de interrupção
+	signal(SIGPIPE, SIG_IGN);
+}
+
+static void	update_mini(t_mini *mini)
+{
+	m_init_signals();
+	dup2(mini->backup_fd_in, STDIN_FILENO); // 
+	tcsetattr(STDIN_FILENO, TCSANOW, &mini->term);
+	m_exec_signals(1);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
 	t_mini	mini;
 
-	// g_signal_status = 11;
 	init_minishell(&mini, envp);
 	while (1)
 	{
-		signal(SIGINT, m_sig_int);
+		g_signal_status = 0;
+		update_mini(&mini);
 		mini.line = readline("minishell> ");
 		if (m_is_input_null(&mini))
 			break ;
