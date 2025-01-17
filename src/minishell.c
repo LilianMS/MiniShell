@@ -9,6 +9,8 @@ int	m_minishell_on(t_mini *mini)
 	t_token	*parsed_list;
 
 	parsed_list = m_lexical_analysis(mini);
+	if (!parsed_list)
+		return (1);
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);
 	m_execution(mini->tree, mini);
 	return (0);
@@ -28,8 +30,10 @@ int	main(int ac, char **av, char **envp)
 		mini.line = readline("minishell> ");
 		if (m_is_input_null(&mini))
 			break ;
+		if (!*mini.line)
+			continue ;
 		m_minishell_on(&mini); //---> Organizei para centralizar os processos de tokenização, parser e execução dentro dessa nova função
-		free(mini.line);
+		// free(mini.line);
 		m_tree_cleaner(mini.tree);
 	}
 	rl_clear_history();
