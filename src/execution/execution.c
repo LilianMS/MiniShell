@@ -2,6 +2,8 @@
 
 void	m_free_everything(t_mini *mini)
 {
+	if (mini->line)
+		free(mini->line);
 	if (mini->env_list)
 		m_free_env_list(mini->env_list);
 	if (mini->tree)
