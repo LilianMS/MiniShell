@@ -5,18 +5,16 @@ volatile sig_atomic_t	g_signal_status = 0;
 
 int	m_minishell_on(t_mini *mini)
 {
-	int		exit_status;
 	t_token	*parsed_list;
 
-	exit_status = 0;
 	parsed_list = m_lexical_analysis(mini);
 	if (!parsed_list)
 		return (1);
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);
-	exit_status = m_execution(mini->tree, mini);
+	mini->exit_status = m_execution(mini->tree, mini);
 	ft_putnbr_fd(mini->exit_status, STDERR_FILENO);
 	ft_putendl_fd("", STDERR_FILENO);
-	return (exit_status);
+	return (mini->exit_status);
 }
 
 int	main(int ac, char **av, char **envp)

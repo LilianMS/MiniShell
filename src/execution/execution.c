@@ -154,6 +154,7 @@ int	m_execution(t_tree *node, t_mini *mini)
 	t_redir	redir_fd;
 	int		exit_status;
 
+	exit_status = 0;
 	ft_bzero(&redir_fd, sizeof(t_redir));
 	if (node->type == COMMAND && !node->parent)
 		exit_status = m_simple_command(node, mini);
