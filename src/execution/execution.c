@@ -10,18 +10,6 @@ void	m_free_everything(t_mini *mini)
 		m_tree_cleaner(mini->tree);
 }
 
-int m_check_cmd(char *cmd_path)
-{
-	int status;
-
-	status = 0;
-	if (access(cmd_path, F_OK) == -1)
-		status = 127;
-	else if (access(cmd_path, F_OK | X_OK) == -1)
-		status = 126;
-	return (status);
-}
-
 int m_execute_command(char **tree_node_cmd, t_mini *mini)
 {
 	//SEPARAR ESSA PARTE EM OUTRA FUNÇÃO
@@ -32,12 +20,12 @@ int m_execute_command(char **tree_node_cmd, t_mini *mini)
 	env = m_env_list_to_array(mini->env_list);
 	if (!env)
 		return (1);
-	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
+	cmd_path = m_create_path(cmd_path, tree_node_cmd, env, mini);
 	if (cmd_path == NULL)
 	{
 		free(cmd_path);
 		free_cmd_array(env);
-		return (127);
+		return (mini->exit_status);
 	}
 	//SEPARAR ESSA PARTE EM OUTRA FUNÇÃO
 	execve(cmd_path, tree_node_cmd, env);
@@ -53,20 +41,20 @@ int	m_simple_command(t_tree *node, t_mini *mini)
 
 	pid = 0;
 	status = -1;
-		pid = fork();
-		if (pid == 0)
-		{
-			status = m_execute_command(node->command, mini);
-			// msg d erro
-			m_free_everything(mini);
-			exit(status);
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				status = WEXITSTATUS(status);
-		}
+	pid = fork();
+	if (pid == 0)
+	{
+		status = m_execute_command(node->command, mini);
+		// msg d erro
+		m_free_everything(mini);
+		exit(status);
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
+	}
 	return (status);
 }
 
@@ -100,6 +88,9 @@ int	m_handle_fork_error(int *pipefd)
 
 int	m_children_process(int *pipefd, t_tree *node, int pid_index, t_mini *mini)
 {
+	int	status;
+
+	status = 0;
 	if (pid_index == 0)
 	{
 		close(pipefd[0]);
@@ -112,9 +103,9 @@ int	m_children_process(int *pipefd, t_tree *node, int pid_index, t_mini *mini)
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 	}
-	m_execution(node, mini);
+	status = m_execution(node, mini);
 	m_free_everything(mini);
-	exit(mini->exit_status);
+	exit(status);
 }
 
 int	m_fork_and_exec(int *pipefd, t_tree *node, int pid_index, t_mini *mini)
@@ -158,22 +149,23 @@ int	m_handle_pipe(t_tree *node, t_mini *mini)
 	return (status[1]);
 }
 
-void	m_execution(t_tree *node, t_mini *mini)
+int	m_execution(t_tree *node, t_mini *mini)
 {
 	t_redir	redir_fd;
+	int		exit_status;
 
 	ft_bzero(&redir_fd, sizeof(t_redir));
 	if (node->type == COMMAND && !node->parent)
-		mini->exit_status = m_simple_command(node, mini);
+		exit_status = m_simple_command(node, mini);
 	else if (m_is_builtin(node) != -1)
-		mini->exit_status = m_execute_builtin(node, mini);
+		exit_status = m_execute_builtin(node, mini);
 	else if (node->type == COMMAND)
-		mini->exit_status = m_execute_command(node->command, mini);
+		exit_status = m_execute_command(node->command, mini);
 	else if (m_is_redir(node->type))
-		mini->exit_status = m_handle_redir(node, mini, &redir_fd);
+		exit_status = m_handle_redir(node, mini, &redir_fd);
 	else if (node->type == PIPE)
-		mini->exit_status = m_handle_pipe(node, mini);
-	
+		exit_status = m_handle_pipe(node, mini);
+	return (exit_status);
 }
 
 
