@@ -45,7 +45,6 @@ static int	exp_parse_input(char *arg, char **name, char **value)
 
 void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 {
-	ft_printf("call by cd\n"); // debug
 	t_env	*current;
 	t_env	*new_node;
 
@@ -68,16 +67,15 @@ void	exp_update_or_add_env(t_env **env_list, char *name, char *value)
 	m_add_node_env(env_list, new_node);
 }
 
-int	m_export(t_env **env_list, char **args)
+int	m_export(t_env *env_list, char **args)
 {
-	ft_printf("call export\n"); // debug
 	char	*name;
 	char	*value;
 	int		i;
 
 	i = 1;
 	if (!args[1])
-		m_print_sorted_env(*env_list);
+		m_print_sorted_env(env_list);
 	else
 	{
 		while (args[i])
@@ -88,7 +86,7 @@ int	m_export(t_env **env_list, char **args)
 			if (!exp_is_valid_name(name))
 				m_print_error("export: `", args[i], "': not a valid identifier"); // acertar print error
 			else
-				exp_update_or_add_env(env_list, name, value);
+				exp_update_or_add_env(&env_list, name, value);
 			free(name);
 			free(value);
 			i++;
