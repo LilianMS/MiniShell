@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	t_mini	mini;
-	int		status;
+	// int		status;
 
 	init_minishell(&mini, envp);
 	while (1)
@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (!*mini.line)
 			continue ;
-		status = m_minishell_on(&mini);
+		m_minishell_on(&mini);
 	}
 	rl_clear_history();
 	m_free_env_list(mini.env_list);
