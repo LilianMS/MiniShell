@@ -9,6 +9,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <termios.h>
 
 #include "tokenizer.h"
 #include "parser.h"
@@ -20,18 +21,36 @@
 extern volatile sig_atomic_t	g_signal_status;
 
 //Structs
-typedef struct s_mini		t_mini;
-typedef struct s_token		t_token;
-typedef struct s_env		t_env;
-typedef struct s_tree		t_tree;
+typedef struct s_mini	t_mini;
+typedef struct s_token	t_token;
+typedef struct s_env	t_env;
+typedef struct s_tree	t_tree;
+typedef struct s_hdoc	t_hdoc; // novo
+typedef struct termios	t_termios; // novo
 
 struct s_mini
 {
-	int		exit_status;
-	char	*line;
-	t_env	*env_list;
-	t_tree	*tree;
+	char		*line;
+	int			exit_status;
+	int			backup_fd_in; // novo
+	t_env		*env_list;
+	t_tree		*tree;
+	t_hdoc		*hdoc; // novo
+	t_token		*parsed_list; // novo
+	t_termios	term; // novo
 };
+
+struct s_hdoc
+{
+	char	*cmd;
+	char	*delimiter;
+	char	*filename;
+	int		temp_fd;
+	int		exit_flag;
+	int		suffix_doc;
+	t_env	*env_list;
+	t_token	*token_list;
+} ;
 
 // Lexical Analysis Functions
 t_token*	m_lexical_analysis(t_mini *mini);
@@ -43,7 +62,7 @@ int			m_is_input_null(t_mini *mini);
 
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);
-void	m_heredoc(t_token *parsed_list); // heredoc debug
-char	*m_get_delimiter_lexeme(t_token *parsed_list); // heredoc debug
+
+void	m_exec_signals(int pid);
 
 #endif

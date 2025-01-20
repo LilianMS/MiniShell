@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
-#include "debug.h" // ----- debug
-#include "builtin.h" // ----- debug
+// #include "debug.h" // ----- debug
+// #include "builtin.h" // ----- debug
 
 void	init_minishell(t_mini *mini, char **envp)
 {
@@ -8,31 +8,20 @@ void	init_minishell(t_mini *mini, char **envp)
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
 	mini->tree = NULL;
+	mini->backup_fd_in = dup(STDIN_FILENO); // novo
+	tcgetattr(STDIN_FILENO, &mini->term); // novo
 }
 
 void	m_sig_int(int signum)
 {
 	if (signum == SIGINT)
 	{
+		g_signal_status = 128 + signum;
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-}
-
-char	*m_get_delimiter_lexeme(t_token *parsed_list)
-{
-	t_token	*current;
-
-	current = parsed_list;
-	while (current)
-	{
-		if (current->type == DELIMITER)
-			return (current->lexeme);
-		current = current->next;
-	}
-	return (NULL);
 }
 
 t_token	*m_lexical_analysis(t_mini *mini)
