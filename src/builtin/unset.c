@@ -25,7 +25,7 @@ void	m_remove_node_env(t_env **env_list, char *name)
 	}
 }
 
-int	m_unset(t_env *env_list, char **args)
+int	m_unset(t_env **env_list, char **args)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ int	m_unset(t_env *env_list, char **args)
 		return (0);
 	while (args[i])
 	{
-		m_remove_node_env(&env_list, args[i]);
+		m_remove_node_env(env_list, args[i]);
 		i++;
 	}
 	return (0);

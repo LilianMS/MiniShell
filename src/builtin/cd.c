@@ -17,7 +17,7 @@ static void	cd_print_error(char *folder)
 	free(message_to_print);
 }
 
-static int	cd_aux(char **args, t_mini *mini, char **path)
+static int	cd_aux(char **args, t_env *env_list, char **path)
 {
 	*path = NULL;
 	if (args[1] && args[2])
@@ -26,7 +26,7 @@ static int	cd_aux(char **args, t_mini *mini, char **path)
 		return (1);
 	}
 	if (args[1] == NULL)
-		*path = m_get_env(mini->env_list, "HOME");
+		*path = m_get_env(env_list, "HOME");
 	else
 		*path = ft_strdup(args[1]);
 	if (!*path[0])
@@ -38,19 +38,19 @@ static int	cd_aux(char **args, t_mini *mini, char **path)
 	return (0);
 }
 
-int		ft_cd(char **args, t_mini *mini)
+int	ft_cd(char **args, t_env *env_list)
 {
     char	*path;
 	char	*oldpwd;
 
-	if (cd_aux(args, mini, &path) == 1)
+	if (cd_aux(args, env_list, &path) == 1)
 	{
 		free(path);
 		return (1);
 	}
 	oldpwd = getcwd(NULL, 0);
 	if (oldpwd == NULL)
-		oldpwd = m_get_env(mini->env_list, "PWD");
+		oldpwd = m_get_env(env_list, "PWD");
 	if (chdir(path) == -1)
 	{
 		cd_print_error(path);
@@ -59,10 +59,10 @@ int		ft_cd(char **args, t_mini *mini)
 		return (1);
 	}
 	free(path);
-    exp_update_or_add_env(&mini->env_list, "OLDPWD", oldpwd);
+    exp_update_or_add_env(&env_list, "OLDPWD", oldpwd);
 	free(oldpwd);
 	path = getcwd(NULL, 0);
-    exp_update_or_add_env(&mini->env_list, "PWD", path);
+    exp_update_or_add_env(&env_list, "PWD", path);
 	free(path);
 	return (0);
 }

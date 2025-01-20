@@ -22,11 +22,11 @@ enum e_builtin
 
 // functions builtins
 int		ft_pwd(void);
-int		ft_cd(char **args, t_mini *mini); // not implemented
+int		ft_cd(char **args, t_env *env_list);
 int		ft_echo(char **args);
 int		m_env(t_env *env_list);
-int		m_export(t_env *env_list, char **args);
-int		m_unset(t_env *env_list, char **args);
+int		m_export(t_env **env_list, char **args);
+int		m_unset(t_env **env_list, char **args);
 int		m_exit(t_mini **mini);
 int		m_is_builtin(t_tree *tree_node);
 int		m_execute_builtin(t_tree *node, t_mini *mini);

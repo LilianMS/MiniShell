@@ -47,15 +47,15 @@ int	m_execute_builtin(t_tree *tree_node, t_mini *mini)
 	// if (builtin == CD)
 	// 	ft_cd(args); //---> cd retorna erro de permissão negada se tentar acessar uma pasta sem permissão
 	if (builtin == CD)
-		exit_status = ft_cd(args, mini);
+		exit_status = ft_cd(args, mini->env_list);
 	if (builtin == ECHO)
 		exit_status = ft_echo(args);
 	if (builtin == ENV)
 		exit_status = m_env(mini->env_list);
 	if (builtin == EXPORT)
-		exit_status = m_export(mini->env_list, args);
+		exit_status = m_export(&mini->env_list, args);
 	if (builtin == UNSET)
-		exit_status = m_unset(mini->env_list, args);
+		exit_status = m_unset(&mini->env_list, args);
 	if (builtin == EXIT)
 		exit_status = m_exit(&mini);
 	return (exit_status);
