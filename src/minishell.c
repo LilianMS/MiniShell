@@ -12,7 +12,7 @@ int	m_minishell_on(t_mini *mini)
 		return (1);
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);
 	mini->exit_status = m_execution(mini->tree, mini);
-	ft_putnbr_fd(mini->exit_status, STDERR_FILENO);
+	ft_putnbr_fd(mini->exit_status, STDERR_FILENO); // debug
 	ft_putendl_fd("", STDERR_FILENO);
 	m_tree_cleaner(mini->tree);
 	return (mini->exit_status);
@@ -48,8 +48,8 @@ int	main(int ac, char **av, char **envp)
 		mini.line = readline("minishell> ");
 		if (m_is_input_null(&mini))
 			break ;
-		if (!*mini.line)
-			continue ;
+		// if (!*mini.line)
+		// 	continue ;
 		m_minishell_on(&mini);
 	}
 	rl_clear_history();
