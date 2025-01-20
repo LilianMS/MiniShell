@@ -14,6 +14,7 @@ int	m_minishell_on(t_mini *mini)
 	mini->exit_status = m_execution(mini->tree, mini);
 	ft_putnbr_fd(mini->exit_status, STDERR_FILENO);
 	ft_putendl_fd("", STDERR_FILENO);
+	m_tree_cleaner(mini->tree);
 	return (mini->exit_status);
 }
 
@@ -34,9 +35,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (!*mini.line)
 			continue ;
-		status = m_minishell_on(&mini); //---> Organizei para centralizar os processos de tokenização, parser e execução dentro dessa nova função
-		// free(mini.line);
-		m_tree_cleaner(mini.tree);
+		status = m_minishell_on(&mini);
 	}
 	rl_clear_history();
 	m_free_env_list(mini.env_list);
