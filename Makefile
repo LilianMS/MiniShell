@@ -35,7 +35,6 @@ SRC= minishell.c \
 	 builtin/env.c \
 	 builtin/exit.c \
 	 builtin/builtin_utils.c \
-	 execution/heredoc.c \
 	 execution/execution.c \
 	 execution/exec_path.c \
 	 execution/redirects.c \
