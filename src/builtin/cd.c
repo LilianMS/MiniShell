@@ -38,16 +38,10 @@ static int	cd_aux(char **args, t_env *env_list, char **path)
 	return (0);
 }
 
-int	ft_cd(char **args, t_env *env_list)
+static int	cd_change_directory(char *path, t_env *env_list)
 {
-    char	*path;
 	char	*oldpwd;
 
-	if (cd_aux(args, env_list, &path) == 1)
-	{
-		free(path);
-		return (1);
-	}
 	oldpwd = getcwd(NULL, 0);
 	if (oldpwd == NULL)
 		oldpwd = m_get_env(env_list, "PWD");
@@ -58,11 +52,23 @@ int	ft_cd(char **args, t_env *env_list)
 		free(oldpwd);
 		return (1);
 	}
-	free(path);
-    exp_update_or_add_env(&env_list, "OLDPWD", oldpwd);
+	exp_update_or_add_env(&env_list, "OLDPWD", oldpwd);
 	free(oldpwd);
+	return (0);
+}
+
+int	ft_cd(char **args, t_env *env_list)
+{
+	char	*path;
+
+	if (cd_aux(args, env_list, &path) == 1)
+		return (1);
+	if (cd_change_directory(path, env_list) == 1)
+		return (1);
+	if (args[1] != NULL)
+		free(path);
 	path = getcwd(NULL, 0);
-    exp_update_or_add_env(&env_list, "PWD", path);
+	exp_update_or_add_env(&env_list, "PWD", path);
 	free(path);
 	return (0);
 }
