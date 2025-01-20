@@ -49,7 +49,6 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		m_minishell_on(&mini); //---> Organizei para centralizar os processos de tokenização, parser e execução dentro dessa nova função
 		// free(mini.line);
-		m_tree_cleaner(mini.tree);
 	}
 	rl_clear_history();
 	m_free_env_list(mini.env_list);

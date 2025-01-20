@@ -163,10 +163,10 @@ void	m_execution(t_tree *node, t_mini *mini)
 	t_redir	redir_fd;
 
 	ft_bzero(&redir_fd, sizeof(t_redir));
-	if (node->type == COMMAND && !node->parent)
-		mini->exit_status = m_simple_command(node, mini);
-	else if (m_is_builtin(node) != -1)
+	if (m_is_builtin(node) != -1)
 		mini->exit_status = m_execute_builtin(node, mini);
+	else if (node->type == COMMAND && !node->parent)
+		mini->exit_status = m_simple_command(node, mini);
 	else if (node->type == COMMAND)
 		mini->exit_status = m_execute_command(node->command, mini);
 	else if (m_is_redir(node->type))
