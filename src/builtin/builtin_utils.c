@@ -16,7 +16,7 @@ int	m_is_builtin(t_tree *tree_node)
 	if (!tree_node || !tree_node->command)
 		return (-1);
 	if (ft_strcmp(tree_node->command[0], "echo") == 0)
-		return (ECHO);
+		return (ECO);
 	if (ft_strcmp(tree_node->command[0], "cd") == 0)
 		return (CD);
 	if (ft_strcmp(tree_node->command[0], "pwd") == 0)
@@ -48,7 +48,7 @@ int	m_execute_builtin(t_tree *tree_node, t_mini *mini)
 	// 	ft_cd(args); //---> cd retorna erro de permissão negada se tentar acessar uma pasta sem permissão
 	if (builtin == CD)
 		exit_status = ft_cd(args, mini->env_list);
-	if (builtin == ECHO)
+	if (builtin == ECO)
 		exit_status = ft_echo(args);
 	if (builtin == ENV)
 		exit_status = m_env(mini->env_list);
