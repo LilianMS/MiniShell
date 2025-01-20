@@ -27,6 +27,7 @@ SRC= minishell.c \
 	 utils/cleaners.c \
 	 utils/tools.c \
 	 utils/signals.c \
+	 builtin/cd.c \
 	 builtin/echo.c \
 	 builtin/pwd.c \
 	 builtin/export.c \
