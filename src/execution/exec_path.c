@@ -16,22 +16,36 @@ static char **m_find_paths(char **envp)
 	return (NULL);
 }
 
-char *m_create_path(char *cmd_path, char **node_cmd, char **envp)
+int	m_check_cmd(char *cmd_path, t_mini *mini)
 {
-	char *path;
-	char **env_paths;
+	mini->exit_status = 0;
+	if (access(cmd_path, F_OK) == 0)
+	{
+		if (access(cmd_path, X_OK) == -1)
+		{
+			mini->exit_status = 126;
+			return (mini->exit_status);
+		}
+	}
+	else
+		mini->exit_status = 127;
+	return (mini->exit_status);
+}
+
+char *m_create_path(char *cmd_path, char **node_cmd, char **env, t_mini *mini)
+{
+	char	*path;
+	char	**env_paths;
 	int i;
-	int exit_status;
 
 	i = 0;
-	env_paths = m_find_paths(envp);
+	env_paths = m_find_paths(env);
 	while (env_paths[i])
 	{
 		path = ft_strjoin(env_paths[i++], "/");
 		cmd_path = ft_strjoin(path, node_cmd[0]);
 		free(path);
-		exit_status = m_check_cmd(cmd_path); // está pegando o status de saída errado! >> arrumar >> nao sei se precisa estar aqui
-		if (exit_status == 0)
+		if (m_check_cmd(cmd_path, mini) == 0)
 		{
 			free_cmd_array(env_paths);
 			return (cmd_path);
@@ -77,4 +91,13 @@ char **m_env_list_to_array(t_env *env_list)
 	}
 	envp[i] = NULL;
 	return (envp);
+}
+
+int	get_status(int exit_status)
+{
+	static int	status;
+
+	if (exit_status != -1)
+		status = exit_status;
+	return (status);
 }

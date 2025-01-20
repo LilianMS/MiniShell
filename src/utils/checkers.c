@@ -54,7 +54,7 @@ int	check_invalid_chars(const char *input)
 
 int	m_check_line_input(const char *line)
 {
-	if (line == NULL || *line == '\0')
+	if (line == NULL || *line == '\0' || *line == ' ')
 		return (0);
 	else
 		add_history(line);

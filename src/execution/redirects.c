@@ -62,7 +62,9 @@ t_tree	*m_find_command_node(t_tree *node)
 int	m_execute_all_redirs(t_redir *redir_fd, t_tree *node)
 {
 	t_tree	*current;
+	int		status;
 
+	status = 0;
 	m_init_redirect(redir_fd);
 	current = m_find_command_node(node);
 	if (current->type == COMMAND)
@@ -73,12 +75,14 @@ int	m_execute_all_redirs(t_redir *redir_fd, t_tree *node)
 		//  if (mini->tree->type == REDIR_HEREDOC)
 		//  	m_heredoc(parsed_list);
 		if (current->type == REDIR_IN)
-			m_execute_redir_in(current, redir_fd);
+			status = m_execute_redir_in(current, redir_fd);
 		else if (current->type == REDIR_OUT)
-			m_execute_redir_out_append(current, redir_fd);
+			status = m_execute_redir_out_append(current, redir_fd);
 		else if (current->type == REDIR_APPEND)
-			m_execute_redir_out_append(current, redir_fd);
+			status = m_execute_redir_out_append(current, redir_fd);
 		current = current->parent;
+		if (status == 1)
+			return (1);
 	}
 	return (0);
 }
@@ -90,7 +94,11 @@ int	m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd)
 
 	status = 0;
 	if (m_execute_all_redirs(redir_fd, node))
+	{
+		// m_free_everything(mini);
+		m_restore_redirect(redir_fd);
 		return (1);
+	}
 	cmd_node = m_find_command_node(node);
 	if (cmd_node->type != COMMAND)
 	{
