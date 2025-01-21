@@ -53,7 +53,7 @@ struct s_hdoc
 } ;
 
 // Lexical Analysis Functions
-t_token*	m_lexical_analysis(t_mini *mini);
+t_token		*m_lexical_analysis(t_mini *mini);
 char		*m_clean_quotes(char *lexeme);
 int			m_check_line_input(const char *line);
 void		init_minishell(t_mini *mini, char **envp);
