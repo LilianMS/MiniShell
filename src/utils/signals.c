@@ -23,7 +23,7 @@ void	m_exec_signals(int pid)
 	else
 	{
 		signal(SIGINT, m_sig_int);
-		signal(SIGPIPE, SIG_IGN);
+		// signal(SIGPIPE, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }

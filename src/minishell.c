@@ -22,13 +22,13 @@ void	m_init_signals(void)
 {
 	signal(SIGINT, m_sig_int);
 	signal(SIGQUIT, SIG_IGN); // enquanto roda o minishell iginora os sinais de interrupção
-	signal(SIGPIPE, SIG_IGN);
+	// signal(SIGPIPE, SIG_IGN);
 }
 
 static void	update_mini(t_mini *mini)
 {
 	m_init_signals();
-	dup2(mini->backup_fd_in, STDIN_FILENO); // 
+	dup2(mini->backup_fd_in, STDIN_FILENO); //
 	tcsetattr(STDIN_FILENO, TCSANOW, &mini->term);
 	m_exec_signals(1);
 }
