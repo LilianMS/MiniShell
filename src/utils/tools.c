@@ -36,7 +36,7 @@ t_token	*m_lexical_analysis(t_mini *mini)
 	m_tokenize(&token_list, mini->line);
 	if (token_list != NULL)
 	{
-		if (!m_validate_tokens(token_list))
+		if (!m_validate_tokens(&token_list))
 		{
 			m_free_tokens(&token_list);
 			return (NULL);
