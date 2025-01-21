@@ -59,7 +59,7 @@ t_tree	*m_find_command_node(t_tree *node)
 	return (current);
 }
 
-int	m_execute_all_redirs(t_redir *redir_fd, t_tree *node)
+int	m_execute_all_redirs(t_redir *redir_fd, t_tree *node, t_mini *mini)
 {
 	t_tree	*current;
 	int		status;
@@ -71,15 +71,14 @@ int	m_execute_all_redirs(t_redir *redir_fd, t_tree *node)
 		current = current->parent;
 	while (current && m_is_redir(current->type))
 	{
-		// ALTERAR HEREDOC PARA ACEITAR T_TREE AO INVÉS DE T_TOKEN
-		//  if (mini->tree->type == REDIR_HEREDOC)
-		//  	m_heredoc(parsed_list);
 		if (current->type == REDIR_IN)
 			status = m_execute_redir_in(current, redir_fd);
 		else if (current->type == REDIR_OUT)
 			status = m_execute_redir_out_append(current, redir_fd);
 		else if (current->type == REDIR_APPEND)
 			status = m_execute_redir_out_append(current, redir_fd);
+		else if (current->type == REDIR_HEREDOC)
+			status = m_heredoc(current, mini);
 		current = current->parent;
 		if (status == 1)
 			return (1);
@@ -93,7 +92,7 @@ int	m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd)
 	int		status;
 
 	status = 0;
-	if (m_execute_all_redirs(redir_fd, node))
+	if (m_execute_all_redirs(redir_fd, node, mini))
 	{
 		// m_free_everything(mini);
 		m_restore_redirect(redir_fd);
