@@ -59,7 +59,7 @@ void							m_sig_int(int signum);
 int								m_is_input_null(t_mini *mini);
 
 // Parsing Functions
-t_token							*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_env *env_list);
+t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_mini *mini);
 
 void							m_exec_signals(int pid);
 

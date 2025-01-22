@@ -20,12 +20,12 @@ int m_execute_command(char **tree_node_cmd, t_mini *mini)
 	env = m_env_list_to_array(mini->env_list);
 	if (!env)
 		return (1);
-	cmd_path = m_create_path(cmd_path, tree_node_cmd, env, mini);
+	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
 	if (cmd_path == NULL)
 	{
 		free(cmd_path);
 		free_cmd_array(env);
-		return (mini->exit_status);
+		return (127);
 	}
 	//SEPARAR ESSA PARTE EM OUTRA FUNÇÃO
 	execve(cmd_path, tree_node_cmd, env);
@@ -115,8 +115,7 @@ int	m_fork_and_exec(int *pipefd, t_tree *node, int pid_index, t_mini *mini)
 	pid = fork();
 	if (pid < 0)
 		return (-1);
-	//função que captura/checa sinais
-	m_exec_signals(pid); // novo
+	m_exec_signals(pid);
 	if (pid == 0)
 		m_children_process(pipefd, node, pid_index, mini);
 	return (pid);

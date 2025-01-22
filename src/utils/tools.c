@@ -50,7 +50,7 @@ t_token	*m_lexical_analysis(t_mini *mini)
 			return (NULL);
 		}
 	}
-	m_parse_tokens(&token_list, &parsed_list, mini->env_list);
+	m_parse_tokens(&token_list, &parsed_list, mini);
 	m_free_tokens(&token_list);
 	return (parsed_list);
 }

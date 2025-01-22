@@ -1,10 +1,10 @@
 #include "../includes/parser.h"
 
-static char	*process_special_dollar(char **dollar_position)
+static char	*process_special_dollar(char **dollar_position, t_mini *mini)
 {
 	char	*expansion;
 
-	expansion = m_expansion_special_cases(*dollar_position);
+	expansion = m_expansion_special_cases(*dollar_position, mini);
 	*dollar_position += 2; // Avança 2 caracteres para pular o caso especial
 	return (expansion);
 }
@@ -48,7 +48,7 @@ static char	*add_text_before_next_dollar(char *result, char **dollar_position)
 	return (temp);
 }
 
-char	*m_process_after_dollar(char *dollar_position, t_env *env_list)
+char	*m_process_after_dollar(char *dollar_position, t_mini *mini)
 {
 	char	*result;
 	char	*expansion;
@@ -58,9 +58,9 @@ char	*m_process_after_dollar(char *dollar_position, t_env *env_list)
 	while (dollar_position)
 	{
 		if (m_is_special_cases_dollar(dollar_position))
-			expansion = process_special_dollar(&dollar_position);
+			expansion = process_special_dollar(&dollar_position, mini);
 		else
-			expansion = process_regular_dollar(&dollar_position, env_list);
+			expansion = process_regular_dollar(&dollar_position, mini->env_list);
 		temp = ft_strjoin(result, expansion);
 		free(result);
 		free(expansion);

@@ -10,7 +10,7 @@ void	m_copy_token(t_token **parsed_list, t_token *aux_token)
 }
 
 char	**m_populate_cmd_array(t_token *start, int command_len, \
-								t_env *env_list)
+								t_mini *mini)
 {
 	int		i;
 	char	**command;
@@ -22,7 +22,7 @@ char	**m_populate_cmd_array(t_token *start, int command_len, \
 	while (i < command_len)
 	{
 		if (start && start->lexeme)
-			command[i] = m_quotes_and_expansion(start->lexeme, env_list);
+			command[i] = m_quotes_and_expansion(start->lexeme, mini);
 		else
 			command[i] = NULL;
 		start = start->next;
@@ -33,7 +33,7 @@ char	**m_populate_cmd_array(t_token *start, int command_len, \
 }
 
 static void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list, \
-									t_env *env_list)
+									t_mini *mini)
 {
 	t_token	*start;
 	int		command_len;
@@ -47,11 +47,11 @@ static void	m_handle_word_tokens(t_token **aux_list, t_token **parsed_list, \
 	}
 	if (command_len > 0 && start->lexeme)
 		m_add_token(parsed_list, \
-					m_create_cmd_token(start, command_len, env_list));
+					m_create_cmd_token(start, command_len, mini));
 }
 
 static void	m_handle_redirection_tokens(t_token **aux_list, \
-										t_token **parsed_list, t_env *env_list)
+										t_token **parsed_list, t_mini *mini)
 {
 	t_token	*redir_token;
 	t_token	*file_token;
@@ -74,8 +74,10 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 				file_token->quote = 0;
 			ft_printf("DELIMITER: %s\n", (*aux_list)->lexeme); // ----- debug
 			ft_printf("quote: %d\n", file_token->quote); // ----- debug
+			file_token->lexeme =m_clean_quotes(ft_strdup((*aux_list)->lexeme)); // novo
 		}
-		file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, env_list);
+		else
+			file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, mini);
 		file_token->type = (*aux_list)->type;
 		m_add_token(parsed_list, file_token);
 		*aux_list = (*aux_list)->next;
@@ -83,7 +85,7 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 }
 
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
-						t_env *env_list)
+						t_mini *mini)
 {
 	t_token	*aux_list;
 
@@ -95,9 +97,9 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 	while (aux_list)
 	{
 		if (aux_list->type == WORD)
-			m_handle_word_tokens(&aux_list, parsed_list, env_list);
+			m_handle_word_tokens(&aux_list, parsed_list, mini);
 		else if (m_is_redir(aux_list->type))
-			m_handle_redirection_tokens(&aux_list, parsed_list, env_list);
+			m_handle_redirection_tokens(&aux_list, parsed_list, mini);
 		else
 		{
 			m_copy_token(parsed_list, aux_list);

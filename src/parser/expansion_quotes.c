@@ -56,7 +56,7 @@ char	**split_by_quotes(char *input)
 	return (result);
 }
 
-static char	*m_handle_token(char *token, t_env *env_list)
+static char	*m_handle_token(char *token, t_mini *mini)
 {
 	char	*dollar_position;
 
@@ -72,10 +72,10 @@ static char	*m_handle_token(char *token, t_env *env_list)
 		&& (!ft_isalnum(*dollar_position) && *dollar_position != '_' \
 		&& *dollar_position != '?' && *dollar_position != '$'))
 		return (m_clean_quotes(token));
-	return (m_get_expand_string(token, env_list));
+	return (m_get_expand_string(token, mini));
 }
 
-char	*m_get_expand_split(char *lexeme, t_env *env_list)
+char	*m_get_expand_split(char *lexeme, t_mini *mini)
 {
 	char	**split;
 	char	*result;
@@ -88,7 +88,7 @@ char	*m_get_expand_split(char *lexeme, t_env *env_list)
 	i = 0;
 	while (split[i])
 	{
-		new_expanded = m_handle_token(split[i], env_list);
+		new_expanded = m_handle_token(split[i], mini);
 		temp = ft_strjoin_free(result, new_expanded);
 		result = temp;
 		i++;

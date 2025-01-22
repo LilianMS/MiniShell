@@ -39,7 +39,7 @@ void	init_history_block(char **history_block, char *delimiter)
 	ft_strcat(*history_block, "\n");
 }
 
-char	*m_heredoc_expansion(char *lexeme, t_env *env_list)
+char	*m_heredoc_expansion(char *lexeme, t_mini *mini)
 {
 	char	*dollar_position;
 
@@ -48,12 +48,12 @@ char	*m_heredoc_expansion(char *lexeme, t_env *env_list)
 	{
 		if (ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
 		{
-			return (m_get_expand_split(lexeme, env_list));
+			return (m_get_expand_split(lexeme, mini));
 		}
 		else if (dollar_position[1] == '\0')
 			return (m_clean_quotes(ft_strdup(lexeme)));
 		else
-			return (m_get_expand_string(ft_strdup(lexeme), env_list));
+			return (m_get_expand_string(ft_strdup(lexeme), mini));
 	}
 	else if (ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
 		return (m_set_split_quotes(lexeme));

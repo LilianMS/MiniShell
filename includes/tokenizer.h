@@ -76,7 +76,7 @@ void	m_free_tokens(t_token **tokens);
 void	free_cmd_array(char **command);
 int		m_validate_tokens(t_token **tokens);
 
-t_token	*m_create_cmd_token(t_token *start, int command_len, t_env *env_list);
-char	**m_populate_cmd_array(t_token *start, int command_len, t_env *env_list);
+t_token	*m_create_cmd_token(t_token *start, int command_len, t_mini *mini);
+char	**m_populate_cmd_array(t_token *start, int command_len, t_mini *mini);
 
 #endif
