@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-static char **m_find_paths(char **envp)
+static char	**m_find_paths(char **envp)
 {
 	int i;
 	char **paths;
@@ -18,9 +18,15 @@ static char **m_find_paths(char **envp)
 
 int	m_check_permissions(char *cmd_path)
 {
-	if (access(cmd_path, X_OK) == -1)
+	if (access(cmd_path, X_OK) == -1 \
+	|| access(cmd_path, R_OK | W_OK) == -1)
+	{
+		ft_putstr_fd("minishell: permission denied: ", STDERR_FILENO);
+		ft_putendl_fd(cmd_path, STDERR_FILENO);
+		// ft_printf_fd(STDERR_FILENO, "permission denied\n");
 		return (126);
-	return (0);
+	}
+	return (1);
 }
 
 int	m_check_absolute_path(char *cmd_path)

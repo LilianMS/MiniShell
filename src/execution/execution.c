@@ -10,8 +10,12 @@ void	m_free_everything(t_mini *mini)
 		m_tree_cleaner(mini->tree);
 }
 
-int m_execute_command(char **tree_node_cmd, t_mini *mini)
+
+int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 {
+	int		status;
+
+	status = 0;
 	//SEPARAR ESSA PARTE EM OUTRA FUNÇÃO
 	char *cmd_path;
 	char **env;
@@ -23,12 +27,20 @@ int m_execute_command(char **tree_node_cmd, t_mini *mini)
 	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
 	if (cmd_path == NULL)
 	{
+		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+		ft_putendl_fd(tree_node_cmd[0], STDERR_FILENO);
 		free(cmd_path);
 		free_cmd_array(env);
 		return (127);
 	}
 	//SEPARAR ESSA PARTE EM OUTRA FUNÇÃO
-	execve(cmd_path, tree_node_cmd, env);
+	if (execve(cmd_path, tree_node_cmd, env))
+	{
+		status = m_check_permissions(cmd_path);
+		free(cmd_path);
+		free_cmd_array(env);
+		return (status);
+	}
 	free(cmd_path);
 	free_cmd_array(env);
 	return (1);
@@ -45,7 +57,6 @@ int	m_simple_command(t_tree *node, t_mini *mini)
 	if (pid == 0)
 	{
 		status = m_execute_command(node->command, mini);
-		// msg d erro
 		m_free_everything(mini);
 		exit(status);
 	}
