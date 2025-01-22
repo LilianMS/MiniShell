@@ -25,6 +25,8 @@ int	heredoc_create_file(t_hdoc **hdoc)
 	fd = ft_create_file(filename);
 	if (fd != -1)
 		((*hdoc)->suffix_doc)++;
+	if ((*hdoc)->filename)
+		free((*hdoc)->filename);
 	(*hdoc)->filename = ft_strdup(filename);
 	return (fd);
 }

@@ -68,10 +68,10 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node)
 	// current = hdoc->token_list;
 	// while (current)
 	// {
-		if (node->type == DELIMITER \
-			&& ft_strcmp(node->content, hdoc->delimiter) == 0)
+		if (node->right->type == DELIMITER \
+			&& ft_strcmp(node->right->content, hdoc->delimiter) == 0)
 		{
-			if (node->quote == 0)
+			if (node->right->quote == 0)
 			{
 				expanded_line = m_heredoc_expansion(line, hdoc->env_list);
 				line = expanded_line;
@@ -122,7 +122,6 @@ void	m_aux_heredoc(t_hdoc *hdoc, t_tree *node)
 	init_history_block(&history_block, hdoc->delimiter);
 	while ((line = readline("> ")) != NULL)
 	{
-		// line = readline("> ");
 		if (g_signal_status == 130)
 			line = NULL;
 		if (!line || ft_strcmp(line, hdoc->delimiter) == 0 \
