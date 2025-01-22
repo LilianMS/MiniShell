@@ -10,5 +10,11 @@ int	m_exit(t_mini **mini)
 	// m_free_tokens(parsed_list);
 	m_tree_cleaner((*mini)->tree);
 	rl_clear_history();
+	if ((*mini)->hdoc)
+	{
+		free((*mini)->hdoc->filename); // novo
+		m_heredoc_delete_files(*mini); // novo
+		free((*mini)->hdoc); // novo
+	}
 	exit(0);
 }
