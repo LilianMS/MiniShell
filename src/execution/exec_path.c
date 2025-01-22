@@ -2,8 +2,8 @@
 
 static char	**m_find_paths(char **envp)
 {
-	int i;
-	char **paths;
+	int		i;
+	char	**paths;
 
 	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
@@ -36,11 +36,11 @@ int	m_check_absolute_path(char *cmd_path)
 	return (1);
 }
 
-char *m_create_path(char *cmd_path, char **node_cmd, char **env)
+char	*m_create_path(char *cmd_path, char **node_cmd, char **env)
 {
 	char	*path;
 	char	**env_paths;
-	int i;
+	int		i;
 
 	i = 0;
 	if (m_check_absolute_path(node_cmd[0]) == 0)
