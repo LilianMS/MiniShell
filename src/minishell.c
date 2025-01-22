@@ -22,7 +22,7 @@ void	m_init_signals(void)
 {
 	signal(SIGINT, m_sig_int);
 	signal(SIGQUIT, SIG_IGN); // enquanto roda o minishell iginora os sinais de interrupção
-	// signal(SIGPIPE, SIG_IGN);
+	signal(SIGPIPE, SIG_IGN);
 }
 
 static void	update_mini(t_mini *mini)
@@ -48,8 +48,6 @@ int	main(int ac, char **av, char **envp)
 		mini.line = readline("minishell> ");
 		if (m_is_input_null(&mini))
 			break ;
-		// if (!*mini.line)
-		// 	continue ;
 		m_minishell_on(&mini);
 	}
 	rl_clear_history();
