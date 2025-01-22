@@ -7,12 +7,12 @@ pid_t	m_get_pid(void)
 }
 
 // função para setar e pegar o status do sinal ao chamar $?
-char	*m_set_get_status(int code_exit)
+char	*m_set_get_status(int code_exit, t_mini *mini)
 {
 	char	*temp;
 
-	temp = ft_itoa(g_signal_status);
-	g_signal_status = code_exit;
+	temp = ft_itoa(mini->exit_status);
+	mini->exit_status = code_exit;
 	return (temp);
 }
 
