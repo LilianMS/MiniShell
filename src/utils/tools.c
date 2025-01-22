@@ -10,6 +10,14 @@ void	init_minishell(t_mini *mini, char **envp)
 	mini->tree = NULL;
 	mini->backup_fd_in = dup(STDIN_FILENO); // novo
 	tcgetattr(STDIN_FILENO, &mini->term); // novo
+	// init heredoc
+	mini->hdoc = malloc(sizeof(t_hdoc));
+	ft_bzero(mini->hdoc, sizeof(t_hdoc));
+	mini->hdoc->temp_fd = 0;
+	mini->hdoc->suffix_doc = -1;
+	mini->hdoc->delimiter = NULL;
+	mini->hdoc->filename = NULL;
+	mini->hdoc->env_list = mini->env_list;
 }
 
 void	m_sig_int(int signum)
