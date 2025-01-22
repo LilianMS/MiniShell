@@ -68,11 +68,11 @@ int	main(int ac, char **av, char **envp)
 		mini.line = readline("minishell> ");
 		if (m_is_input_null(&mini))
 			break ;
-		// if (!*mini.line)
-		// 	continue ;
 		m_minishell_on(&mini);
 	}
 	rl_clear_history();
 	m_free_env_list(mini.env_list);
+	m_heredoc_delete_files(&mini); // novo
+	free(mini.hdoc); // novo
 	return (0);
 }
