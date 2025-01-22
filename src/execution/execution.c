@@ -116,6 +116,7 @@ int	m_fork_and_exec(int *pipefd, t_tree *node, int pid_index, t_mini *mini)
 	if (pid < 0)
 		return (-1);
 	//função que captura/checa sinais
+	m_exec_signals(pid); // novo
 	if (pid == 0)
 		m_children_process(pipefd, node, pid_index, mini);
 	return (pid);

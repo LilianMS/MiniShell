@@ -13,7 +13,6 @@ void	m_update_exit_status(int code_exit)
 
 void	m_exec_signals(int pid)
 {
-	// ft_printf("retornou de heredoc\n"); // ----- debug
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -23,7 +22,7 @@ void	m_exec_signals(int pid)
 	else
 	{
 		signal(SIGINT, m_sig_int);
-		// signal(SIGPIPE, SIG_IGN);
+		signal(SIGPIPE, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }
