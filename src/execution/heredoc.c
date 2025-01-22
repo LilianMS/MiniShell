@@ -37,7 +37,7 @@ char	*m_heredoc_get_delimiter(t_tree *node)
 	ft_printf("node->type: %d\n", node->type); // ---debug
 	ft_printf("node->right->content: %s\n", node->right->content); // ---debug
 
-	// if (node->type == DELIMITER)
+	if (node->right->type == DELIMITER)
 		return (node->right->content);
 
 	return (NULL);
