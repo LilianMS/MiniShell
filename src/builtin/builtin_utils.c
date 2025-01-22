@@ -2,21 +2,13 @@
 #include "../includes/execution.h"
 #include "../includes/debug.h" // --------- debug
 
-// m_cd (not implemented)
-// m_exit (in progress)
-// m_env (ok)
-// ft_echo (ok)
-// ft_pwd (ok)
-// m_unset (ok)
-// m_export (ok)
-
 int	m_is_builtin(t_tree *tree_node)
 {
 	// print_parsed_command(parsed_list); // --------- debug
 	if (!tree_node || !tree_node->command)
 		return (-1);
 	if (ft_strcmp(tree_node->command[0], "echo") == 0)
-		return (ECHO);
+		return (ECO);
 	if (ft_strcmp(tree_node->command[0], "cd") == 0)
 		return (CD);
 	if (ft_strcmp(tree_node->command[0], "pwd") == 0)
@@ -44,9 +36,9 @@ int	m_execute_builtin(t_tree *tree_node, t_mini *mini)
 		exit_status = 1;
 	if (builtin == PWD)
 		exit_status = ft_pwd();
-	// if (builtin == CD)
-	// 	ft_cd(args); //---> cd retorna erro de permissão negada se tentar acessar uma pasta sem permissão
-	if (builtin == ECHO)
+	if (builtin == CD)
+		exit_status = ft_cd(args, mini->env_list);
+	if (builtin == ECO)
 		exit_status = ft_echo(args);
 	if (builtin == ENV)
 		exit_status = m_env(mini->env_list);

@@ -98,32 +98,32 @@ void	list_printer(t_token **parsed_list)
 }
 
 // função para testar comandos builtin
-void	ft_debug_tests(t_mini *mini, t_token *parsed_list)
-{
-	char **args;
+// void	ft_debug_tests(t_mini *mini, t_token *parsed_list)
+// {
+// 	char **args;
 
-	if (!parsed_list || !parsed_list->command)
-		return ;
-	args = parsed_list->command;
-	if (ft_strcmp(parsed_list->command[0], "exit") == 0)
-		m_exit(&mini);
-	if (ft_strcmp(parsed_list->command[0], "env") == 0)
-		m_env(mini->env_list);
-	if (ft_strncmp(parsed_list->command[0], "echo", 4) == 0)
-		ft_echo(args);
-	if (ft_strcmp(parsed_list->command[0], "pwd") == 0)
-		ft_pwd();
-	if (ft_strncmp(parsed_list->command[0], "export", 6) == 0)
-	{
-		if (args[1])
-			m_export(mini->env_list, args);
-	}
-	if (ft_strncmp(parsed_list->command[0], "unset", 5) == 0)
-	{
-		if (args[1])
-			m_unset(mini->env_list, args);
-	}
-}
+// 	if (!parsed_list || !parsed_list->command)
+// 		return ;
+// 	args = parsed_list->command;
+// 	if (ft_strcmp(parsed_list->command[0], "exit") == 0)
+// 		m_exit(&mini);
+// 	if (ft_strcmp(parsed_list->command[0], "env") == 0)
+// 		m_env(mini->env_list);
+// 	if (ft_strncmp(parsed_list->command[0], "echo", 4) == 0)
+// 		ft_echo(args);
+// 	if (ft_strcmp(parsed_list->command[0], "pwd") == 0)
+// 		ft_pwd();
+// 	if (ft_strncmp(parsed_list->command[0], "export", 6) == 0)
+// 	{
+// 		if (args[1])
+// 			m_export(mini->env_list, args);
+// 	}
+// 	if (ft_strncmp(parsed_list->command[0], "unset", 5) == 0)
+// 	{
+// 		if (args[1])
+// 			m_unset(mini->env_list, args);
+// 	}
+// }
 
 void print_char_array(char **array) // debug
 {
