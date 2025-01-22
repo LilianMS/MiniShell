@@ -25,7 +25,7 @@ int	heredoc_create_file(t_hdoc **hdoc)
 	fd = ft_create_file(filename);
 	if (fd != -1)
 		((*hdoc)->suffix_doc)++;
-	(*hdoc)->filename = filename;
+	(*hdoc)->filename = ft_strdup(filename);
 	return (fd);
 }
 
@@ -50,12 +50,13 @@ void	m_heredoc_update_node(t_tree **node, t_hdoc *hdoc)
 	// current = *token_list;
 	// while (current)
 	// {
-		if ((*node)->type == DELIMITER \
-			&& ft_strcmp((*node)->content, hdoc->delimiter) == 0)
+		if ((*node)->right->type == DELIMITER \
+			&& ft_strcmp((*node)->right->content, hdoc->delimiter) == 0)
 		{
-			free((*node)->content);
-			(*node)->content = hdoc->filename;
-			// (*node)->type = FILENAME;
+			free((*node)->right->content);
+			(*node)->right->content = ft_strdup(hdoc->filename);
+			ft_printf("node->right->content: %s\n", (*node)->right->content); // ---debug
+			// (*node)->right->type = FILENAME;
 		}
 	// 	current = current->next;
 	// }
