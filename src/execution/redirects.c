@@ -95,7 +95,8 @@ int	m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd)
 	if (m_execute_all_redirs(redir_fd, node, mini))
 	{
 		// m_free_everything(mini);
-		m_restore_redirect(redir_fd);
+		if (node->type != REDIR_HEREDOC)
+			m_restore_redirect(redir_fd);
 		return (1);
 	}
 	cmd_node = m_find_command_node(node);

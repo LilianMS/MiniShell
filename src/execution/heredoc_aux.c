@@ -85,6 +85,7 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node)
 	free(line);
 }
 
+/*
 // void	heredoc_write_to_file(t_hdoc *hdoc, char *line)
 // {
 // 	t_token	*current;
@@ -109,6 +110,7 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node)
 // 	write(hdoc->temp_fd, "\n", 1);
 // 	free(line);
 // }
+*/
 
 void	m_aux_heredoc(t_hdoc *hdoc, t_tree *node)
 {
