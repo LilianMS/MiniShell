@@ -73,6 +73,7 @@ int	main(int ac, char **av, char **envp)
 	rl_clear_history();
 	m_free_env_list(mini.env_list);
 	m_heredoc_delete_files(&mini); // novo
+	free(mini.hdoc->filename); // novo
 	free(mini.hdoc); // novo
 	return (0);
 }
