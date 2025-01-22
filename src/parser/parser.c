@@ -74,8 +74,10 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 				file_token->quote = 0;
 			ft_printf("DELIMITER: %s\n", (*aux_list)->lexeme); // ----- debug
 			ft_printf("quote: %d\n", file_token->quote); // ----- debug
+			file_token->lexeme =m_clean_quotes(ft_strdup((*aux_list)->lexeme)); // novo
 		}
-		file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, env_list);
+		else
+			file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, env_list);
 		file_token->type = (*aux_list)->type;
 		m_add_token(parsed_list, file_token);
 		*aux_list = (*aux_list)->next;
