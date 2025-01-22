@@ -17,24 +17,30 @@ static void	cd_print_error(char *folder)
 	free(message_to_print);
 }
 
-static int	cd_aux(char **args, t_env *env_list, char **path)
+static int cd_aux(char **args, t_env *env_list, char **path)
 {
+	char *home;
+
 	*path = NULL;
 	if (args[1] && args[2])
 	{
 		ft_putendl_fd("ERROR: cd: Too many arguments", 2);
 		return (1);
 	}
-	if (args[1] == NULL)
-		*path = m_get_env(env_list, "HOME");
-	else
-		*path = ft_strdup(args[1]);
-	if (!*path[0])
+	home = ft_strdup(m_get_env(env_list, "HOME"));
+	if (!home[0])
 	{
 		ft_putendl_fd("ERROR: cd: HOME not defined", 2);
-		free(*path);
+		free(home);
 		return (1);
 	}
+	if (args[1] == NULL)
+		*path = m_get_env(env_list, "HOME");
+	else if (ft_strchr(args[1], '~'))
+		*path = ft_strjoin(home, args[1] + 1);
+	else
+		*path = ft_strdup(args[1]);
+	free(home);
 	return (0);
 }
 

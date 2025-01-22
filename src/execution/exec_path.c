@@ -16,43 +16,46 @@ static char **m_find_paths(char **envp)
 	return (NULL);
 }
 
-int	m_check_cmd(char *cmd_path, t_mini *mini)
+int	m_check_permissions(char *cmd_path)
 {
-	mini->exit_status = 0;
-	if (access(cmd_path, F_OK) == 0)
-	{
-		if (access(cmd_path, X_OK) == -1)
-		{
-			mini->exit_status = 126;
-			return (mini->exit_status);
-		}
-	}
-	else
-		mini->exit_status = 127;
-	return (mini->exit_status);
+	if (access(cmd_path, X_OK) == -1)
+		return (126);
+	return (0);
 }
 
-char *m_create_path(char *cmd_path, char **node_cmd, char **env, t_mini *mini)
+int	m_check_absolute_path(char *cmd_path)
+{
+	if (access(cmd_path, F_OK) == 0)
+		return (0);
+	return (1);
+}
+
+char *m_create_path(char *cmd_path, char **node_cmd, char **env)
 {
 	char	*path;
 	char	**env_paths;
 	int i;
 
 	i = 0;
-	env_paths = m_find_paths(env);
-	while (env_paths[i])
+	if (m_check_absolute_path(node_cmd[0]) == 0)
+		return (node_cmd[0]);
+	else
 	{
-		path = ft_strjoin(env_paths[i++], "/");
-		cmd_path = ft_strjoin(path, node_cmd[0]);
-		free(path);
-		if (m_check_cmd(cmd_path, mini) == 0)
+		env_paths = m_find_paths(env);
+		while (env_paths[i])
 		{
-			free_cmd_array(env_paths);
-			return (cmd_path);
+			path = ft_strjoin(env_paths[i++], "/");
+			cmd_path = ft_strjoin(path, node_cmd[0]);
+			free(path);
+			if (access(cmd_path, F_OK) == 0)
+			{
+				free_cmd_array(env_paths);
+				return (cmd_path);
+			}
+			free(cmd_path);
 		}
-		free(cmd_path);
 	}
-	free_cmd_array(env_paths); // --> reutilizando a função que dá free no array de comandos
+	free_cmd_array(env_paths);
 	return (NULL);
 }
 
