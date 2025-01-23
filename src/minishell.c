@@ -7,6 +7,8 @@ int	m_minishell_on(t_mini *mini)
 {
 	t_token	*parsed_list;
 
+	if (g_signal_status == 130)
+		mini->exit_status = 130;
 	parsed_list = m_lexical_analysis(mini);
 	if (!parsed_list)
 		return (1);
@@ -40,10 +42,10 @@ int	main(int ac, char **av, char **envp)
 	t_mini	mini;
 	// int		status;
 
+	g_signal_status = 0;
 	init_minishell(&mini, envp);
 	while (1)
 	{
-		g_signal_status = 0;
 		update_mini(&mini);
 		mini.line = readline("minishell> ");
 		if (m_is_input_null(&mini))

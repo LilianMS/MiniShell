@@ -154,6 +154,8 @@ int	m_execution(t_tree *node, t_mini *mini)
 	t_redir	redir_fd;
 	int		exit_status;
 
+	if (g_signal_status == SIGINT)
+		return (130);
 	exit_status = 0;
 	ft_bzero(&redir_fd, sizeof(t_redir));
 	if ((node->type == COMMAND && m_is_builtin(node) == -1) && !node->parent)
