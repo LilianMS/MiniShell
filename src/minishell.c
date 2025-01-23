@@ -7,6 +7,11 @@ int	m_minishell_on(t_mini *mini)
 {
 	t_token	*parsed_list;
 
+	if (g_signal_status == 130)
+	{
+		mini->exit_status = 130;
+		g_signal_status = 0;
+	}
 	parsed_list = m_lexical_analysis(mini);
 	if (!parsed_list)
 		return (1);

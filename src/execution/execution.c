@@ -80,6 +80,7 @@ int	m_simple_command(t_tree *node, t_mini *mini)
 	pid = 0;
 	status = -1;
 	pid = fork();
+	m_exec_signals(pid);
 	if (pid == 0)
 	{
 		status = m_execute_command(node->command, mini);
@@ -89,7 +90,7 @@ int	m_simple_command(t_tree *node, t_mini *mini)
 	else
 	{
 		waitpid(pid, &status, 0);
-		m_sort_status(status);
+		return (m_sort_status(status));
 	}
 	return (status);
 }
@@ -200,5 +201,7 @@ int	m_execution(t_tree *node, t_mini *mini)
 		exit_status = m_handle_redir(node, mini, &redir_fd);
 	else if (node->type == PIPE)
 		exit_status = m_handle_pipe(node, mini);
+	if (g_signal_status == 130)
+		exit_status = 130;
 	return (exit_status);
 }
