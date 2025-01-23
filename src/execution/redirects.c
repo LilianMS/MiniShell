@@ -95,7 +95,6 @@ int	m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd)
 	status = 0;
 	if (m_execute_all_redirs(redir_fd, node))
 	{
-		// m_free_everything(mini);
 		m_restore_redirect(redir_fd);
 		return (1);
 	}

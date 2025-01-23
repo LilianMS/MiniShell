@@ -40,14 +40,7 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 	env = m_env_list_to_array(mini->env_list);
 	cmd_path = m_validate_command(tree_node_cmd, env);
 	if (!cmd_path)
-	{
-		// ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
-		// ft_putendl_fd(tree_node_cmd[0], STDERR_FILENO);
-		// free(cmd_path);
-		// free_cmd_array(env);
-		// return (NULL);
 		return (127);
-	}
 	else
 	{
 		if (execve(cmd_path, tree_node_cmd, env))
@@ -58,8 +51,24 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 			return (status);
 		}
 	}
-	free(cmd_path);
-	free_cmd_array(env);
+	return (status);
+}
+
+int	m_sort_status(int status)
+{
+	if (WIFSIGNALED(status))
+	{
+		status = WTERMSIG(status);
+		if (status == SIGINT)
+			return (130);
+		else if (status == SIGQUIT)
+		{
+			signal(SIGPIPE, SIG_IGN);
+			return (131);
+		}
+	}
+	else if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
 	return (status);
 }
 
@@ -80,8 +89,7 @@ int	m_simple_command(t_tree *node, t_mini *mini)
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
+		m_sort_status(status);
 	}
 	return (status);
 }
@@ -93,15 +101,14 @@ int	m_exec_redir_command(t_tree *node, t_mini *mini)
 	if (m_is_builtin(node) != -1)
 	{
 		status = m_execute_builtin(node, mini);
-		perror("minishell: builtin execution error");
+		ft_putendl_fd("minishell: builtin execution error", STDERR_FILENO);
 		m_free_everything(mini);
 		exit(status);
 	}
 	else
 	{
 		status = m_execute_command(node->command, mini);
-		perror("minishell: external command execution error");
-		m_free_everything(mini);
+		ft_putendl_fd("minishell: ext command execution error", STDERR_FILENO);
 		exit(status);
 	}
 	return (status);
@@ -159,7 +166,7 @@ int	m_handle_pipe(t_tree *node, t_mini *mini)
 		return (-1);
 	if (pipe(pipefd) == -1)
 	{
-		perror("minishell: pipe error");
+		ft_putendl_fd("minishell: pipe error", STDERR_FILENO);
 		return (1);
 	}
 	pid[0] = m_fork_and_exec(pipefd, node->left, 0, mini);
@@ -172,8 +179,7 @@ int	m_handle_pipe(t_tree *node, t_mini *mini)
 	close(pipefd[1]);
 	waitpid(pid[0], &status[0], 0);
 	waitpid(pid[1], &status[1], 0);
-	if (WIFEXITED(status[1]))
-		status[1] = WEXITSTATUS(status[1]);
+	status[1] = m_sort_status(status[1]);
 	return (status[1]);
 }
 
