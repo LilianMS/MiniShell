@@ -10,13 +10,30 @@ void	m_free_everything(t_mini *mini)
 		m_tree_cleaner(mini->tree);
 }
 
-char	*m_validate_command(char **tree_node_cmd, char **env)
+int is_directory(const char *path)
+{
+	struct stat statbuf;
+
+	if (stat(path, &statbuf) != 0)
+		return (-1);
+	return (S_ISDIR(statbuf.st_mode));
+}
+
+char *m_validate_command(char **tree_node_cmd, char **env)
 {
 	char *cmd_path;
 
 	cmd_path = NULL;
 	if (!env)
 		return (NULL);
+	if (is_directory(tree_node_cmd[0]) != -1)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(tree_node_cmd[0], STDERR_FILENO);
+		ft_putendl_fd(" is a directory", STDERR_FILENO);
+		free_cmd_array(env);
+		return (NULL);
+	}
 	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
 	if (cmd_path == NULL)
 	{
