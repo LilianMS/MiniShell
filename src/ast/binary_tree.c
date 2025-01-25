@@ -8,7 +8,7 @@ void	m_tree_cleaner(t_tree *tree_node)
 		m_tree_cleaner(tree_node->right);
 		if (tree_node->content)
 			free(tree_node->content);
-		else if (tree_node->command)
+		if (tree_node->command)
 			free_cmd_array(tree_node->command);
 		free(tree_node);
 		tree_node = NULL;

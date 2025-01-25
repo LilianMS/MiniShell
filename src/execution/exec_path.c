@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-static char	**m_find_paths(char **envp)
+static char	**m_find_env_paths(char **envp)
 {
 	int		i;
 	char	**paths;
@@ -23,13 +23,12 @@ int	m_check_permissions(char *cmd_path)
 	{
 		ft_putstr_fd("minishell: permission denied: ", STDERR_FILENO);
 		ft_putendl_fd(cmd_path, STDERR_FILENO);
-		// ft_printf_fd(STDERR_FILENO, "permission denied\n");
 		return (126);
 	}
-	return (1);
+	return (0);
 }
 
-int	m_check_absolute_path(char *cmd_path)
+int	m_is_absolute_path(char *cmd_path)
 {
 	if (access(cmd_path, F_OK) == 0)
 		return (0);
@@ -43,11 +42,11 @@ char	*m_create_path(char *cmd_path, char **node_cmd, char **env)
 	int		i;
 
 	i = 0;
-	if (m_check_absolute_path(node_cmd[0]) == 0)
+	if (m_is_absolute_path(node_cmd[0]) == 0)
 		return (node_cmd[0]);
 	else
 	{
-		env_paths = m_find_paths(env);
+		env_paths = m_find_env_paths(env);
 		while (env_paths[i])
 		{
 			path = ft_strjoin(env_paths[i++], "/");

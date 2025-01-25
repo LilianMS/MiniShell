@@ -27,7 +27,6 @@ int		m_simple_command(t_tree *node, t_mini *mini);
 int		m_execute_command(char **tree_node_cmd, t_mini *mini);
 char	*m_create_path(char *cmd_path, char **node_cmd, char **env);
 char	**m_env_list_to_array(t_env *env_list);
-int		m_check_cmd(char *cmd_path, t_mini *mini);
 int		m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd);
 t_tree	*m_find_command_node(t_tree *node);
 int		m_execute_all_redirs(t_redir *redir_fd, t_tree *node);
@@ -40,5 +39,6 @@ int		m_exec_pipe_others(t_tree *node, t_mini *mini, t_redir *redir_fd);
 int		m_exec_redir_command(t_tree *node, t_mini *mini);
 int		m_check_permissions(char *cmd_path);
 int		m_sort_status(int status);
+int		m_validate_path(char *cmd_path, char **node_cmd, char **env);
 
 #endif
