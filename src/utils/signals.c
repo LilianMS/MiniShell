@@ -11,6 +11,13 @@ void	m_update_exit_status(int code_exit)
 		g_signal_status = code_exit;
 }
 
+void	m_sig(int signum)
+{
+	(void)signum;
+	g_signal_status = 130;
+	ft_putstr_fd("\n", STDOUT_FILENO);
+}
+
 void	m_exec_signals(int pid)
 {
 	if (pid == 0)
@@ -19,9 +26,15 @@ void	m_exec_signals(int pid)
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGPIPE, SIG_DFL);
 	}
-	else
+	else if (pid == 1)
 	{
 		signal(SIGINT, m_sig_int);
+		signal(SIGPIPE, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, m_sig);
 		signal(SIGPIPE, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}

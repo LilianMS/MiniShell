@@ -1,5 +1,14 @@
 #include "../../includes/minishell.h"
 
+void	m_heredoc_cleaner(t_hdoc *hdoc)
+{
+	if (hdoc->delimiter)
+		free(hdoc->delimiter);
+	if (hdoc->filename)
+		free(hdoc->filename);
+	free(hdoc);
+}
+
 void	update_history(char *line, char **history_block)
 {
 	char	*new_block;
@@ -60,32 +69,59 @@ char	*m_heredoc_expansion(char *lexeme, t_mini *mini)
 	return (m_clean_quotes(ft_strdup(lexeme)));
 }
 
-void	heredoc_write_to_file(t_hdoc *hdoc, char *line)
+void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node, t_mini *mini)
 {
-	t_token	*current;
+	// t_token	*current;
 	char	*expanded_line;
 
-	current = hdoc->token_list;
-	while (current)
-	{
-		if (current->type == DELIMITER \
-			&& ft_strcmp(current->lexeme, hdoc->delimiter) == 0)
+	// current = hdoc->token_list;
+	// while (current)
+	// {
+		if (node->right->type == DELIMITER \
+			&& ft_strcmp(node->right->content, hdoc->delimiter) == 0)
 		{
-			if (current->quote == 0)
+			if (node->right->quote == 0)
 			{
-				expanded_line = m_heredoc_expansion(line, hdoc->env_list);
+				expanded_line = m_heredoc_expansion(line, mini);
 				line = expanded_line;
 			}
-			break ;
+			// break ;
 		}
-		current = current->next;
-	}
+	// 	current = current->next;
+	// }
 	write(hdoc->temp_fd, line, strlen(line));
 	write(hdoc->temp_fd, "\n", 1);
 	free(line);
 }
 
-void	m_aux_heredoc(t_hdoc *hdoc)
+/*
+// void	heredoc_write_to_file(t_hdoc *hdoc, char *line)
+// {
+// 	t_token	*current;
+// 	char	*expanded_line;
+
+// 	current = hdoc->token_list;
+// 	while (current)
+// 	{
+// 		if (current->type == DELIMITER \
+// 			&& ft_strcmp(current->lexeme, hdoc->delimiter) == 0)
+// 		{
+// 			if (current->quote == 0)
+// 			{
+// 				expanded_line = m_heredoc_expansion(line, hdoc->env_list);
+// 				line = expanded_line;
+// 			}
+// 			break ;
+// 		}
+// 		current = current->next;
+// 	}
+// 	write(hdoc->temp_fd, line, strlen(line));
+// 	write(hdoc->temp_fd, "\n", 1);
+// 	free(line);
+// }
+*/
+
+void	m_aux_heredoc(t_hdoc *hdoc, t_tree *node, t_mini *mini)
 {
 	char	*line;
 	char	*history_block;
@@ -95,7 +131,6 @@ void	m_aux_heredoc(t_hdoc *hdoc)
 	init_history_block(&history_block, hdoc->delimiter);
 	while ((line = readline("> ")) != NULL)
 	{
-		// line = readline("> ");
 		if (g_signal_status == 130)
 			line = NULL;
 		if (!line || ft_strcmp(line, hdoc->delimiter) == 0 \
@@ -106,8 +141,9 @@ void	m_aux_heredoc(t_hdoc *hdoc)
 			break ;
 		}
 		update_history(line, &history_block);
-		heredoc_write_to_file(hdoc, line);
+		heredoc_write_to_file(hdoc, line, node, mini);
 	}
+	// criar função para adicionar history
 	if (hdoc->exit_flag == 1)
 		update_history(hdoc->delimiter, &history_block);
 	if (history_block)

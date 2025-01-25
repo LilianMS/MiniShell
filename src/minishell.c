@@ -21,6 +21,26 @@ int	m_minishell_on(t_mini *mini)
 	return (mini->exit_status);
 }
 
+void	m_heredoc_delete_files(t_mini *mini)
+{
+	char	filename[256];
+	char	*suffix;
+
+	mini->hdoc->suffix_doc--;
+	while (mini->hdoc->suffix_doc >= 0)
+	{
+		suffix = ft_itoa(mini->hdoc->suffix_doc);
+		strcpy(filename, ".heredoc");
+		strcat(filename, suffix);
+		free(suffix);
+		if (unlink(filename) == 0)
+			ft_printf("Deleted %s successfully.\n", filename); // ----- debug
+		else
+			perror("Error deleting file");
+		mini->hdoc->suffix_doc--;
+	}
+}
+
 void	m_init_signals(void)
 {
 	signal(SIGINT, m_sig_int);
@@ -41,7 +61,6 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	t_mini	mini;
-	// int		status;
 
 	init_minishell(&mini, envp);
 	while (1)
@@ -55,5 +74,5 @@ int	main(int ac, char **av, char **envp)
 	}
 	rl_clear_history();
 	m_free_env_list(mini.env_list);
-	return (0);
+	return (mini.exit_status);
 }

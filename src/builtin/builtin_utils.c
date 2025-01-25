@@ -47,6 +47,6 @@ int	m_execute_builtin(t_tree *tree_node, t_mini *mini)
 	if (builtin == UNSET)
 		exit_status = m_unset(mini->env_list, args);
 	if (builtin == EXIT)
-		exit_status = m_exit(&mini);
+		exit_status = m_exit(&mini, args);
 	return (exit_status);
 }

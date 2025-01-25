@@ -25,39 +25,43 @@ int	heredoc_create_file(t_hdoc **hdoc)
 	fd = ft_create_file(filename);
 	if (fd != -1)
 		((*hdoc)->suffix_doc)++;
-	(*hdoc)->filename = filename;
+	if ((*hdoc)->filename)
+		free((*hdoc)->filename);
+	(*hdoc)->filename = ft_strdup(filename);
 	return (fd);
 }
 
-char	*m_heredoc_get_delimiter(t_token *parsed_list)
+char	*m_heredoc_get_delimiter(t_tree *node)
 {
-	t_token	*current;
+	if (node == NULL || node->right == NULL)
+		return (NULL);
 
-	current = parsed_list;
-	while (current)
-	{
-		if (current->type == DELIMITER)
-			return (current->lexeme);
-		current = current->next;
-	}
+	ft_printf("node->type: %d\n", node->type); // ---debug
+	ft_printf("node->right->content: %s\n", node->right->content); // ---debug
+
+	if (node->right->type == DELIMITER)
+		return (node->right->content);
+
 	return (NULL);
 }
 
-void	m_heredoc_update_token_list(t_token **token_list, t_hdoc *hdoc)
+void	m_heredoc_update_node(t_tree **node, t_hdoc *hdoc)
 {
-	t_token *current;
+	// t_token *current;
 
-	current = *token_list;
-	while (current)
-	{
-		if (current->type == DELIMITER && ft_strcmp(current->lexeme, hdoc->delimiter) == 0)
+	// current = *token_list;
+	// while (current)
+	// {
+		if ((*node)->right->type == DELIMITER \
+			&& ft_strcmp((*node)->right->content, hdoc->delimiter) == 0)
 		{
-			free(current->filename);
-			current->filename = hdoc->filename;
-			current->type = FILENAME;
+			free((*node)->right->content);
+			(*node)->right->content = ft_strdup(hdoc->filename);
+			ft_printf("node->right->content: %s\n", (*node)->right->content); // ---debug
+			(*node)->right->type = FILENAME;
 		}
-		current = current->next;
-	}
+	// 	current = current->next;
+	// }
 }
 
 void	m_sig_heredoc(int signal __attribute__((unused)))
@@ -74,30 +78,36 @@ void	heredoc_signals(void)
 	signal(SIGPIPE, SIG_IGN);
 }
 
-void	m_heredoc(t_token **token_list, t_mini mini)
+int	m_heredoc(t_tree *node, t_mini *mini)
 {
 	t_hdoc	*hdoc;
 
-	hdoc = mini.hdoc;
+	hdoc = mini->hdoc;
+	if (!hdoc)
+	{
+		perror("Error: hdoc is not initialized");
+		return (1);
+	}
 	hdoc->exit_flag = 0;
-	hdoc->env_list = mini.env_list;
-	hdoc->token_list = *token_list;
-	hdoc->delimiter = m_heredoc_get_delimiter(*token_list);
+	hdoc->env_list = mini->env_list;
+	hdoc->delimiter = m_heredoc_get_delimiter(node);
+	ft_printf("hdoc->delimiter: %s\n", hdoc->delimiter); // ---debug
 	if (!hdoc->delimiter)
 	{
 		ft_putendl_fd("heredoc: syntax error", STDERR_FILENO);
-		return ;
+		return (1);
 	}
 	hdoc->temp_fd = heredoc_create_file(&hdoc);
 	if (hdoc->temp_fd == -1)
-		return ;
+		return (1);
 	heredoc_signals();
-	m_aux_heredoc(hdoc);
+	m_aux_heredoc(hdoc, node, mini);
 	if (hdoc->exit_flag == 0)
 		ft_printf("minishell: warning: here-document at line 1 delimited by end-of-file (wanted `%s'\n", hdoc->delimiter);
 	else if (g_signal_status != 130)
-		m_heredoc_update_token_list(token_list, hdoc);
+		m_heredoc_update_node(&node, hdoc);
 	close(hdoc->temp_fd);
 	ft_printf("heredoc: exec?\n"); // ---debug
 	m_exec_signals(1);
+	return (0);
 }

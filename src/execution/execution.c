@@ -8,6 +8,8 @@ void	m_free_everything(t_mini *mini)
 		m_free_env_list(mini->env_list);
 	if (mini->tree)
 		m_tree_cleaner(mini->tree);
+	if (mini->hdoc)
+		m_heredoc_cleaner(mini->hdoc);
 }
 
 int is_directory(const char *path)
