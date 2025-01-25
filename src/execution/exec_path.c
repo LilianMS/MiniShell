@@ -101,12 +101,3 @@ char **m_env_list_to_array(t_env *env_list)
 	envp[i] = NULL;
 	return (envp);
 }
-
-int	get_status(int exit_status)
-{
-	static int	status;
-
-	if (exit_status != -1)
-		status = exit_status;
-	return (status);
-}

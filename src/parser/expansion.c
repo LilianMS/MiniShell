@@ -23,7 +23,7 @@ char	*m_expansion_special_cases(char *dollar_position, t_mini *mini)
 		expansion = ft_strdup("$$"); // se $$ não for implementado
 		// expansion = ft_itoa(m_get_pid()); // se for acertar função m_get_pid e implementar
 	else if (ft_strncmp(dollar_position, "$?", 2) == 0)
-		expansion = m_set_get_status(127, mini); // 127 é o valor padrão para $? quando não há status -- o ultimo foi a execução de $?
+		expansion = m_get_exit_status(mini);
 	else if (dollar_position[1] && ft_isdigit(dollar_position[1]))
 		expansion = ft_strdup("");
 	else
