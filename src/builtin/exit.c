@@ -42,7 +42,7 @@ int	m_exit(t_mini **mini, char **args)
 	if (args_len == 2)
 	{
 		if (ft_is_valid_arg(args[1]))
-			(*mini)->exit_status = ft_atoi(args[1]);
+			(*mini)->exit_status = ft_atoi(args[1]) % 256;
 		else
 		{
 			ft_putendl_fd("minishell: exit: numeric argument required", 2);
@@ -51,5 +51,4 @@ int	m_exit(t_mini **mini, char **args)
 	}
 	m_free_everything(*mini);
 	exit((*mini)->exit_status);
-	return ((*mini)->exit_status);
 }
