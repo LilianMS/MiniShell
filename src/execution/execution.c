@@ -14,23 +14,34 @@ void	m_free_everything(t_mini *mini)
 		free(mini->hdoc);
 }
 
-char	*m_validate_command(char **tree_node_cmd, char **env)
+int is_directory(const char *path)
 {
-	char *cmd_path;
+	struct stat statbuf;
 
-	cmd_path = NULL;
-	if (!env)
-		return (NULL);
-	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
+	if (stat(path, &statbuf) != 0)
+		return (-1);
+	return (S_ISDIR(statbuf.st_mode));
+}
+
+int m_validate_path(char *cmd_path, char **node_cmd, char **env)
+{
 	if (cmd_path == NULL)
 	{
 		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
-		ft_putendl_fd(tree_node_cmd[0], STDERR_FILENO);
-		free(cmd_path);
+		ft_putendl_fd(node_cmd[0], STDERR_FILENO);
 		free_cmd_array(env);
-		return (NULL);
+		return (127);
 	}
-	return (cmd_path);
+	else if (is_directory(cmd_path) == 1)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(cmd_path, STDERR_FILENO);
+		ft_putendl_fd(" is a directory", STDERR_FILENO);
+		free_cmd_array(env);
+		return (126);
+	}
+	return (0);
+
 }
 
 int	m_execute_command(char **tree_node_cmd, t_mini *mini)
@@ -42,9 +53,10 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 	status = 0;
 	cmd_path = NULL;
 	env = m_env_list_to_array(mini->env_list);
-	cmd_path = m_validate_command(tree_node_cmd, env);
-	if (!cmd_path)
-		return (127);
+	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
+	status = m_validate_path(cmd_path, tree_node_cmd, env);
+	if (status)
+		return (status);
 	else
 	{
 		if (execve(cmd_path, tree_node_cmd, env))
