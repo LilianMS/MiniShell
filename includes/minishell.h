@@ -64,7 +64,8 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_mini *min
 void							m_exec_signals(int pid);
 
 int								m_heredoc(t_tree *node, t_mini *mini);
-void							m_aux_heredoc(t_hdoc *hdoc, t_tree *node);
+void							m_aux_heredoc(t_hdoc *hdoc, t_tree *node, t_mini *mini);
 void							m_heredoc_delete_files(t_mini *mini);
+void							m_heredoc_cleaner(t_hdoc *hdoc);
 
 #endif

@@ -1,5 +1,14 @@
 #include "../../includes/minishell.h"
 
+void	m_heredoc_cleaner(t_hdoc *hdoc)
+{
+	if (hdoc->delimiter)
+		free(hdoc->delimiter);
+	if (hdoc->filename)
+		free(hdoc->filename);
+	free(hdoc);
+}
+
 void	update_history(char *line, char **history_block)
 {
 	char	*new_block;
@@ -60,7 +69,7 @@ char	*m_heredoc_expansion(char *lexeme, t_mini *mini)
 	return (m_clean_quotes(ft_strdup(lexeme)));
 }
 
-void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node)
+void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node, t_mini *mini)
 {
 	// t_token	*current;
 	char	*expanded_line;
@@ -73,7 +82,7 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node)
 		{
 			if (node->right->quote == 0)
 			{
-				expanded_line = m_heredoc_expansion(line, hdoc->env_list);
+				expanded_line = m_heredoc_expansion(line, mini);
 				line = expanded_line;
 			}
 			// break ;
@@ -112,7 +121,7 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node)
 // }
 */
 
-void	m_aux_heredoc(t_hdoc *hdoc, t_tree *node)
+void	m_aux_heredoc(t_hdoc *hdoc, t_tree *node, t_mini *mini)
 {
 	char	*line;
 	char	*history_block;
@@ -132,7 +141,7 @@ void	m_aux_heredoc(t_hdoc *hdoc, t_tree *node)
 			break ;
 		}
 		update_history(line, &history_block);
-		heredoc_write_to_file(hdoc, line, node);
+		heredoc_write_to_file(hdoc, line, node, mini);
 	}
 	// criar função para adicionar history
 	if (hdoc->exit_flag == 1)

@@ -101,7 +101,7 @@ int	m_heredoc(t_tree *node, t_mini *mini)
 	if (hdoc->temp_fd == -1)
 		return (1);
 	heredoc_signals();
-	m_aux_heredoc(hdoc, node);
+	m_aux_heredoc(hdoc, node, mini);
 	if (hdoc->exit_flag == 0)
 		ft_printf("minishell: warning: here-document at line 1 delimited by end-of-file (wanted `%s'\n", hdoc->delimiter);
 	else if (g_signal_status != 130)

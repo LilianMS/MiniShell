@@ -17,7 +17,6 @@ void	init_minishell(t_mini *mini, char **envp)
 	mini->hdoc->suffix_doc = -1;
 	mini->hdoc->delimiter = NULL;
 	mini->hdoc->filename = NULL;
-	mini->hdoc->env_list = mini->env_list;
 }
 
 void	m_sig_int(int signum)
