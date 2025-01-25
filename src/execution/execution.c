@@ -8,8 +8,10 @@ void	m_free_everything(t_mini *mini)
 		m_free_env_list(mini->env_list);
 	if (mini->tree)
 		m_tree_cleaner(mini->tree);
+	if (mini->hdoc->filename)
+		free(mini->hdoc->filename);
 	if (mini->hdoc)
-		m_heredoc_cleaner(mini->hdoc);
+		free(mini->hdoc);
 }
 
 char	*m_validate_command(char **tree_node_cmd, char **env)

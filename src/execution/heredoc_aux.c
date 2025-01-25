@@ -1,14 +1,5 @@
 #include "../../includes/minishell.h"
 
-void	m_heredoc_cleaner(t_hdoc *hdoc)
-{
-	if (hdoc->delimiter)
-		free(hdoc->delimiter);
-	if (hdoc->filename)
-		free(hdoc->filename);
-	free(hdoc);
-}
-
 void	update_history(char *line, char **history_block)
 {
 	char	*new_block;
