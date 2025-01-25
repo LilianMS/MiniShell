@@ -95,6 +95,7 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	root = ft_calloc(sizeof(t_tree), 1);
 	root->left = NULL;
 	root->right = NULL;
+	root->quote = 0; // novo
 	if (!joint && parsed_list->type == COMMAND)
 		m_allocate_command(&root, parsed_list);
 	if (!joint && (parsed_list->type == FILENAME \
@@ -104,6 +105,7 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 		root->type = parsed_list->type;
 		if (parsed_list->type == DELIMITER) // novo
 			root->quote = parsed_list->quote; // flag para expansão no hdoc
+		ft_printf("quote? %d\n", root->quote); // debug
 	}
 	m_grow_tree(root, &joint);
 	if (joint && joint->prev)
