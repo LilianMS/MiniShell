@@ -1,5 +1,20 @@
 #include "../includes/tokenizer.h"
 
+static void	m_syntax_error_msg(t_token	*current)
+{
+	ft_putstr_fd("minishell: unexpected syntax error near token '", STDERR_FILENO);
+	if (current->type == PIPE)
+		ft_putendl_fd("|'", STDERR_FILENO);
+	if (current->type == REDIR_IN)
+		ft_putendl_fd("<'", STDERR_FILENO);
+	if (current->type == REDIR_OUT)
+		ft_putendl_fd(">'", STDERR_FILENO);
+	if (current->type == REDIR_APPEND)
+		ft_putendl_fd(">>'", STDERR_FILENO);
+	if (current->type == REDIR_HEREDOC)
+		ft_putendl_fd("<<'", STDERR_FILENO);
+}
+
 int	m_validate_tokens(t_token **tokens)
 {
 	t_token	*current;
@@ -12,17 +27,17 @@ int	m_validate_tokens(t_token **tokens)
 			|| (current->type == PIPE && (current->next == NULL \
 			|| (current->next->type != WORD && !m_is_redir(current->next->type)))))
 		{
-				ft_putendl_fd("Error: Expected a word or input redirection after the pipe.", 2);
+				m_syntax_error_msg(current);
 				return (0);
 		}
 		if (current->type == PIPE && (current->prev == NULL || current->prev->type != WORD))
 		{
-			ft_putendl_fd("Error: Expected a word before the operator.", 2);
+			ft_putendl_fd("minishell: unexpected syntax error near token '|'", STDERR_FILENO);
 			return (0);
 		}
 		current = current->next;
 	}
-	m_add_post_redir_type(tokens); // novo --- só mudei de lugar (estava em m_parse_tokens), mas não muda ordem
+	m_add_post_redir_type(tokens);
 	return (1);
 }
 
