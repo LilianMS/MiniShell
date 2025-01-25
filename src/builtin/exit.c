@@ -49,6 +49,8 @@ int	m_exit(t_mini **mini, char **args)
 			(*mini)->exit_status = 2;
 		}
 	}
+	if ((*mini)->hdoc->filename)
+			m_heredoc_delete_files(*mini);
 	m_free_everything(*mini);
 	exit((*mini)->exit_status);
 }

@@ -15,7 +15,6 @@ void	init_minishell(t_mini *mini, char **envp)
 	ft_bzero(mini->hdoc, sizeof(t_hdoc));
 	mini->hdoc->temp_fd = 0;
 	mini->hdoc->suffix_doc = -1;
-	mini->hdoc->delimiter = NULL;
 	mini->hdoc->filename = NULL;
 }
 
