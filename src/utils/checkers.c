@@ -76,7 +76,14 @@ int	m_is_input_null(t_mini *mini)
 	if (!mini->line)
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);
-		m_heredoc_cleaner(mini->hdoc);
+
+		if (mini->hdoc->filename)
+		{
+			m_heredoc_delete_files(mini);
+			free(mini->hdoc->filename);
+		}
+		if (mini->hdoc)
+			free(mini->hdoc);
 		return (1);
 	}
 	return (0);
