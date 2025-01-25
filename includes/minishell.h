@@ -41,13 +41,11 @@ struct s_mini
 
 struct s_hdoc
 {
-	char						*cmd;
 	char						*delimiter;
 	char						*filename;
 	int							temp_fd;
 	int							exit_flag;
 	int							suffix_doc;
-	t_env						*env_list;
 };
 
 // Lexical Analysis Functions
