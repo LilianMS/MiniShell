@@ -30,10 +30,7 @@ char	**m_env_list_to_array(t_env *env_list);
 int		m_check_cmd(char *cmd_path, t_mini *mini);
 int		m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd);
 t_tree	*m_find_command_node(t_tree *node);
-
-int		m_execute_all_redirs(t_redir *redir_fd, t_tree *node, t_mini *mini);
-// int		m_execute_all_redirs(t_redir *redir_fd, t_tree *node);
-
+int		m_execute_all_redirs(t_redir *redir_fd, t_tree *node);
 void	m_init_redirect(t_redir *redir_fd);
 void	m_restore_redirect(t_redir *redir_fd);
 int		m_close_fd(int fd);
@@ -41,5 +38,7 @@ int		m_handle_pipe(t_tree *node, t_mini *mini);
 void	m_free_everything(t_mini *mini);
 int		m_exec_pipe_others(t_tree *node, t_mini *mini, t_redir *redir_fd);
 int		m_exec_redir_command(t_tree *node, t_mini *mini);
+int		m_check_permissions(char *cmd_path);
+int		m_sort_status(int status);
 
 #endif
