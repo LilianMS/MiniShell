@@ -23,6 +23,12 @@ int is_directory(const char *path)
 	return (S_ISDIR(statbuf.st_mode));
 }
 
+int m_empty_cmd(void)
+{
+	ft_putendl_fd("minishell: command not found: ''", STDERR_FILENO);
+	return (127);
+}
+
 int m_validate_path(char *cmd_path, char **node_cmd, char **env)
 {
 	if (cmd_path == NULL)
@@ -52,6 +58,8 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 
 	status = 0;
 	cmd_path = NULL;
+	if (tree_node_cmd[0][0] == '\0')
+		return (m_empty_cmd());
 	env = m_env_list_to_array(mini->env_list);
 	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
 	status = m_validate_path(cmd_path, tree_node_cmd, env);
