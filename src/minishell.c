@@ -33,7 +33,7 @@ void	m_heredoc_delete_files(t_mini *mini)
 	while (mini->hdoc->suffix_doc >= 0)
 	{
 		suffix = ft_itoa(mini->hdoc->suffix_doc);
-		strcpy(filename, ".heredoc");
+		strcpy(filename, "/tmp/heredoc");
 		strcat(filename, suffix);
 		free(suffix);
 		if (unlink(filename) == 0)
