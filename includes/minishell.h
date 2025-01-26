@@ -26,18 +26,15 @@ typedef struct s_mini			t_mini;
 typedef struct s_token			t_token;
 typedef struct s_env			t_env;
 typedef struct s_tree			t_tree;
-typedef struct s_hdoc			t_hdoc; // novo
-typedef struct termios			t_termios; // novo
+typedef struct s_hdoc			t_hdoc;
 
 struct s_mini
 {
 	char						*line;
 	int							exit_status;
-	int							backup_fd_in; // novo
 	t_env						*env_list;
 	t_tree						*tree;
-	t_hdoc						*hdoc; // novo
-	t_termios					term; // novo
+	t_hdoc						*hdoc;
 };
 
 struct s_hdoc
