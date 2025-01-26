@@ -40,7 +40,8 @@ void	m_get_new_token(t_automat *aut, t_token **token_list, char *input)
 	}
 	aut->token_type = m_get_token_type(aut->status);
 	if (aut->token_type == WORD)
-		aut->lexeme = ft_substr(input, (aut->i - (aut->lexeme_len - 1)), aut->lexeme_len);
+		aut->lexeme = ft_substr(input, \
+						(aut->i - (aut->lexeme_len - 1)), aut->lexeme_len);
 	else
 		aut->lexeme = NULL;
 	new_token = m_create_token(aut->lexeme, aut->token_type);

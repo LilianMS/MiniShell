@@ -36,7 +36,7 @@ int	m_get_status_1(char c)
 	else if (c == '\"')
 		return (82);
 	else if (c == '\0' || ft_isspace(c))
-		return (1); //se achar um white space ou fim da linha, continua no status 1 e vai sair do loop lá na função m_tokenize
+		return (1);
 	else if (!m_is_special_char(c))
 		return (80);
 	else
@@ -46,7 +46,7 @@ int	m_get_status_1(char c)
 int	m_get_status_40(char c)
 {
 	if (c == '|')
-		return (-1); //no momento caso achar outro '|', retorna o -1, status de erro
+		return (-1);
 	else if (c != '|')
 		return (41);
 	else
@@ -56,9 +56,9 @@ int	m_get_status_40(char c)
 int	m_get_status_60(char c)
 {
 	if (c == '<')
-		return (61); //se achar outro '<' retorna o final_state de REDIR_HEREDOC
+		return (61);
 	else if (c != '<')
-		return (62); //se achar qualquer outro caractere, retorna o final_state de REDIR_IN
+		return (62);
 	else
 		return (-1);
 }
@@ -66,9 +66,9 @@ int	m_get_status_60(char c)
 int	m_get_status_70(char c)
 {
 	if (c == '>')
-		return (71); //se achar outro '>' retorna o final_state de REDIR_APPEND
+		return (71);
 	else if (c != '>')
-		return (72); //se achar qualquer outro caractere, retorna o final_state de REDIR_OUT
+		return (72);
 	else
 		return (-1);
 }

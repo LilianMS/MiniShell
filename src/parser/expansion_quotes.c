@@ -61,16 +61,16 @@ static char	*m_handle_token(char *token, t_mini *mini)
 
 	dollar_position = ft_strchr(token, '$');
 	if (!dollar_position)
-		return (m_clean_quotes(token));
+		return (m_clean_qts(token));
 	dollar_position++;
 	if ((ft_strchr(token, '\'') && !ft_strchr(token, '\"')) \
 		|| (ft_strchr(token, '\'') && ft_strchr(token, '\"') \
 		&& token[0] == '\''))
-		return (m_clean_quotes(token));
+		return (m_clean_qts(token));
 	else if (ft_strchr(token, '\"') \
 		&& (!ft_isalnum(*dollar_position) && *dollar_position != '_' \
 		&& *dollar_position != '?' && *dollar_position != '$'))
-		return (m_clean_quotes(token));
+		return (m_clean_qts(token));
 	return (m_get_expand_string(token, mini));
 }
 

@@ -22,7 +22,7 @@ char	**m_populate_cmd_array(t_token *start, int command_len, \
 	while (i < command_len)
 	{
 		if (start && start->lexeme)
-			command[i] = m_quotes_and_expansion(start->lexeme, mini);
+			command[i] = m_qts_and_expand(start->lexeme, mini);
 		else
 			command[i] = NULL;
 		start = start->next;
@@ -65,7 +65,10 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 		file_token = ft_calloc(sizeof(t_token), 1);
 		if (!file_token)
 			return ;
-		file_token->lexeme = m_quotes_and_expansion((*aux_list)->lexeme, mini);
+		if ((*aux_list)->type == DELIMITER)
+			file_token->lexeme = m_clean_qts(ft_strdup((*aux_list)->lexeme));
+		else
+			file_token->lexeme = m_qts_and_expand((*aux_list)->lexeme, mini);
 		file_token->type = (*aux_list)->type;
 		m_add_token(parsed_list, file_token);
 		*aux_list = (*aux_list)->next;

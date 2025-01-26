@@ -83,7 +83,7 @@ char	*m_set_split_quotes(char *lexeme)
 	i = 0;
 	while (split[i])
 	{
-		new_str = m_clean_quotes(split[i]);
+		new_str = m_clean_qts(split[i]);
 		temp = ft_strjoin_free(result, new_str);
 		result = temp;
 		i++;

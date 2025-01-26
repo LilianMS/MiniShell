@@ -51,7 +51,7 @@ char	*m_get_expand_string(char *lexeme, t_mini *mini)
 	char	*dollar_position;
 
 	if (ft_strchr(lexeme, '\"'))
-		temp_cleaned_lexeme = m_clean_quotes(lexeme);
+		temp_cleaned_lexeme = m_clean_qts(lexeme);
 	else
 		temp_cleaned_lexeme = lexeme;
 	dollar_position = ft_strchr(temp_cleaned_lexeme, '$');
@@ -68,7 +68,7 @@ char	*m_get_expand_string(char *lexeme, t_mini *mini)
 	return (result);
 }
 
-char	*m_quotes_and_expansion(char *lexeme, t_mini *mini)
+char	*m_qts_and_expand(char *lexeme, t_mini *mini)
 {
 	char	*dollar_position;
 
@@ -80,11 +80,11 @@ char	*m_quotes_and_expansion(char *lexeme, t_mini *mini)
 			return (m_get_expand_split(lexeme, mini));
 		}
 		else if (dollar_position[1] == '\0')
-			return (m_clean_quotes(ft_strdup(lexeme)));
+			return (m_clean_qts(ft_strdup(lexeme)));
 		else
 			return (m_get_expand_string(ft_strdup(lexeme), mini));
 	}
 	else if (ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
 		return (m_set_split_quotes(lexeme));
-	return (m_clean_quotes(ft_strdup(lexeme)));
+	return (m_clean_qts(ft_strdup(lexeme)));
 }

@@ -26,12 +26,13 @@ int	m_validate_tokens(t_token **tokens)
 		if ((m_is_redir(current->type) \
 			&& (current->next == NULL || current->next->type != WORD)) \
 			|| (current->type == PIPE && (current->next == NULL \
-			|| (current->next->type != WORD && !m_is_redir(current->next->type)))))
+			|| (current->next->type != WORD \
+			&& !m_is_redir(current->next->type)))))
 		{
-				m_syntax_error_msg(current);
-				return (0);
+			m_syntax_error_msg(current);
+			return (0);
 		}
-		if (current->type == PIPE && (current->prev == NULL
+		if (current->type == PIPE && (current->prev == NULL \
 			|| current->prev->type != WORD))
 		{
 			m_syntax_error_msg(current);
