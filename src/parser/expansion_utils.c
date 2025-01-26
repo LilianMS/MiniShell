@@ -1,12 +1,10 @@
 #include "../includes/parser.h"
 
-// função para expadir $$
 pid_t	m_get_pid(void)
 {
 	return (8888);
 }
 
-// função para setar e pegar o status do sinal ao chamar $?
 char	*m_get_exit_status(t_mini *mini)
 {
 	return (ft_itoa(mini->exit_status));
@@ -26,7 +24,6 @@ char	*m_clean_dollar(char *str, int *idx)
 		len++;
 	}
 	*idx = len + 1;
-	// ft_printf("idx: %d\n", *idx); // debug
 	var_name = ft_substr(str, 1, len);
 	return (var_name);
 }

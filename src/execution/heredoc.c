@@ -60,8 +60,8 @@ void	m_heredoc_update_node(t_tree **node, t_hdoc *hdoc)
 		free((*node)->right->content);
 		(*node)->right->content = ft_strdup(hdoc->filename);
 		ft_printf("node->right->content: %s\n", (*node)->right->content); // ---debug
-		(*node)->right->type = FILENAME;
-		ft_printf("node->right->type: %d\n", (*node)->right->type); // ---debug
+		// (*node)->right->type = FILENAME;
+		// ft_printf("node->right->type: %d\n", (*node)->right->type); // ---debug
 	}
 }
 

@@ -2,7 +2,8 @@
 
 static void	m_syntax_error_msg(t_token	*current)
 {
-	ft_putstr_fd("minishell: unexpected syntax error near token '", STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("unexpected syntax error near token '", STDERR_FILENO);
 	if (current->type == PIPE)
 		ft_putendl_fd("|'", STDERR_FILENO);
 	if (current->type == REDIR_IN)
@@ -30,9 +31,10 @@ int	m_validate_tokens(t_token **tokens)
 				m_syntax_error_msg(current);
 				return (0);
 		}
-		if (current->type == PIPE && (current->prev == NULL || current->prev->type != WORD))
+		if (current->type == PIPE && (current->prev == NULL
+			|| current->prev->type != WORD))
 		{
-			ft_putendl_fd("minishell: unexpected syntax error near token '|'", STDERR_FILENO);
+			m_syntax_error_msg(current);
 			return (0);
 		}
 		current = current->next;
@@ -40,4 +42,3 @@ int	m_validate_tokens(t_token **tokens)
 	m_add_post_redir_type(tokens);
 	return (1);
 }
-
