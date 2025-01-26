@@ -30,7 +30,7 @@ struct s_env
 
 // Functions
 
-char	*m_quotes_and_expansion(char *lexeme, t_mini *mini);
+char	*m_qts_and_expand(char *lexeme, t_mini *mini);
 char	*m_get_env(t_env *env_list, const char *var_name);
 void	m_free_env_list(t_env *env_list);
 t_env	*m_create_env_list(char **envp);
@@ -55,6 +55,6 @@ char	ft_is_quotes_type(char *lexeme, int *start, int *end);
 char	**split_by_quotes(char *input);
 char	*m_get_expand_split(char *lexeme, t_mini *mini);
 char	*m_set_split_quotes(char *lexeme);
-char	*m_clean_quotes(char *lexeme);
+char	*m_clean_qts(char *lexeme);
 
 #endif

@@ -26,7 +26,7 @@ char	ft_is_quotes_type(char *lexeme, int *start, int *end)
 	return (0);
 }
 
-char	*m_clean_quotes(char *lexeme)
+char	*m_clean_qts(char *lexeme)
 {
 	char	id_quote;
 	char	*new_lexeme;

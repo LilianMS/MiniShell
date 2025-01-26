@@ -60,7 +60,8 @@ static void	m_relocate_word_node(t_token **token_list, t_token *front_node, \
 	}
 }
 
-static t_token	**m_update_token_list_address(t_token **token_list, t_token **new_address)
+static t_token	**m_update_token_list_address(t_token **token_list, \
+	t_token **new_address)
 {
 	*new_address = (*new_address)->next;
 	token_list = new_address;
@@ -69,7 +70,7 @@ static t_token	**m_update_token_list_address(t_token **token_list, t_token **new
 
 void	m_reorganize_tokens_if_redir(t_token **token_list)
 {
-	t_token *aux_list;
+	t_token	*aux_list;
 	t_token	*front_node;
 	t_token	*target_node;
 
@@ -77,7 +78,8 @@ void	m_reorganize_tokens_if_redir(t_token **token_list)
 	while (aux_list)
 	{
 		target_node = m_find_target_node(aux_list);
-		if (aux_list->type != WORD && !m_is_redir(aux_list->type) && !target_node)
+		if (aux_list->type != WORD \
+			&& !m_is_redir(aux_list->type) && !target_node)
 			break ;
 		while (aux_list && aux_list->type != PIPE)
 		{

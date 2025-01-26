@@ -1,15 +1,15 @@
 #include "../includes/parser.h"
 
-static char	*process_special_dollar(char **dollar_position, t_mini *mini)
+static char	*proc_special_dollar(char **dollar_position, t_mini *mini)
 {
 	char	*expansion;
 
 	expansion = m_expansion_special_cases(*dollar_position, mini);
-	*dollar_position += 2; // Avança 2 caracteres para pular o caso especial
+	*dollar_position += 2;
 	return (expansion);
 }
 
-static char	*process_regular_dollar(char **dollar_position, t_env *env_list)
+static char	*proc_regular_dollar(char **dollar_position, t_env *env_list)
 {
 	char	*cleaned_lexeme;
 	char	*expansion;
@@ -21,7 +21,7 @@ static char	*process_regular_dollar(char **dollar_position, t_env *env_list)
 	else
 		expansion = ft_strdup("");
 	free(cleaned_lexeme);
-	*dollar_position += idx; // Avança o ponteiro para a próxima posição
+	*dollar_position += idx;
 	return (expansion);
 }
 
@@ -58,9 +58,9 @@ char	*m_process_after_dollar(char *dollar_position, t_mini *mini)
 	while (dollar_position)
 	{
 		if (m_is_special_cases_dollar(dollar_position))
-			expansion = process_special_dollar(&dollar_position, mini);
+			expansion = proc_special_dollar(&dollar_position, mini);
 		else
-			expansion = process_regular_dollar(&dollar_position, mini->env_list);
+			expansion = proc_regular_dollar(&dollar_position, mini->env_list);
 		temp = ft_strjoin(result, expansion);
 		free(result);
 		free(expansion);
@@ -83,7 +83,7 @@ char	*m_set_split_quotes(char *lexeme)
 	i = 0;
 	while (split[i])
 	{
-		new_str = m_clean_quotes(split[i]);
+		new_str = m_clean_qts(split[i]);
 		temp = ft_strjoin_free(result, new_str);
 		result = temp;
 		i++;

@@ -20,14 +20,13 @@ char	*m_expansion_special_cases(char *dollar_position, t_mini *mini)
 	char	*expansion;
 
 	if (ft_strncmp(dollar_position, "$$", 2) == 0)
-		expansion = ft_strdup("$$"); // se $$ não for implementado
-		// expansion = ft_itoa(m_get_pid()); // se for acertar função m_get_pid e implementar
+		expansion = ft_strdup("$$");
 	else if (ft_strncmp(dollar_position, "$?", 2) == 0)
 		expansion = m_get_exit_status(mini);
 	else if (dollar_position[1] && ft_isdigit(dollar_position[1]))
 		expansion = ft_strdup("");
 	else
-		expansion = ft_strdup("$"); // Caso especial não identificado, retorna o próprio $
+		expansion = ft_strdup("$");
 	return (expansion);
 }
 
@@ -52,15 +51,15 @@ char	*m_get_expand_string(char *lexeme, t_mini *mini)
 	char	*dollar_position;
 
 	if (ft_strchr(lexeme, '\"'))
-		temp_cleaned_lexeme = m_clean_quotes(lexeme);
+		temp_cleaned_lexeme = m_clean_qts(lexeme);
 	else
 		temp_cleaned_lexeme = lexeme;
 	dollar_position = ft_strchr(temp_cleaned_lexeme, '$');
-	if (!dollar_position) // Sem $
+	if (!dollar_position)
 		return (temp_cleaned_lexeme);
 	before_dollar = m_extract_before_dollar(temp_cleaned_lexeme);
 	processed_part = m_process_after_dollar(dollar_position, mini);
-	if (!before_dollar) // Garante que nunca seja nulo
+	if (!before_dollar)
 		before_dollar = ft_strdup("");
 	result = ft_strjoin(before_dollar, processed_part);
 	free(temp_cleaned_lexeme);
@@ -69,7 +68,7 @@ char	*m_get_expand_string(char *lexeme, t_mini *mini)
 	return (result);
 }
 
-char	*m_quotes_and_expansion(char *lexeme, t_mini *mini)
+char	*m_qts_and_expand(char *lexeme, t_mini *mini)
 {
 	char	*dollar_position;
 
@@ -81,11 +80,11 @@ char	*m_quotes_and_expansion(char *lexeme, t_mini *mini)
 			return (m_get_expand_split(lexeme, mini));
 		}
 		else if (dollar_position[1] == '\0')
-			return (m_clean_quotes(ft_strdup(lexeme)));
+			return (m_clean_qts(ft_strdup(lexeme)));
 		else
 			return (m_get_expand_string(ft_strdup(lexeme), mini));
 	}
 	else if (ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
 		return (m_set_split_quotes(lexeme));
-	return (m_clean_quotes(ft_strdup(lexeme)));
+	return (m_clean_qts(ft_strdup(lexeme)));
 }

@@ -51,13 +51,13 @@ char	*m_heredoc_expansion(char *lexeme, t_mini *mini)
 			return (m_get_expand_split(lexeme, mini));
 		}
 		else if (dollar_position[1] == '\0')
-			return (m_clean_quotes(ft_strdup(lexeme)));
+			return (m_clean_qts(ft_strdup(lexeme)));
 		else
 			return (m_get_expand_string(ft_strdup(lexeme), mini));
 	}
 	else if (ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
 		return (m_set_split_quotes(lexeme));
-	return (m_clean_quotes(ft_strdup(lexeme)));
+	return (m_clean_qts(ft_strdup(lexeme)));
 }
 
 void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node, t_mini *mini)

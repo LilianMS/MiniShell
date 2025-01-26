@@ -10,9 +10,9 @@ static char	*extract_quoted_segment(char *input, int *index)
 	id_quote = ft_is_quotes_type(input + *index, &start, &end);
 	if (id_quote)
 	{
-		start += *index; // Ajusta o índice para o deslocamento atual
+		start += *index;
 		end += *index;
-		*index = end + 1; // Avança o índice para além do segmento
+		*index = end + 1;
 		return (ft_strndup(&input[start], end - start + 1));
 	}
 	return (NULL);
@@ -52,7 +52,6 @@ char	**split_by_quotes(char *input)
 			result[res_index++] = segment;
 	}
 	result[res_index] = NULL;
-	print_char_array(result); //------ debug
 	return (result);
 }
 
@@ -62,16 +61,16 @@ static char	*m_handle_token(char *token, t_mini *mini)
 
 	dollar_position = ft_strchr(token, '$');
 	if (!dollar_position)
-		return (m_clean_quotes(token));
+		return (m_clean_qts(token));
 	dollar_position++;
 	if ((ft_strchr(token, '\'') && !ft_strchr(token, '\"')) \
 		|| (ft_strchr(token, '\'') && ft_strchr(token, '\"') \
 		&& token[0] == '\''))
-		return (m_clean_quotes(token));
+		return (m_clean_qts(token));
 	else if (ft_strchr(token, '\"') \
 		&& (!ft_isalnum(*dollar_position) && *dollar_position != '_' \
 		&& *dollar_position != '?' && *dollar_position != '$'))
-		return (m_clean_quotes(token));
+		return (m_clean_qts(token));
 	return (m_get_expand_string(token, mini));
 }
 
