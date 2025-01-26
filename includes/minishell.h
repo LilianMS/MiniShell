@@ -12,12 +12,12 @@
 # include <fcntl.h>
 # include <termios.h>
 
-#include "tokenizer.h"
-#include "parser.h"
-#include "debug.h"
-#include "ast.h"
-#include "execution.h"
-#include "builtin.h"
+# include "tokenizer.h"
+# include "parser.h"
+# include "debug.h"
+# include "ast.h"
+# include "execution.h"
+# include "builtin.h"
 
 extern volatile sig_atomic_t	g_signal_status;
 

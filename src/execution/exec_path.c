@@ -64,9 +64,9 @@ char	*m_create_path(char *cmd_path, char **node_cmd, char **env)
 	return (NULL);
 }
 
-static int env_list_size(t_env *env_list)
+static int	env_list_size(t_env *env_list)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env_list)
@@ -77,11 +77,11 @@ static int env_list_size(t_env *env_list)
 	return (i);
 }
 
-char **m_env_list_to_array(t_env *env_list)
+char	**m_env_list_to_array(t_env *env_list)
 {
-	char **envp;
-	char *tmp_str;
-	int i;
+	char	**envp;
+	char	*tmp_str;
+	int		i;
 
 	i = env_list_size(env_list);
 	envp = (char **)malloc(sizeof(char *) * (i + 1));

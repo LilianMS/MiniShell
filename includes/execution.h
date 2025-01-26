@@ -1,12 +1,12 @@
 #ifndef EXECUTION_H
-#define EXECUTION_H
+# define EXECUTION_H
 
 // Libs
-#include "minishell.h"
-#include "parser.h"
-#include "tokenizer.h"
-#include "debug.h"
-#include "ast.h"
+# include "minishell.h"
+# include "parser.h"
+# include "tokenizer.h"
+# include "debug.h"
+# include "ast.h"
 
 //Structs
 typedef struct s_mini		t_mini;
@@ -14,11 +14,12 @@ typedef struct s_token		t_token;
 typedef struct s_redir		t_redir;
 
 // Estrutura para guardar os file descriptors originais
-struct s_redir {
-	int stdin_backup;
-	int stdout_backup;
-	int stderr_backup;
-	int current_fd;
+struct s_redir
+{
+	int	stdin_backup;
+	int	stdout_backup;
+	int	stderr_backup;
+	int	current_fd;
 };
 
 //Functions

@@ -83,18 +83,19 @@ void	m_aux_heredoc(t_hdoc *hdoc, t_tree *node, t_mini *mini)
 	char	*line;
 	char	*history_block;
 
-	line = NULL;
+	line = readline("> ");
 	history_block = NULL;
 	init_history_block(&history_block, hdoc->delimiter);
-	while ((line = readline("> ")) != NULL)
+	while (line != NULL)
 	{
+		line = readline("> ");
 		if (ft_strcmp(line, hdoc->delimiter) == 0)
 			break ;
 		update_history(line, &history_block);
 		heredoc_write_to_file(hdoc, line, node, mini);
 	}
 	if (!line && g_signal_status != 130)
-				hdoc->exit_flag = 1;
+		hdoc->exit_flag = 1;
 	ft_printf("flag: %d\n", hdoc->exit_flag); // ---debug
 	if (hdoc->exit_flag == 1)
 		update_history(hdoc->delimiter, &history_block);

@@ -14,22 +14,22 @@ void	m_free_everything(t_mini *mini)
 		free(mini->hdoc);
 }
 
-int is_directory(const char *path)
+int	is_directory(const char *path)
 {
-	struct stat statbuf;
+	struct stat	statbuf;
 
 	if (stat(path, &statbuf) != 0)
 		return (-1);
 	return (S_ISDIR(statbuf.st_mode));
 }
 
-int m_empty_cmd(void)
+int	m_empty_cmd(void)
 {
 	ft_putendl_fd("minishell: command not found: ''", STDERR_FILENO);
 	return (127);
 }
 
-int m_validate_path(char *cmd_path, char **node_cmd, char **env)
+int	m_validate_path(char *cmd_path, char **node_cmd, char **env)
 {
 	if (cmd_path == NULL)
 	{
@@ -47,7 +47,6 @@ int m_validate_path(char *cmd_path, char **node_cmd, char **env)
 		return (126);
 	}
 	return (0);
-
 }
 
 int	m_execute_command(char **tree_node_cmd, t_mini *mini)
@@ -170,7 +169,7 @@ int	m_children_process(int *pipefd, t_tree *node, int pid_index, t_mini *mini)
 
 int	m_fork_and_exec(int *pipefd, t_tree *node, int pid_index, t_mini *mini)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid < 0)

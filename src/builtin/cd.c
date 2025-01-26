@@ -17,9 +17,9 @@ static void	cd_print_error(char *folder)
 	free(message_to_print);
 }
 
-static int cd_aux(char **args, t_env *env_list, char **path)
+static int	cd_aux(char **args, t_env *env_list, char **path)
 {
-	char *home;
+	char	*home;
 
 	*path = NULL;
 	if (args[1] && args[2])
