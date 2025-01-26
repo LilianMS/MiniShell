@@ -1,10 +1,13 @@
 #include "../includes/builtin.h"
 
-void	m_print_error(char *cmd, char *arg, char *msg)
+int	m_print_error(char *arg, char *name, char *value)
 {
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(arg, 2);
-	ft_putendl_fd(msg, 2);
+	ft_putstr_fd("export: `", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	free(name);
+	free(value);
+	return (1);
 }
 
 int	exp_is_valid_name(char *name)
@@ -84,7 +87,7 @@ int	m_export(t_env *env_list, char **args)
 			value = NULL;
 			exp_parse_input(args[i], &name, &value);
 			if (!exp_is_valid_name(name))
-				m_print_error("export: `", args[i], "': not a valid identifier"); // acertar print error
+				return (m_print_error(args[i], name, value));
 			else
 				exp_update_or_add_env(&env_list, name, value);
 			free(name);
