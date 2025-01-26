@@ -52,7 +52,7 @@ char	**split_by_quotes(char *input)
 			result[res_index++] = segment;
 	}
 	result[res_index] = NULL;
-	print_char_array(result); //------ debug
+	// print_char_array(result); //------ debug
 	return (result);
 }
 

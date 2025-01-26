@@ -72,8 +72,8 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 				file_token->quote = 1;
 			else
 				file_token->quote = 0;
-			ft_printf("DELIMITER: %s\n", (*aux_list)->lexeme); // ----- debug
-			ft_printf("quote: %d\n", file_token->quote); // ----- debug
+			// ft_printf("DELIMITER: %s\n", (*aux_list)->lexeme); // ----- debug
+			// ft_printf("quote: %d\n", file_token->quote); // ----- debug
 			file_token->lexeme = m_clean_quotes(ft_strdup((*aux_list)->lexeme)); // novo
 		}
 		else

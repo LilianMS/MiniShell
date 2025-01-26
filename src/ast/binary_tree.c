@@ -105,7 +105,6 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 		root->type = parsed_list->type;
 		if (parsed_list->type == DELIMITER) // novo
 			root->quote = parsed_list->quote; // flag para expansão no hdoc
-		ft_printf("quote? %d\n", root->quote); // debug
 	}
 	m_grow_tree(root, &joint);
 	if (joint && joint->prev)
