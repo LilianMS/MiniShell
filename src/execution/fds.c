@@ -1,6 +1,5 @@
 #include "../../includes/minishell.h"
 
-// Função para inicializar os backups dos fds
 void	m_init_redirect(t_redir *redir_fd)
 {
 	redir_fd->stdin_backup = dup(STDIN_FILENO);
@@ -9,7 +8,6 @@ void	m_init_redirect(t_redir *redir_fd)
 	redir_fd->current_fd = -1;
 }
 
-// Função para restaurar os fds originais
 void	m_restore_redirect(t_redir *redir_fd)
 {
 	dup2(redir_fd->stdin_backup, STDIN_FILENO);

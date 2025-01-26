@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-// Variável global para armazenar o status do sinal
 volatile sig_atomic_t	g_signal_status = 0;
 
 int	m_minishell_on(t_mini *mini)
@@ -47,14 +46,14 @@ void	m_heredoc_delete_files(t_mini *mini)
 void	m_init_signals(void)
 {
 	signal(SIGINT, m_sig_int);
-	signal(SIGQUIT, SIG_IGN); // enquanto roda o minishell iginora os sinais de interrupção
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGPIPE, SIG_IGN);
 }
 
 static void	update_mini(t_mini *mini)
 {
 	m_init_signals();
-	dup2(mini->backup_fd_in, STDIN_FILENO); //
+	dup2(mini->backup_fd_in, STDIN_FILENO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &mini->term);
 	m_exec_signals(1);
 }

@@ -1,6 +1,4 @@
 #include "../../includes/minishell.h"
-// #include "debug.h" // ----- debug
-// #include "builtin.h" // ----- debug
 
 void	init_minishell(t_mini *mini, char **envp)
 {
@@ -8,9 +6,8 @@ void	init_minishell(t_mini *mini, char **envp)
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
 	mini->tree = NULL;
-	mini->backup_fd_in = dup(STDIN_FILENO); // novo
-	tcgetattr(STDIN_FILENO, &mini->term); // novo
-	// init heredoc
+	mini->backup_fd_in = dup(STDIN_FILENO);
+	tcgetattr(STDIN_FILENO, &mini->term);
 	mini->hdoc = malloc(sizeof(t_hdoc));
 	ft_bzero(mini->hdoc, sizeof(t_hdoc));
 	mini->hdoc->temp_fd = 0;
@@ -32,7 +29,7 @@ void	m_sig_int(int signum)
 
 t_token	*m_lexical_analysis(t_mini *mini)
 {
-	t_token	* token_list;
+	t_token	*token_list;
 	t_token	*parsed_list;
 
 	token_list = NULL;

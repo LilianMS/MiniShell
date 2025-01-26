@@ -1,10 +1,8 @@
 #include "../includes/builtin.h"
 #include "../includes/execution.h"
-#include "../includes/debug.h" // --------- debug
 
 int	m_is_builtin(t_tree *tree_node)
 {
-	// print_parsed_command(parsed_list); // --------- debug
 	if (!tree_node || !tree_node->command)
 		return (-1);
 	if (ft_strcmp(tree_node->command[0], "echo") == 0)

@@ -50,7 +50,7 @@ int	m_exit(t_mini **mini, char **args)
 		}
 	}
 	if ((*mini)->hdoc->filename)
-			m_heredoc_delete_files(*mini);
+		m_heredoc_delete_files(*mini);
 	m_free_everything(*mini);
 	exit((*mini)->exit_status);
 }
