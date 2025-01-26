@@ -94,5 +94,7 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, \
 			aux_list = aux_list->next;
 		}
 	}
+	// função para executar o heredoc
+	// m_heredoc(parsed_list, mini);
 	return (*parsed_list);
 }

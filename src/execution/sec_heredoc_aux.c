@@ -59,41 +59,15 @@ char	*m_heredoc_expansion(char *lexeme, t_mini *mini)
 		return (m_set_split_quotes(lexeme));
 	return (m_clean_qts(ft_strdup(lexeme)));
 }
-/*
-// void	heredoc_write_to_file(t_hdoc *hdoc, char *line)
-// {
-// 	t_token	*current;
-// 	char	*expanded_line;
 
-// 	current = hdoc->token_list;
-// 	while (current)
-// 	{
-// 		if (current->type == DELIMITER \
-// 			&& ft_strcmp(current->lexeme, hdoc->delimiter) == 0)
-// 		{
-// 			if (current->quote == 0)
-// 			{
-// 				expanded_line = m_heredoc_expansion(line, hdoc->env_list);
-// 				line = expanded_line;
-// 			}
-// 			break ;
-// 		}
-// 		current = current->next;
-// 	}
-// 	write(hdoc->temp_fd, line, strlen(line));
-// 	write(hdoc->temp_fd, "\n", 1);
-// 	free(line);
-// }
-*/
-
-void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini)
+void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node, t_mini *mini)
 {
 	char	*expanded_line;
 
-	if (node->next->type == DELIMITER \
-		&& ft_strcmp(node->next->lexeme, hdoc->delimiter) == 0)
+	if (node->right->type == DELIMITER \
+		&& ft_strcmp(node->right->content, hdoc->delimiter) == 0)
 	{
-		if (node->next->quote == 0)
+		if (node->right->quote == 0)
 		{
 			expanded_line = m_heredoc_expansion(line, mini);
 			line = expanded_line;
@@ -104,7 +78,7 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini
 	free(line);
 }
 
-void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini)
+void	m_aux_heredoc(t_hdoc *hdoc, t_tree *node, t_mini *mini)
 {
 	char	*line;
 	char	*history_block;
@@ -117,17 +91,11 @@ void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini)
 		line = readline("> ");
 		if (ft_strcmp(line, hdoc->delimiter) == 0)
 			break ;
-		if (!line || ft_strcmp(line, hdoc->delimiter) == 0 || g_signal_status == 130)
-		{
-			if (!line && g_signal_status != 130)
-				hdoc->exit_flag = 1;
-			break ;
-		}
 		update_history(line, &history_block);
 		heredoc_write_to_file(hdoc, line, node, mini);
 	}
-	// if (!line && g_signal_status != 130)
-	// 	hdoc->exit_flag = 1;
+	if (!line && g_signal_status != 130)
+		hdoc->exit_flag = 1;
 	ft_printf("flag: %d\n", hdoc->exit_flag); // ---debug
 	if (hdoc->exit_flag == 1)
 		update_history(hdoc->delimiter, &history_block);

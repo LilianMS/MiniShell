@@ -27,14 +27,17 @@ typedef struct s_token			t_token;
 typedef struct s_env			t_env;
 typedef struct s_tree			t_tree;
 typedef struct s_hdoc			t_hdoc;
+typedef struct termios			t_termios;
 
 struct s_mini
 {
 	char						*line;
+	int							backup_fd_in;
 	int							exit_status;
 	t_env						*env_list;
 	t_tree						*tree;
 	t_hdoc						*hdoc;
+	t_termios					term;
 };
 
 struct s_hdoc
@@ -59,8 +62,11 @@ t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_mini *min
 
 void							m_exec_signals(int pid);
 
-int								m_heredoc(t_tree *node, t_mini *mini);
-void							m_aux_heredoc(t_hdoc *hdoc, t_tree *node, t_mini *mini);
+// int								m_heredoc(t_tree *node, t_mini *mini);
+// void							m_aux_heredoc(t_hdoc *hdoc, t_tree *node, t_mini *mini);
+
+int	m_heredoc( t_token **parsed_list, t_mini *mini);
+void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini);
 void							m_heredoc_delete_files(t_mini *mini);
 
 #endif

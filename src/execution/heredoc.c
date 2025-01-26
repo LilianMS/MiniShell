@@ -43,27 +43,47 @@ int	heredoc_create_file(t_hdoc **hdoc)
 	return (fd);
 }
 
-char	*m_heredoc_get_delimiter(t_tree *node)
+// char	*m_heredoc_get_delimiter(t_token *parsed_list)
+// {
+// 	t_token	*current;
+
+// 	current = parsed_list;
+// 	while (current)
+// 	{
+// 		if (current->type == DELIMITER)
+// 			return (current->lexeme);
+// 		current = current->next;
+// 	}
+// 	return (NULL);
+// }
+
+char	*m_heredoc_get_delimiter(t_token *node)
 {
-	if (node == NULL || node->right == NULL)
+	if (node == NULL || node->next == NULL)
 		return (NULL);
-	if (node->right->type == DELIMITER)
-		return (node->right->content);
+	if (node->next->type == DELIMITER)
+		return (node->next->lexeme);
 	return (NULL);
 }
+/*
+// void	m_heredoc_update_token_list(t_token **parsed_list, t_hdoc *hdoc)
+// {
+// 	t_token *current;
 
-void	m_heredoc_update_node(t_tree **node, t_hdoc *hdoc)
-{
-	if ((*node)->right->type == DELIMITER \
-		&& ft_strcmp((*node)->right->content, hdoc->delimiter) == 0)
-	{
-		free((*node)->right->content);
-		(*node)->right->content = ft_strdup(hdoc->filename);
-		ft_printf("node->right->content: %s\n", (*node)->right->content); // ---debug
-		// (*node)->right->type = FILENAME;
-		// ft_printf("node->right->type: %d\n", (*node)->right->type); // ---debug
-	}
-}
+// 	current = *parsed_list;
+// 	while (current)
+// 	{
+// 		if (current->type == DELIMITER \
+// 			&& ft_strcmp(current->lexeme, hdoc->delimiter) == 0)
+// 		{
+// 			free(current->lexeme);
+// 			current->lexeme = hdoc->filename;
+// 			// current->type = FILENAME;
+// 		}
+// 		current = current->next;
+// 	}
+// }
+*/
 
 void	m_sig_heredoc(int signal __attribute__((unused)))
 {
@@ -79,7 +99,7 @@ void	heredoc_signals(void)
 	signal(SIGPIPE, SIG_IGN);
 }
 
-int	m_init_heredoc(t_hdoc *hdoc, t_tree *node)
+int	m_init_heredoc(t_hdoc *hdoc, t_token *node)
 {
 	if (!hdoc)
 	{
@@ -100,21 +120,58 @@ int	m_init_heredoc(t_hdoc *hdoc, t_tree *node)
 	return (0);
 }
 
-int	m_heredoc(t_tree *node, t_mini *mini)
+void	m_heredoc_update_node(t_token **node, t_hdoc *hdoc)
 {
-	t_hdoc	*hdoc;
+	if ((*node)->next->type == DELIMITER \
+		&& ft_strcmp((*node)->next->lexeme, hdoc->delimiter) == 0)
+	{
+		free((*node)->next->lexeme);
+		(*node)->next->lexeme = ft_strdup(hdoc->filename);
+		ft_printf("node->right->content: %s\n", (*node)->next->lexeme); // ---debug
+	}
+}
 
-	hdoc = mini->hdoc;
-	if (m_init_heredoc(hdoc, node))
-		return (1);
-	ft_printf("hdoc->delimiter: %s\n", hdoc->delimiter); // ---debug
-	m_aux_heredoc(hdoc, node, mini);
-	if (hdoc->exit_flag == 1)
-		print_heredoc_message(hdoc);
-	if (hdoc->exit_flag == 0 && g_signal_status != 130)
-		m_heredoc_update_node(&node, hdoc);
-	close(hdoc->temp_fd);
-	ft_printf("heredoc: exec?\n"); // ---debug
-	m_exec_signals(1);
+int	m_heredoc( t_token **parsed_list, t_mini *mini)
+{
+	t_token *current;
+
+	current = *parsed_list;
+	while (current)
+	{
+		if (current->type == REDIR_HEREDOC)
+		{
+			if (m_init_heredoc(mini->hdoc, current))
+				return (-1);
+			ft_printf("mini->hdoc->delimiter: %s\n", mini->hdoc->delimiter); // ---debug
+			m_aux_heredoc( mini->hdoc, current, mini);
+			if (mini->hdoc->exit_flag == 1)
+				print_heredoc_message(mini->hdoc);
+			if (mini->hdoc->exit_flag == 0 && g_signal_status != 130)
+				m_heredoc_update_node(parsed_list, mini->hdoc);
+			close(mini->hdoc->temp_fd);
+			ft_printf("heredoc: exec?\n"); // ---debug
+			m_exec_signals(1);
+		}
+		current = current->next;
+	}
 	return (0);
 }
+
+// void	m_heredoc(t_token **token_list, t_mini mini)
+// void	m_heredoc(t_token **parsed_list, t_mini *mini)
+// {
+// 	t_hdoc	*hdoc;
+
+// 	hdoc = mini->hdoc;
+// 	if (m_init_heredoc(hdoc, node))
+// 		return (1);
+// 	ft_printf("hdoc->delimiter: %s\n", hdoc->delimiter); // ---debug
+// 	m_aux_heredoc(hdoc);
+// 	if (hdoc->exit_flag == 0)
+// 		ft_printf("minishell: warning: here-document at line 1 delimited by end-of-file (wanted `%s'\n", hdoc->delimiter);
+// 	else if (g_signal_status != 130)
+// 		m_heredoc_update_token_list(token_list, hdoc);
+// 	close(hdoc->temp_fd);
+// 	ft_printf("heredoc: exec?\n"); // ---debug
+// 	m_exec_signals(1);
+// }
