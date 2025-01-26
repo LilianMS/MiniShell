@@ -27,14 +27,17 @@ typedef struct s_token			t_token;
 typedef struct s_env			t_env;
 typedef struct s_tree			t_tree;
 typedef struct s_hdoc			t_hdoc;
+typedef struct termios			t_termios;
 
 struct s_mini
 {
 	char						*line;
+	int							backup_fd_in;
 	int							exit_status;
 	t_env						*env_list;
 	t_tree						*tree;
 	t_hdoc						*hdoc;
+	t_termios					term;
 };
 
 struct s_hdoc

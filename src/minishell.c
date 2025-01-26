@@ -43,6 +43,21 @@ void	m_heredoc_delete_files(t_mini *mini)
 	}
 }
 
+void	m_init_signals(void)
+{
+	signal(SIGINT, m_sig_int);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGPIPE, SIG_IGN);
+}
+
+static void	update_mini(t_mini *mini)
+{
+	m_init_signals();
+	dup2(mini->backup_fd_in, STDIN_FILENO);
+	tcsetattr(STDIN_FILENO, TCSANOW, &mini->term);
+	m_exec_signals(1);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
@@ -53,7 +68,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		g_signal_status = 0;
-		m_exec_signals(1);
+		update_mini(&mini);
 		mini.line = readline("minishell> ");
 		if (m_is_input_null(&mini))
 			break ;
