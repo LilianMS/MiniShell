@@ -4,7 +4,7 @@ static int	m_execute_redir_in(t_tree *current, t_redir *redir_fd)
 {
 	if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
 		redir_fd->current_fd = open(current->right->content, O_RDONLY);
-	ft_printf("file: %s\n", current->right->content); // --- debug
+	// ft_printf("file: %s\n", current->right->content); // --- debug
 	if (redir_fd->current_fd == -1)
 	{
 		perror("minishell: input redirection");
@@ -102,8 +102,11 @@ int	m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd)
 	if (cmd_node->type != COMMAND)
 	{
 		m_restore_redirect(redir_fd);
+		if (g_signal_status == 256)
+			return (256);
 		return (1);
 	}
+	g_signal_status = 0;
 	if (m_is_builtin(cmd_node) != -1)
 		status = m_execute_builtin(cmd_node, mini);
 	else

@@ -1,5 +1,12 @@
 #include "../includes/builtin.h"
 
+void	print_exit_err(char *str)
+{
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+}
+
 int	ft_is_valid_arg(const char *str)
 {
 	long long	num;
@@ -45,7 +52,7 @@ int	m_exit(t_mini **mini, char **args)
 			(*mini)->exit_status = ft_atoi(args[1]) % 256;
 		else
 		{
-			ft_putendl_fd("minishell: exit: numeric argument required", 2);
+			print_exit_err(args[1]);
 			(*mini)->exit_status = 2;
 		}
 	}

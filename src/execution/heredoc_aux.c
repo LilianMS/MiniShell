@@ -103,7 +103,7 @@ void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini)
 	}
 	if (!line && g_signal_status != 130)
 		hdoc->exit_flag = 1;
-	ft_printf("flag: %d\n", hdoc->exit_flag); // ---debug
+	// ft_printf("flag: %d\n", hdoc->exit_flag); // ---debug
 	if (hdoc->history_block)
 	{
 		add_history(hdoc->history_block);

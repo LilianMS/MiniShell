@@ -7,7 +7,7 @@ pid_t	m_get_pid(void)
 
 char	*m_get_exit_status(t_mini *mini)
 {
-	return (ft_itoa(mini->exit_status));
+	return (ft_itoa(mini->exit_status % 256));
 }
 
 char	*m_clean_dollar(char *str, int *idx)
