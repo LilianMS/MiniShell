@@ -5,9 +5,9 @@ void	update_history(t_hdoc *hdoc, char *line)
 	char	*new_block;
 
 	if (hdoc->history_block)
-		new_block = malloc(strlen(hdoc->history_block) + strlen(line) + 2);
+		new_block = malloc(ft_strlen(hdoc->history_block) + ft_strlen(line) + 2);
 	else
-		new_block = malloc(strlen(line) + 2);
+		new_block = malloc(ft_strlen(line) + 2);
 	if (!new_block)
 	{
 		perror("Error allocating memory");
@@ -83,11 +83,7 @@ void	hdoc_handle_line(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini)
 	if (ft_strcmp(line, hdoc->delimiter) == 0)
 		return ;
 	if (!line || g_signal_status == 130)
-	{
-		if (!line && g_signal_status != 130)
-			hdoc->exit_flag = 1;
 		return ;
-	}
 	update_history(hdoc, line);
 	heredoc_write_to_file(hdoc, line, node, mini);
 }
@@ -102,12 +98,12 @@ void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini)
 	{
 		hdoc_handle_line(hdoc, line, node, mini);
 		if (ft_strcmp(line, hdoc->delimiter) == 0 || g_signal_status == 130)
-			break;
+			break ;
 		line = readline("> ");
 	}
+	if (!line && g_signal_status != 130)
+		hdoc->exit_flag = 1;
 	ft_printf("flag: %d\n", hdoc->exit_flag); // ---debug
-	if (hdoc->exit_flag == 1)
-		update_history(hdoc, line);
 	if (hdoc->history_block)
 	{
 		add_history(hdoc->history_block);

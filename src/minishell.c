@@ -14,7 +14,10 @@ int	m_minishell_on(t_mini *mini)
 	parsed_list = m_lexical_analysis(mini);
 	if (!parsed_list)
 	{
-		mini->exit_status = 1;
+		if (g_signal_status == 130)
+			mini->exit_status = 130;
+		else
+			mini->exit_status = 1;
 		return (mini->exit_status);
 	}
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);

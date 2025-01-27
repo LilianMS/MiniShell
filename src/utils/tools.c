@@ -71,7 +71,7 @@ t_token	*m_lexical_analysis(t_mini *mini)
 		if (g_signal_status == 130)
 		{
 			mini->exit_status = 130;
-			g_signal_status = 0;
+			// g_signal_status = 0;
 			m_free_tokens(&parsed_list);
 			// return (mini->exit_status);
 		}
