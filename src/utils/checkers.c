@@ -54,7 +54,9 @@ int	check_invalid_chars(const char *input)
 
 int	m_check_line_input(const char *line)
 {
-	if (line == NULL || *line == '\0' || *line == ' ')
+	while (*line && ft_isspace(*line))
+		line++;
+	if (line == NULL || *line == '\0')
 		return (0);
 	else
 		add_history(line);
