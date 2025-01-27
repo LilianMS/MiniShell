@@ -2,20 +2,6 @@
 
 volatile sig_atomic_t	g_signal_status = 0;
 
-int	m_find_heredoc(t_token *parsed_list)
-{
-	t_token	*current;
-
-	current = parsed_list;
-	while (current)
-	{
-		if (current->type == REDIR_HEREDOC)
-			return (1);
-		current = current->next;
-	}
-	return (0);
-}
-
 int	m_minishell_on(t_mini *mini)
 {
 	t_token	*parsed_list;
@@ -30,22 +16,6 @@ int	m_minishell_on(t_mini *mini)
 	{
 		mini->exit_status = 1;
 		return (mini->exit_status);
-	}
-	if (m_find_heredoc(parsed_list))
-	{
-		if (m_heredoc(&parsed_list, mini) == -1)
-		{
-			mini->exit_status = 1;
-			m_free_tokens(&parsed_list);
-			return (mini->exit_status);
-		}
-		if (g_signal_status == 130)
-		{
-			mini->exit_status = 130;
-			g_signal_status = 0;
-			m_free_tokens(&parsed_list);
-			return (mini->exit_status);
-		}
 	}
 	mini->tree = m_binary_tree(mini->tree, &parsed_list);
 	mini->exit_status = m_execution(mini->tree, mini);
@@ -62,7 +32,7 @@ void	m_heredoc_delete_files(t_mini *mini)
 	while (mini->hdoc->suffix_doc >= 0)
 	{
 		suffix = ft_itoa(mini->hdoc->suffix_doc);
-		strcpy(filename, "/tmp/heredoc");
+		strcpy(filename, "heredoc");
 		strcat(filename, suffix);
 		free(suffix);
 		if (unlink(filename) == 0)
@@ -87,7 +57,6 @@ static void	update_mini(t_mini *mini)
 	tcsetattr(STDIN_FILENO, TCSANOW, &mini->term);
 	m_exec_signals(1);
 }
-
 
 int	main(int ac, char **av, char **envp)
 {

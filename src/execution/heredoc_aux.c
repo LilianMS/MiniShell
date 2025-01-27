@@ -1,11 +1,11 @@
 #include "../../includes/minishell.h"
 
-void	update_history(char *line, char **history_block)
+void	update_history(t_hdoc *hdoc, char *line)
 {
 	char	*new_block;
 
-	if (*history_block)
-		new_block = malloc(strlen(*history_block) + strlen(line) + 2);
+	if (hdoc->history_block)
+		new_block = malloc(strlen(hdoc->history_block) + strlen(line) + 2);
 	else
 		new_block = malloc(strlen(line) + 2);
 	if (!new_block)
@@ -14,29 +14,29 @@ void	update_history(char *line, char **history_block)
 		free(line);
 		return ;
 	}
-	if (*history_block)
+	if (hdoc->history_block)
 	{
-		ft_strcpy(new_block, *history_block);
+		ft_strcpy(new_block, hdoc->history_block);
 		ft_strcat(new_block, "\n");
-		free(*history_block);
+		free(hdoc->history_block);
 	}
 	else
 		new_block[0] = '\0';
 	ft_strcat(new_block, line);
-	*history_block = new_block;
+	hdoc->history_block = new_block;
 }
 
-void	init_history_block(char **history_block, char *delimiter)
+void	init_history_block(t_hdoc *hdoc)
 {
-	*history_block = malloc(strlen("<< ") + strlen(delimiter) + 2);
-	if (!*history_block)
+	hdoc->history_block = malloc(strlen("<< ") + strlen(hdoc->delimiter) + 2);
+	if (!hdoc->history_block)
 	{
 		perror("Error allocating memory");
 		return ;
 	}
-	ft_strcpy(*history_block, "<< ");
-	ft_strcat(*history_block, delimiter);
-	ft_strcat(*history_block, "\n");
+	ft_strcpy(hdoc->history_block, "<< ");
+	ft_strcat(hdoc->history_block, hdoc->delimiter);
+	ft_strcat(hdoc->history_block, "\n");
 }
 
 char	*m_heredoc_expansion(char *lexeme, t_mini *mini)
@@ -59,32 +59,6 @@ char	*m_heredoc_expansion(char *lexeme, t_mini *mini)
 		return (m_set_split_quotes(lexeme));
 	return (m_clean_qts(ft_strdup(lexeme)));
 }
-/*
-// void	heredoc_write_to_file(t_hdoc *hdoc, char *line)
-// {
-// 	t_token	*current;
-// 	char	*expanded_line;
-
-// 	current = hdoc->token_list;
-// 	while (current)
-// 	{
-// 		if (current->type == DELIMITER \
-// 			&& ft_strcmp(current->lexeme, hdoc->delimiter) == 0)
-// 		{
-// 			if (current->quote == 0)
-// 			{
-// 				expanded_line = m_heredoc_expansion(line, hdoc->env_list);
-// 				line = expanded_line;
-// 			}
-// 			break ;
-// 		}
-// 		current = current->next;
-// 	}
-// 	write(hdoc->temp_fd, line, strlen(line));
-// 	write(hdoc->temp_fd, "\n", 1);
-// 	free(line);
-// }
-*/
 
 void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini)
 {
@@ -99,41 +73,44 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini
 			line = expanded_line;
 		}
 	}
-	write(hdoc->temp_fd, line, strlen(line));
-	write(hdoc->temp_fd, "\n", 1);
+	write( hdoc->temp_fd, line, strlen(line));
+	write( hdoc->temp_fd, "\n", 1);
 	free(line);
+}
+
+void	hdoc_handle_line(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini)
+{
+	if (ft_strcmp(line, hdoc->delimiter) == 0)
+		return ;
+	if (!line || g_signal_status == 130)
+	{
+		if (!line && g_signal_status != 130)
+			hdoc->exit_flag = 1;
+		return ;
+	}
+	update_history(hdoc, line);
+	heredoc_write_to_file(hdoc, line, node, mini);
 }
 
 void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini)
 {
 	char	*line;
-	char	*history_block;
 
+	init_history_block(hdoc);
 	line = readline("> ");
-	history_block = NULL;
-	init_history_block(&history_block, hdoc->delimiter);
 	while (line != NULL)
 	{
+		hdoc_handle_line(hdoc, line, node, mini);
+		if (ft_strcmp(line, hdoc->delimiter) == 0 || g_signal_status == 130)
+			break;
 		line = readline("> ");
-		if (ft_strcmp(line, hdoc->delimiter) == 0)
-			break ;
-		if (!line || ft_strcmp(line, hdoc->delimiter) == 0 || g_signal_status == 130)
-		{
-			if (!line && g_signal_status != 130)
-				hdoc->exit_flag = 1;
-			break ;
-		}
-		update_history(line, &history_block);
-		heredoc_write_to_file(hdoc, line, node, mini);
 	}
-	// if (!line && g_signal_status != 130)
-	// 	hdoc->exit_flag = 1;
 	ft_printf("flag: %d\n", hdoc->exit_flag); // ---debug
 	if (hdoc->exit_flag == 1)
-		update_history(hdoc->delimiter, &history_block);
-	if (history_block)
+		update_history(hdoc, line);
+	if (hdoc->history_block)
 	{
-		add_history(history_block);
-		free(history_block);
+		add_history(hdoc->history_block);
+		free(hdoc->history_block);
 	}
 }

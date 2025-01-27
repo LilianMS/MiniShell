@@ -136,7 +136,7 @@ t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list)
 {
 	root = m_tree_builder(*parsed_list);
 	m_add_parent(root);
-	// visualize_tree(root); // ----- debug
+	visualize_tree(root); // ----- debug
 	m_free_tokens(parsed_list);
 	return (root);
 }

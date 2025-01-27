@@ -44,6 +44,7 @@ struct s_hdoc
 {
 	char						*delimiter;
 	char						*filename;
+	char						*history_block;
 	int							temp_fd;
 	int							exit_flag;
 	int							suffix_doc;
