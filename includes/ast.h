@@ -19,7 +19,6 @@ struct s_tree
 	int					command_len;
 	int					type;
 	int					index;
-	int					quote;
 	t_tree				*left;
 	t_tree				*right;
 	t_tree				*parent;
