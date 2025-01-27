@@ -58,23 +58,23 @@ t_token	*m_lexical_analysis(t_mini *mini)
 			return (NULL);
 		}
 	}
-	// if (m_find_heredoc(token_list))
-	// {
-	// 	if (m_heredoc(&token_list, mini) == -1)
-	// 	{
-	// 		mini->exit_status = 1;
-	// 		m_free_tokens(&token_list);
-	// 		// return (mini->exit_status);
-	// 	}
-	// 	if (g_signal_status == 130)
-	// 	{
-	// 		mini->exit_status = 130;
-	// 		g_signal_status = 0;
-	// 		m_free_tokens(&token_list);
-	// 		// return (mini->exit_status);
-	// 	}
-	// }
 	m_parse_tokens(&token_list, &parsed_list, mini);
 	m_free_tokens(&token_list);
+	if (m_find_heredoc(parsed_list))
+	{
+		if (m_heredoc(&parsed_list, mini) == -1)
+		{
+			mini->exit_status = 1;
+			m_free_tokens(&parsed_list);
+			// return (mini->exit_status);
+		}
+		if (g_signal_status == 130)
+		{
+			mini->exit_status = 130;
+			g_signal_status = 0;
+			m_free_tokens(&parsed_list);
+			// return (mini->exit_status);
+		}
+	}
 	return (parsed_list);
 }

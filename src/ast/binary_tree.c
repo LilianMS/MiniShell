@@ -101,6 +101,7 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 		|| parsed_list->type == DELIMITER))
 	{
 		root->content = ft_strdup(parsed_list->lexeme);
+		ft_printf("content: %s\n", root->content); // ---debug
 		root->type = parsed_list->type;
 	}
 	m_grow_tree(root, &joint);

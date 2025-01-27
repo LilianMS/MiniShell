@@ -97,6 +97,7 @@ void	m_heredoc_update_node(t_token **node, t_hdoc *hdoc)
 		free((*node)->next->lexeme);
 		(*node)->next->lexeme = ft_strdup(hdoc->filename);
 		ft_printf("delimiter change. lexeme: %s\n", (*node)->next->lexeme); // ---debug
+		// (*node)->next->type = FILENAME;
 	}
 }
 
@@ -117,7 +118,7 @@ int	m_heredoc( t_token **parsed_list, t_mini *mini)
 			if (mini->hdoc->exit_flag == 1)
 				print_heredoc_message(hdoc);
 			if (mini->hdoc->exit_flag == 0 && g_signal_status != 130)
-				m_heredoc_update_node(parsed_list, hdoc);
+				m_heredoc_update_node(&current, hdoc);
 			close(hdoc->temp_fd);
 			ft_printf("heredoc: exec\n"); // ---debug
 			m_exec_signals(1);

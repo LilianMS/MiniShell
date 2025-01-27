@@ -2,8 +2,9 @@
 
 static int	m_execute_redir_in(t_tree *current, t_redir *redir_fd)
 {
-	if (current->type == REDIR_IN)
+	if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
 		redir_fd->current_fd = open(current->right->content, O_RDONLY);
+	ft_printf("file: %s\n", current->right->content); // --- debug
 	if (redir_fd->current_fd == -1)
 	{
 		perror("minishell: input redirection");
@@ -72,6 +73,8 @@ int	m_execute_all_redirs(t_redir *redir_fd, t_tree *node)
 	while (current && m_is_redir(current->type))
 	{
 		if (current->type == REDIR_IN)
+			status = m_execute_redir_in(current, redir_fd);
+		else if (current->type == REDIR_HEREDOC)
 			status = m_execute_redir_in(current, redir_fd);
 		else if (current->type == REDIR_OUT)
 			status = m_execute_redir_out_append(current, redir_fd);
