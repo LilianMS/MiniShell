@@ -26,6 +26,19 @@ void	m_sig_int(int signum)
 		rl_redisplay();
 	}
 }
+int	m_find_heredoc(t_token *parsed_list)
+{
+	t_token	*current;
+
+	current = parsed_list;
+	while (current)
+	{
+		if (current->type == REDIR_HEREDOC)
+			return (1);
+		current = current->next;
+	}
+	return (0);
+}
 
 t_token	*m_lexical_analysis(t_mini *mini)
 {
@@ -47,5 +60,21 @@ t_token	*m_lexical_analysis(t_mini *mini)
 	}
 	m_parse_tokens(&token_list, &parsed_list, mini);
 	m_free_tokens(&token_list);
+	if (m_find_heredoc(parsed_list))
+	{
+		if (m_heredoc(&parsed_list, mini) == -1)
+		{
+			mini->exit_status = 1;
+			m_free_tokens(&parsed_list);
+			// return (mini->exit_status);
+		}
+		if (g_signal_status == 130)
+		{
+			mini->exit_status = 130;
+			g_signal_status = 0;
+			m_free_tokens(&parsed_list);
+			// return (mini->exit_status);
+		}
+	}
 	return (parsed_list);
 }

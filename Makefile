@@ -39,6 +39,8 @@ SRC= minishell.c \
 	 execution/execution.c \
 	 execution/exec_path.c \
 	 execution/redirects.c \
+	 execution/heredoc.c \
+	 execution/heredoc_aux.c \
 	 execution/fds.c \
 	 debug.c \
 

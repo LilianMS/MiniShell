@@ -101,6 +101,7 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 		|| parsed_list->type == DELIMITER))
 	{
 		root->content = ft_strdup(parsed_list->lexeme);
+		ft_printf("content: %s\n", root->content); // ---debug
 		root->type = parsed_list->type;
 	}
 	m_grow_tree(root, &joint);
@@ -132,7 +133,7 @@ t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list)
 {
 	root = m_tree_builder(*parsed_list);
 	m_add_parent(root);
-	// visualize_tree(root); // ----- debug
+	visualize_tree(root); // ----- debug
 	m_free_tokens(parsed_list);
 	return (root);
 }

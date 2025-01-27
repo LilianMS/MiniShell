@@ -44,6 +44,7 @@ struct s_hdoc
 {
 	char						*delimiter;
 	char						*filename;
+	char						*history_block;
 	int							temp_fd;
 	int							exit_flag;
 	int							suffix_doc;
@@ -61,9 +62,8 @@ int								m_is_input_null(t_mini *mini);
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_mini *mini);
 
 void							m_exec_signals(int pid);
-
-int								m_heredoc(t_tree *node, t_mini *mini);
-void							m_aux_heredoc(t_hdoc *hdoc, t_tree *node, t_mini *mini);
+int								m_heredoc( t_token **parsed_list, t_mini *mini);
+void							m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini);
 void							m_heredoc_delete_files(t_mini *mini);
 
 #endif
