@@ -67,11 +67,11 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_tree *node, t_mini *mini)
 	if (node->right->type == DELIMITER \
 		&& ft_strcmp(node->right->content, hdoc->delimiter) == 0)
 	{
-		if (node->right->quote == 0)
-		{
+		// if (node->right->quote == 0)
+		// {
 			expanded_line = m_heredoc_expansion(line, mini);
 			line = expanded_line;
-		}
+		// }
 	}
 	write(hdoc->temp_fd, line, strlen(line));
 	write(hdoc->temp_fd, "\n", 1);
