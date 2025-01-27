@@ -59,7 +59,7 @@ t_tree	*m_find_command_node(t_tree *node)
 	return (current);
 }
 
-int	m_execute_all_redirs(t_redir *redir_fd, t_tree *node, t_mini *mini)
+int	m_execute_all_redirs(t_redir *redir_fd, t_tree *node)
 {
 	t_tree	*current;
 	int		status;
@@ -90,7 +90,7 @@ int	m_handle_redir(t_tree *node, t_mini *mini, t_redir *redir_fd)
 	int		status;
 
 	status = 0;
-	if (m_execute_all_redirs(redir_fd, node, mini))
+	if (m_execute_all_redirs(redir_fd, node))
 	{
 		m_restore_redirect(redir_fd);
 		return (1);
