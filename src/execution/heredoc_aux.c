@@ -5,7 +5,8 @@ void	update_history(t_hdoc *hdoc, char *line)
 	char	*new_block;
 
 	if (hdoc->history_block)
-		new_block = malloc(ft_strlen(hdoc->history_block) + ft_strlen(line) + 2);
+		new_block = malloc(ft_strlen(hdoc->history_block) \
+			+ ft_strlen(line) + 2);
 	else
 		new_block = malloc(ft_strlen(line) + 2);
 	if (!new_block)
@@ -65,16 +66,19 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini
 	char	*expanded_line;
 
 	if (node->next->type == DELIMITER \
-		&& ft_strcmp(node->next->lexeme, hdoc->delimiter) == 0)
+		&& ft_strcmp(node->next->lexeme, hdoc->delimiter) == 0 \
+		&& node->next->quote == 0)
 	{
-		if (node->next->quote == 0)
-		{
-			expanded_line = m_heredoc_expansion(line, mini);
-			line = expanded_line;
-		}
+		expanded_line = m_heredoc_expansion(line, mini);
+		line = expanded_line;
 	}
-	write( hdoc->temp_fd, line, strlen(line));
-	write( hdoc->temp_fd, "\n", 1);
+	else
+	{
+		expanded_line = ft_strdup(line);
+		line = expanded_line;
+	}
+	write(hdoc->temp_fd, line, ft_strlen(line));
+	write(hdoc->temp_fd, "\n", 1);
 	free(line);
 }
 
@@ -86,6 +90,7 @@ void	hdoc_handle_line(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini)
 		return ;
 	update_history(hdoc, line);
 	heredoc_write_to_file(hdoc, line, node, mini);
+	m_update_num_lines(mini);
 }
 
 void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini)
@@ -102,8 +107,9 @@ void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini)
 		line = readline("> ");
 	}
 	if (!line && g_signal_status != 130)
-		hdoc->exit_flag = 1;
-	// ft_printf("flag: %d\n", hdoc->exit_flag); // ---debug
+			hdoc->exit_flag = 1;
+	if (line)
+		update_history(hdoc, line);
 	if (hdoc->history_block)
 	{
 		add_history(hdoc->history_block);

@@ -19,6 +19,8 @@
 # include "execution.h"
 # include "builtin.h"
 
+# define LLONG_MAX 9223372036854775807LL
+
 extern volatile sig_atomic_t	g_signal_status;
 
 //Structs
@@ -34,6 +36,7 @@ struct s_mini
 	char						*line;
 	int							backup_fd_in;
 	int							exit_status;
+	long long int				num_lines;
 	t_env						*env_list;
 	t_tree						*tree;
 	t_hdoc						*hdoc;
@@ -50,13 +53,17 @@ struct s_hdoc
 	int							suffix_doc;
 };
 
+void							init_minishell(t_mini *mini, char **envp);
+void							update_mini(t_mini *mini);
+void							m_update_num_lines(t_mini *mini);
+int								m_is_input_null(t_mini *mini);
+int								m_minishell_on(t_mini *mini);
+
 // Lexical Analysis Functions
 t_token							*m_lexical_analysis(t_mini *mini);
-char							*m_clean_qts(char *lexeme);
 int								m_check_line_input(const char *line);
-void							init_minishell(t_mini *mini, char **envp);
+char							*m_clean_qts(char *lexeme);
 void							m_sig_int(int signum);
-int								m_is_input_null(t_mini *mini);
 
 // Parsing Functions
 t_token	*m_parse_tokens(t_token **token_list, t_token **parsed_list, t_mini *mini);

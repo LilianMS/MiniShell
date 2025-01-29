@@ -1,6 +1,6 @@
 #include "../includes/builtin.h"
 
-int	m_print_error(char *arg, char *name, char *value)
+int	exp_print_error(char *arg, char *name, char *value)
 {
 	ft_putstr_fd("export: `", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
@@ -87,7 +87,7 @@ int	m_export(t_env *env_list, char **args)
 			value = NULL;
 			exp_parse_input(args[i], &name, &value);
 			if (!exp_is_valid_name(name))
-				return (m_print_error(args[i], name, value));
+				return (exp_print_error(args[i], name, value));
 			else
 				exp_update_or_add_env(&env_list, name, value);
 			free(name);

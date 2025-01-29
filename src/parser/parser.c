@@ -66,7 +66,10 @@ static void	m_handle_redirection_tokens(t_token **aux_list, \
 		if (!file_token)
 			return ;
 		if ((*aux_list)->type == DELIMITER)
+		{
+			file_token->quote = (*aux_list)->quote;
 			file_token->lexeme = m_clean_qts(ft_strdup((*aux_list)->lexeme));
+		}
 		else
 			file_token->lexeme = m_qts_and_expand((*aux_list)->lexeme, mini);
 		file_token->type = (*aux_list)->type;

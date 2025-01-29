@@ -1,12 +1,14 @@
 #include "../../includes/minishell.h"
 
-void	print_heredoc_message(t_hdoc *hdoc)
+void	print_heredoc_message(t_hdoc *hdoc, t_mini *mini)
 {
 	char	*message[2];
 
-	message[0] = "minishell: warning: ";
-	message[1] = "here-document delimited by end-of-file (wanted `";
+	message[0] = "minishell: warning: here-document at line ";
+	message[1] = "delimited by end-of-file (wanted `";
 	ft_putstr_fd(message[0], STDERR_FILENO);
+	ft_printf("%d ", mini->num_lines);
+	// ft_putnbr_fd(mini->num_lines, STDERR_FILENO);
 	ft_putstr_fd(message[1], STDERR_FILENO);
 	ft_putstr_fd(hdoc->delimiter, STDERR_FILENO);
 	ft_putstr_fd("')\n", STDERR_FILENO);
@@ -109,6 +111,7 @@ int	m_heredoc( t_token **parsed_list, t_mini *mini)
 	current = *parsed_list;
 	while (current)
 	{
+
 		if (current->type == REDIR_HEREDOC)
 		{
 			hdoc = mini->hdoc;
@@ -116,12 +119,14 @@ int	m_heredoc( t_token **parsed_list, t_mini *mini)
 				return (-1);
 			m_aux_heredoc(hdoc, current, mini);
 			if (mini->hdoc->exit_flag == 1)
-				print_heredoc_message(hdoc);
+				print_heredoc_message(hdoc, mini);
 			if (g_signal_status != 130)
 				m_heredoc_update_node(&current, hdoc);
 			close(hdoc->temp_fd);
 			// ft_printf("heredoc: exec\n"); // ---debug
 			m_exec_signals(1);
+			if (g_signal_status == 130)
+				return (-1);
 		}
 		current = current->next;
 	}

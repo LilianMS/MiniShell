@@ -14,7 +14,7 @@ void	m_add_post_redir_type(t_token **token_list)
 			if (aux_list->prev->type == REDIR_HEREDOC)
 			{
 				aux_list->type = DELIMITER;
-				if (ft_strchr(aux_list->lexeme, '\'')
+				if (ft_strchr(aux_list->lexeme, '\'') \
 					|| ft_strchr(aux_list->lexeme, '\"'))
 					aux_list->quote = 1;
 				else

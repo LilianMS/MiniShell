@@ -5,7 +5,6 @@
 # include "minishell.h"
 # include "parser.h"
 # include "tokenizer.h"
-# include "debug.h"
 
 // Structs
 typedef struct s_tree	t_tree;
@@ -26,15 +25,13 @@ struct s_tree
 
 // Functions
 t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list);
-t_tree	*m_create_tree_node(t_tree *root, t_token *joint);
-void	m_get_sublist(t_token *rev_list, t_token **parsed_list);
 void	m_grow_tree(t_tree *root, t_token **joint);
 t_tree	*m_tree_builder(t_token *parsed_list);
 void	m_tree_cleaner(t_tree *tree_node);
 void	m_allocate_command(t_tree **root, t_token *parsed_list);
 int		m_is_redir(int token_type);
 
-//Debug
+//---------------------------------------------------------------------Debug
 void	visualize_tree(t_tree *root);
 void	print_item(t_tree *this_node, int distance);
 void	print_left_branch(int distance, t_tree *left);

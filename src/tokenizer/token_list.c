@@ -50,6 +50,7 @@ t_token	*m_create_token(char *lexeme, int type)
 		free(lexeme);
 	}
 	token->type = type;
+	token->quote = -1;
 	token->next = NULL;
 	token->prev = NULL;
 	return (token);

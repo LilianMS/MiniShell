@@ -22,7 +22,9 @@ SRC= minishell.c \
 	 parser/expansion_quotes.c \
 	 parser/pre_parser.c \
 	 ast/binary_tree.c \
+	 ast/binary_tree_utils.c \
 	 ast/tree_printer.c \
+	 utils/mini_utils.c \
 	 utils/checkers.c \
 	 utils/cleaners.c \
 	 utils/tools.c \
@@ -38,9 +40,12 @@ SRC= minishell.c \
 	 builtin/builtin_utils.c \
 	 execution/execution.c \
 	 execution/exec_path.c \
+	 execution/exec_utils.c \
 	 execution/redirects.c \
 	 execution/heredoc.c \
 	 execution/heredoc_aux.c \
+	 execution/heredoc_utils.c \
+	 execution/heredoc_history.c \
 	 execution/fds.c \
 	 debug.c \
 
