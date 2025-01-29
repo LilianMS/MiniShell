@@ -33,7 +33,6 @@ t_tree	*m_find_command_node(t_tree *node);
 int		m_execute_all_redirs(t_redir *redir_fd, t_tree *node);
 void	m_init_redirect(t_redir *redir_fd);
 void	m_restore_redirect(t_redir *redir_fd);
-int		m_close_fd(int fd);
 int		m_handle_pipe(t_tree *node, t_mini *mini);
 void	m_free_everything(t_mini *mini);
 // int		m_exec_pipe_others(t_tree *node, t_mini *mini, t_redir *redir_fd);
@@ -41,5 +40,6 @@ int		m_exec_redir_command(t_tree *node, t_mini *mini);
 int		m_check_permissions(char *cmd_path);
 int		m_sort_status(int status);
 int		m_validate_path(char *cmd_path, char **node_cmd, char **env);
+void	m_close_fds(t_mini *mini);
 
 #endif

@@ -18,9 +18,3 @@ void	m_restore_redirect(t_redir *redir_fd)
 	close(redir_fd->stderr_backup);
 }
 
-int	m_close_fd(int fd)
-{
-	if (fd >= 0)
-		close(fd);
-	return (1);
-}
