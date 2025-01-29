@@ -61,6 +61,14 @@ static void	update_mini(t_mini *mini)
 	m_exec_signals(1);
 }
 
+void	m_close_fds(t_mini *mini)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	close(mini->backup_fd_in);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
@@ -77,6 +85,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		m_minishell_on(&mini);
 	}
+	m_close_fds(&mini);
 	rl_clear_history();
 	m_free_env_list(mini.env_list);
 	return (mini.exit_status);
