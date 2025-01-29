@@ -12,6 +12,8 @@ void	m_free_everything(t_mini *mini)
 		free(mini->hdoc->filename);
 	if (mini->hdoc)
 		free(mini->hdoc);
+	if (mini->backup_fd_in)
+		close(mini->backup_fd_in);
 }
 
 int	is_directory(const char *path)
