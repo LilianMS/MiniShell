@@ -65,7 +65,10 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
 	status = m_validate_path(cmd_path, tree_node_cmd, env);
 	if (status)
+	{
+		m_close_fds(mini);
 		return (status);
+	}
 	else
 	{
 		if (execve(cmd_path, tree_node_cmd, env))
@@ -73,6 +76,7 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 			status = m_check_permissions(cmd_path);
 			free(cmd_path);
 			free_cmd_array(env);
+			m_close_fds(mini);
 			return (status);
 		}
 	}
@@ -137,6 +141,7 @@ int	m_exec_redir_command(t_tree *node, t_mini *mini)
 		ft_putendl_fd("minishell: ext command execution error", STDERR_FILENO);
 		exit(status);
 	}
+	m_close_fds(mini);
 	return (status);
 }
 
