@@ -12,8 +12,7 @@ void	m_free_everything(t_mini *mini)
 		free(mini->hdoc->filename);
 	if (mini->hdoc)
 		free(mini->hdoc);
-	if (mini->backup_fd_in)
-		close(mini->backup_fd_in);
+	m_close_fds(mini);
 }
 
 int	is_directory(const char *path)
@@ -40,11 +39,19 @@ int	m_validate_path(char *cmd_path, char **node_cmd, char **env)
 		free_cmd_array(env);
 		return (127);
 	}
+	else if (cmd_path == node_cmd[0] && access(cmd_path, F_OK) != 0)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(node_cmd[0], STDERR_FILENO);
+		ft_putendl_fd(": no such file or directory", STDERR_FILENO);
+		free_cmd_array(env);
+		return (127);
+	}
 	else if (is_directory(cmd_path) == 1)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(cmd_path, STDERR_FILENO);
-		ft_putendl_fd(" is a directory", STDERR_FILENO);
+		ft_putendl_fd(": is a directory", STDERR_FILENO);
 		free_cmd_array(env);
 		return (126);
 	}
@@ -66,7 +73,7 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 	status = m_validate_path(cmd_path, tree_node_cmd, env);
 	if (status)
 	{
-		m_close_fds(mini);
+		// m_close_fds(mini);
 		return (status);
 	}
 	else
@@ -76,7 +83,7 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 			status = m_check_permissions(cmd_path);
 			free(cmd_path);
 			free_cmd_array(env);
-			m_close_fds(mini);
+			// m_close_fds(mini);
 			return (status);
 		}
 	}
@@ -138,10 +145,8 @@ int	m_exec_redir_command(t_tree *node, t_mini *mini)
 	else
 	{
 		status = m_execute_command(node->command, mini);
-		ft_putendl_fd("minishell: ext command execution error", STDERR_FILENO);
 		exit(status);
 	}
-	m_close_fds(mini);
 	return (status);
 }
 
