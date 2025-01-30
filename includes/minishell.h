@@ -55,6 +55,7 @@ struct s_hdoc
 
 void							init_minishell(t_mini *mini, char **envp);
 void							update_mini(t_mini *mini);
+void							m_init_signals(void);
 void							m_update_num_lines(t_mini *mini);
 int								m_is_input_null(t_mini *mini);
 int								m_minishell_on(t_mini *mini);
