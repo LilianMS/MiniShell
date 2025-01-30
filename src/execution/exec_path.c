@@ -35,6 +35,8 @@ char	*m_create_path(char *cmd_path, char **node_cmd, char **env)
 	else
 	{
 		env_paths = m_find_env_paths(env);
+		if (env_paths == NULL)
+			return (node_cmd[0]);
 		while (env_paths[i])
 		{
 			path = ft_strjoin(env_paths[i++], "/");
