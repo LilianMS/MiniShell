@@ -27,17 +27,15 @@ void	update_history(t_hdoc *hdoc, char *line)
 	hdoc->history_block = new_block;
 }
 
-void	init_history_block(t_hdoc *hdoc)
+void	init_history_block(t_hdoc *hdoc, t_mini *mini)
 {
-	hdoc->history_block = malloc(strlen("<< ") + strlen(hdoc->delimiter) + 2);
+	hdoc->history_block = malloc(ft_strlen(mini->line) + 1);
 	if (!hdoc->history_block)
 	{
 		perror("Error allocating memory");
 		return ;
 	}
-	ft_strcpy(hdoc->history_block, "<< ");
-	ft_strcat(hdoc->history_block, hdoc->delimiter);
-	ft_strcat(hdoc->history_block, "\n");
+	ft_strcpy(hdoc->history_block, mini->line);
 }
 
 void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini)
@@ -76,7 +74,7 @@ void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini)
 {
 	char	*line;
 
-	init_history_block(hdoc);
+	init_history_block(hdoc, mini);
 	line = readline("> ");
 	while (line != NULL)
 	{
