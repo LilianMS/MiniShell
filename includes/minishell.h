@@ -51,12 +51,13 @@ struct s_hdoc
 	int							temp_fd;
 	int							exit_flag;
 	int							suffix_doc;
+	int							nb_line_del;
 };
 
 void							init_minishell(t_mini *mini, char **envp);
 void							update_mini(t_mini *mini);
 void							m_init_signals(void);
-void							m_update_num_lines(t_mini *mini);
+int								m_update_nb_lines(int num);
 int								m_is_input_null(t_mini *mini);
 int								m_minishell_on(t_mini *mini);
 

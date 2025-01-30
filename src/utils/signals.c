@@ -9,14 +9,12 @@ void	m_init_signals(void)
 
 void	update_mini(t_mini *mini)
 {
-	// if (g_signal_status == 130)
-	// 	m_update_num_lines(mini);
+	m_update_nb_lines(1);
 	g_signal_status = 0;
 	m_init_signals();
 	dup2(mini->backup_fd_in, STDIN_FILENO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &mini->term);
 	m_exec_signals(1);
-	// m_update_num_lines(mini);
 }
 
 void	m_sig_int(int signum)
@@ -24,6 +22,7 @@ void	m_sig_int(int signum)
 	if (signum == SIGINT)
 	{
 		g_signal_status = 128 + signum;
+		m_update_nb_lines(1);
 		ft_putendl_fd("", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -35,6 +34,7 @@ void	m_sig(int signum)
 {
 	(void)signum;
 	g_signal_status = 130;
+	m_update_nb_lines(1);
 	ft_putendl_fd("", STDOUT_FILENO);
 }
 

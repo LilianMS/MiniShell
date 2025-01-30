@@ -14,6 +14,7 @@ void	init_minishell(t_mini *mini, char **envp)
 	mini->hdoc->temp_fd = 0;
 	mini->hdoc->suffix_doc = -1;
 	mini->hdoc->filename = NULL;
+	m_update_nb_lines(0);
 }
 
 int	m_minishell_on(t_mini *mini)
@@ -38,4 +39,17 @@ int	m_minishell_on(t_mini *mini)
 	mini->exit_status = m_execution(mini->tree, mini);
 	m_tree_cleaner(mini->tree);
 	return (mini->exit_status);
+}
+
+int	m_update_nb_lines(int num)
+{
+	static int	nb_lines;
+
+	if (num == -1)
+		return (nb_lines);
+	if (num == 0)
+		nb_lines = num;
+	else
+		nb_lines += num;
+	return (nb_lines);
 }

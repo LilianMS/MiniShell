@@ -1,13 +1,13 @@
 #include "../../includes/minishell.h"
 
-void	print_heredoc_message(t_hdoc *hdoc, t_mini *mini)
+void	print_heredoc_message(t_hdoc *hdoc)
 {
 	char	*message[2];
 
 	message[0] = "minishell: warning: here-document at line ";
 	message[1] = "delimited by end-of-file (wanted `";
 	ft_putstr_fd(message[0], STDERR_FILENO);
-	ft_printf("%d ", mini->num_lines);
+	ft_printf("%d ", hdoc->nb_line_del);
 	// ft_putnbr_fd(mini->num_lines, STDERR_FILENO);
 	ft_putstr_fd(message[1], STDERR_FILENO);
 	ft_putstr_fd(hdoc->delimiter, STDERR_FILENO);
@@ -45,19 +45,23 @@ int	heredoc_create_file(t_hdoc **hdoc)
 	return (fd);
 }
 
-char	*m_heredoc_get_delimiter(t_token *node)
+char	*m_heredoc_get_delimiter(t_token *node, t_hdoc *hdoc)
 {
 	if (node == NULL || node->next == NULL)
 		return (NULL);
 	if (node->next->type == DELIMITER)
+	{
+		hdoc->nb_line_del = m_update_nb_lines(-1);
+		ft_printf("delimiter: %s, n_line: %d\n", node->next->lexeme, hdoc->nb_line_del); // ---debug
 		return (node->next->lexeme);
-	// ft_printf("delimiter: %s\n", node->next->lexeme); // ---debug
+	}
 	return (NULL);
 }
 
 void	m_sig_heredoc(int signal __attribute__((unused)))
 {
 	g_signal_status = 128 + SIGINT;
+	m_update_nb_lines(1);
 	ft_putendl_fd("", STDOUT_FILENO);
 	close(STDIN_FILENO);
 }
@@ -78,7 +82,7 @@ int	m_init_heredoc(t_hdoc *hdoc, t_token *node)
 	}
 	hdoc->exit_flag = 0;
 	hdoc->history_block = NULL;
-	hdoc->delimiter = m_heredoc_get_delimiter(node);
+	hdoc->delimiter = m_heredoc_get_delimiter(node, hdoc);
 	if (!hdoc->delimiter)
 	{
 		ft_putendl_fd("heredoc: syntax error", STDERR_FILENO);
@@ -119,7 +123,7 @@ int	m_heredoc( t_token **parsed_list, t_mini *mini)
 				return (-1);
 			m_aux_heredoc(hdoc, current, mini);
 			if (mini->hdoc->exit_flag == 1)
-				print_heredoc_message(hdoc, mini);
+				print_heredoc_message(hdoc);
 			if (g_signal_status != 130)
 				m_heredoc_update_node(&current, hdoc);
 			close(hdoc->temp_fd);

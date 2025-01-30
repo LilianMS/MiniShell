@@ -40,27 +40,6 @@ void	init_history_block(t_hdoc *hdoc)
 	ft_strcat(hdoc->history_block, "\n");
 }
 
-char	*m_heredoc_expansion(char *lexeme, t_mini *mini)
-{
-	char	*dollar_position;
-
-	dollar_position = ft_strchr(lexeme, '$');
-	if (dollar_position)
-	{
-		if (ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
-		{
-			return (m_get_expand_split(lexeme, mini));
-		}
-		else if (dollar_position[1] == '\0')
-			return (m_clean_qts(ft_strdup(lexeme)));
-		else
-			return (m_get_expand_string(ft_strdup(lexeme), mini));
-	}
-	else if (ft_strchr(lexeme, '\'') || ft_strchr(lexeme, '\"'))
-		return (m_set_split_quotes(lexeme));
-	return (m_clean_qts(ft_strdup(lexeme)));
-}
-
 void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini)
 {
 	char	*expanded_line;
@@ -69,7 +48,7 @@ void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini
 		&& ft_strcmp(node->next->lexeme, hdoc->delimiter) == 0 \
 		&& node->next->quote == 0)
 	{
-		expanded_line = m_heredoc_expansion(line, mini);
+		expanded_line = m_qts_and_expand(line, mini);
 		line = expanded_line;
 	}
 	else
@@ -90,7 +69,7 @@ void	hdoc_handle_line(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini)
 		return ;
 	update_history(hdoc, line);
 	heredoc_write_to_file(hdoc, line, node, mini);
-	m_update_num_lines(mini);
+	m_update_nb_lines(1);
 }
 
 void	m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini)
