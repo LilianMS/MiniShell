@@ -53,6 +53,7 @@ struct s_hdoc
 	long long int	nb_line_del;
 };
 
+// Init functions
 void				init_minishell(t_mini *mini, char **envp);
 void				update_mini(t_mini *mini);
 void				m_init_signals(void);
@@ -65,10 +66,11 @@ t_token				*m_lexical_analysis(t_mini *mini);
 int					m_check_line_input(const char *line);
 char				*m_clean_qts(char *lexeme);
 void				m_sig_int(int signum);
-
 t_token				*m_parse_tokens(t_token **token_list, \
 						t_token **parsed_list, t_mini *mini);
 void				m_exec_signals(int pid);
+
+// Heredoc functions
 int					m_heredoc( t_token **parsed_list, t_mini *mini);
 void				heredoc_signals(void);
 void				m_aux_heredoc(t_hdoc *hdoc, t_token *node, t_mini *mini);
