@@ -42,7 +42,8 @@ int	m_sort_status(int status)
 		else if (status == SIGQUIT)
 		{
 			signal(SIGPIPE, SIG_IGN);
-			return (131);
+			ft_putstr_fd("Quit: (core dumped)\n", STDERR_FILENO);
+			return (SIGQUIT + 128);
 		}
 	}
 	else if (WIFEXITED(status))
