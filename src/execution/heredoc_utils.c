@@ -47,7 +47,7 @@ int	heredoc_create_file(t_hdoc **hdoc)
 	if ((*hdoc)->suffix_doc == -1)
 		(*hdoc)->suffix_doc = 0;
 	suffix = ft_itoa((*hdoc)->suffix_doc);
-	strcpy(filename, "heredoc");
+	strcpy(filename, "/tmp/heredoc");
 	strcat(filename, suffix);
 	free(suffix);
 	fd = ft_create_file(filename);

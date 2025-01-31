@@ -38,7 +38,10 @@ int	m_fork_and_exec(int *pipefd, t_tree *node, int pid_index, t_mini *mini)
 		return (-1);
 	m_exec_signals(pid);
 	if (pid == 0)
+	{
+		mini->current_pid = m_get_process_id();
 		m_children_process(pipefd, node, pid_index, mini);
+	}
 	return (pid);
 }
 

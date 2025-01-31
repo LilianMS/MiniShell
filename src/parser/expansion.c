@@ -20,7 +20,7 @@ char	*m_expansion_special_cases(char *dollar_position, t_mini *mini)
 	char	*expansion;
 
 	if (ft_strncmp(dollar_position, "$$", 2) == 0)
-		expansion = ft_strdup("$$");
+		expansion = ft_itoa(mini->current_pid);
 	else if (ft_strncmp(dollar_position, "$?", 2) == 0)
 		expansion = m_get_exit_status(mini);
 	else if (dollar_position[1] && ft_isdigit(dollar_position[1]))

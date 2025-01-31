@@ -42,5 +42,6 @@ int		m_sort_status(int status);
 int		m_validate_path(char *cmd_path, char **node_cmd, char **env);
 int		m_empty_cmd(void);
 void	m_close_fds(t_mini *mini);
+pid_t	m_get_process_id();
 
 #endif

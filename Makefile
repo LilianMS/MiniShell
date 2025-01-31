@@ -47,6 +47,7 @@ SRC= minishell.c \
 	 execution/heredoc_utils.c \
 	 execution/heredoc_history.c \
 	 execution/fds.c \
+	 execution/get_pid.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 

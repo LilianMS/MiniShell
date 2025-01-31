@@ -6,6 +6,7 @@ void	init_minishell(t_mini *mini, char **envp)
 	mini->line = NULL;
 	mini->env_list = m_create_env_list(envp);
 	mini->tree = NULL;
+	mini->current_pid = m_get_process_id();
 	mini->backup_fd_in = dup(STDIN_FILENO);
 	tcgetattr(STDIN_FILENO, &mini->term);
 	mini->hdoc = malloc(sizeof(t_hdoc));

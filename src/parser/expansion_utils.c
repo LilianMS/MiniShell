@@ -1,10 +1,5 @@
 #include "../includes/parser.h"
 
-pid_t	m_get_pid(void)
-{
-	return (8888);
-}
-
 char	*m_get_exit_status(t_mini *mini)
 {
 	return (ft_itoa(mini->exit_status % 256));

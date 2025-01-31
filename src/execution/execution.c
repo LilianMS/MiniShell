@@ -61,6 +61,7 @@ int	m_simple_command(t_tree *node, t_mini *mini)
 	m_exec_signals(pid);
 	if (pid == 0)
 	{
+		mini->current_pid = m_get_process_id();
 		status = m_execute_command(node->command, mini);
 		m_free_everything(mini);
 		exit(status);
