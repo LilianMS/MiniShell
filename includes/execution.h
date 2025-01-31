@@ -43,5 +43,6 @@ int		m_validate_path(char *cmd_path, char **node_cmd, char **env);
 int		m_empty_cmd(void);
 void	m_close_fds(t_mini *mini);
 pid_t	m_get_process_id();
+int		m_is_absolute_path(char *cmd_path);
 
 #endif
