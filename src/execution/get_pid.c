@@ -15,7 +15,7 @@ pid_t	extract_pid(const char *buffer)
 	return (pid);
 }
 
-pid_t	m_get_process_id()
+pid_t	m_get_process_id(void)
 {
 	char	buffer[256];
 	int		fd;
@@ -26,18 +26,17 @@ pid_t	m_get_process_id()
 	if (fd == -1)
 	{
 		perror("open");
-		return -1;
+		return (-1);
 	}
 	bytes_read = read(fd, buffer, sizeof(buffer) - 1);
 	if (bytes_read <= 0)
 	{
 		perror("read");
 		close(fd);
-		return -1;
+		return (-1);
 	}
 	buffer[bytes_read] = '\0';
 	close(fd);
 	pid = extract_pid(buffer);
-
-	return pid;
+	return (pid);
 }
