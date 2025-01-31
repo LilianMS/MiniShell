@@ -1,0 +1,6 @@
+LD_LIBRARY_PATH=/usr/lib/debug
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+MANDATORY_PATH=/usr/share/gconf/ubuntu.mandatory.path
+DEFAULTS_PATH=/usr/share/gconf/ubuntu.default.path
+PATH=/nfs/homes/lsampiet/bin:/nfs/homes/lsampiet/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session1
