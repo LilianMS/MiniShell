@@ -4,13 +4,13 @@
 // Libs
 # include "minishell.h"
 # include "tokenizer.h"
-# include "debug.h"
 # include "ast.h"
 
 // Structs
 typedef struct s_mini		t_mini;
-typedef struct s_env_parse	t_env_parse;
 typedef struct s_env		t_env;
+typedef struct s_token		t_token;
+typedef struct s_env_parse	t_env_parse;
 
 struct s_env_parse
 {
@@ -37,8 +37,7 @@ t_env	*m_create_env_list(char **envp);
 t_env	*m_create_env_node(char *name, char *value);
 void	m_add_node_env(t_env **head, t_env *new_node);
 
-pid_t	m_get_pid(void); // função para expadir $$ -- não implementada
-// função para setar e pegar o status do sinal ao chamar $?
+pid_t	m_get_pid(void);
 char	*m_get_exit_status(t_mini *mini);
 char	*m_clean_dollar(char *str, int *idx);
 char	*m_get_expand_string(char *lexeme, t_mini *mini);

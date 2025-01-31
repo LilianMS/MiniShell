@@ -38,7 +38,8 @@ void	init_history_block(t_hdoc *hdoc, t_mini *mini)
 	ft_strcpy(hdoc->history_block, mini->line);
 }
 
-void	heredoc_write_to_file(t_hdoc *hdoc, char *line, t_token *node, t_mini *mini)
+void	heredoc_write_to_file(t_hdoc *hdoc, char *line, \
+			t_token *node, t_mini *mini)
 {
 	char	*expanded_line;
 

@@ -17,4 +17,3 @@ void	m_restore_redirect(t_redir *redir_fd)
 	close(redir_fd->stdout_backup);
 	close(redir_fd->stderr_backup);
 }
-

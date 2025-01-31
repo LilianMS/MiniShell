@@ -31,10 +31,4 @@ void	m_tree_cleaner(t_tree *tree_node);
 void	m_allocate_command(t_tree **root, t_token *parsed_list);
 int		m_is_redir(int token_type);
 
-//---------------------------------------------------------------------Debug
-void	visualize_tree(t_tree *root);
-void	print_item(t_tree *this_node, int distance);
-void	print_left_branch(int distance, t_tree *left);
-void	print_right_branch(int distance, t_tree *right);
-
 #endif

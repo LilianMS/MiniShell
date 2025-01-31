@@ -23,7 +23,6 @@ SRC= minishell.c \
 	 parser/pre_parser.c \
 	 ast/binary_tree.c \
 	 ast/binary_tree_utils.c \
-	 ast/tree_printer.c \
 	 utils/mini_utils.c \
 	 utils/checkers.c \
 	 utils/cleaners.c \
@@ -39,6 +38,7 @@ SRC= minishell.c \
 	 builtin/exit.c \
 	 builtin/builtin_utils.c \
 	 execution/execution.c \
+	 execution/execution_aux.c \
 	 execution/exec_path.c \
 	 execution/exec_utils.c \
 	 execution/redirects.c \
@@ -47,7 +47,6 @@ SRC= minishell.c \
 	 execution/heredoc_utils.c \
 	 execution/heredoc_history.c \
 	 execution/fds.c \
-	 debug.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 

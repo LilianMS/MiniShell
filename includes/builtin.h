@@ -3,12 +3,16 @@
 
 //Libs
 # include "minishell.h"
+# include "ast.h"
 
 # define INT_MIN -2147483648
 # define INT_MAX  2147483647
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
+
+typedef struct s_env	t_env;
+typedef struct s_tree	t_tree;
 
 enum e_builtin
 {

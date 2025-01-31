@@ -1,6 +1,5 @@
 #include "../includes/parser.h"
 
-// criar nó de variável de ambiente
 t_env	*m_create_env_node(char *name, char *value)
 {
 	t_env	*new_node;
@@ -34,7 +33,6 @@ void	m_add_node_env(t_env **head, t_env *new_node)
 	}
 }
 
-// função para criar lista com envp
 t_env	*m_create_env_list(char **envp)
 {
 	int			i;
@@ -62,7 +60,6 @@ t_env	*m_create_env_list(char **envp)
 	return (env_list);
 }
 
-// Função para encontrar uma variável na lista encadeada
 char	*m_get_env(t_env *env_list, const char *var_name)
 {
 	t_env	*current;

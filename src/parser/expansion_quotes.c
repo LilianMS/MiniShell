@@ -1,5 +1,4 @@
 #include "../includes/parser.h"
-#include "../includes/debug.h" //------ debug
 
 static char	*extract_quoted_segment(char *input, int *index)
 {

@@ -11,7 +11,7 @@ t_token	*m_find_joint_token(t_token	*tokens)
 		rev_list = rev_list->prev;
 	if (rev_list && rev_list->type == PIPE)
 	{
-		rev_list->lexeme = ft_strdup("(pipe)"); //debug
+		rev_list->lexeme = ft_strdup("(pipe)");
 		return (rev_list);
 	}
 	rev_list = m_find_last_token(tokens);
@@ -19,7 +19,7 @@ t_token	*m_find_joint_token(t_token	*tokens)
 		rev_list = rev_list->prev;
 	if (rev_list && m_is_redir(rev_list->type))
 	{
-		rev_list->lexeme = ft_strdup("(redir)"); //debug
+		rev_list->lexeme = ft_strdup("(redir)");
 		return (rev_list);
 	}
 	return (NULL);
@@ -52,7 +52,7 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 	t_tree	*root;
 
 	if (!parsed_list)
-		return (NULL); // root->parent = root;
+		return (NULL);
 	joint = m_find_joint_token(parsed_list);
 	root = ft_calloc(sizeof(t_tree), 1);
 	root->left = NULL;
@@ -94,7 +94,6 @@ t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list)
 {
 	root = m_tree_builder(*parsed_list);
 	m_add_parent(root);
-	visualize_tree(root); // ----- debug
 	m_free_tokens(parsed_list);
 	return (root);
 }

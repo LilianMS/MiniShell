@@ -4,7 +4,6 @@ void	init_minishell(t_mini *mini, char **envp)
 {
 	ft_bzero(mini, sizeof(t_mini));
 	mini->line = NULL;
-	mini->num_lines = 0;
 	mini->env_list = m_create_env_list(envp);
 	mini->tree = NULL;
 	mini->backup_fd_in = dup(STDIN_FILENO);
@@ -41,9 +40,9 @@ int	m_minishell_on(t_mini *mini)
 	return (mini->exit_status);
 }
 
-int	m_update_nb_lines(int num)
+long long int	m_update_nb_lines(long long int num)
 {
-	static int	nb_lines;
+	static long long int	nb_lines;
 
 	if (num == -1)
 		return (nb_lines);
@@ -52,4 +51,12 @@ int	m_update_nb_lines(int num)
 	else
 		nb_lines += num;
 	return (nb_lines);
+}
+
+void	m_close_fds(t_mini *mini)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	close(mini->backup_fd_in);
 }

@@ -2,8 +2,8 @@
 
 int	ft_echo(char **args)
 {
-	int		i;
-	int		n_option;
+	int	i;
+	int	n_option;
 
 	i = 1;
 	n_option = 0;

@@ -2,18 +2,9 @@
 
 volatile sig_atomic_t	g_signal_status = 0;
 
-void	m_close_fds(t_mini *mini)
+int	main(__attribute__((unused)) int argc, \
+	__attribute__((unused)) char **argv, char **envp)
 {
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
-	close(mini->backup_fd_in);
-}
-
-int	main(int ac, char **av, char **envp)
-{
-	(void)ac;
-	(void)av;
 	t_mini	mini;
 
 	init_minishell(&mini, envp);

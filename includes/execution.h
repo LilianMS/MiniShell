@@ -5,13 +5,14 @@
 # include "minishell.h"
 # include "parser.h"
 # include "tokenizer.h"
-# include "debug.h"
+# include "builtin.h"
 # include "ast.h"
 
 //Structs
 typedef struct s_mini		t_mini;
 typedef struct s_token		t_token;
 typedef struct s_redir		t_redir;
+typedef struct s_env		t_env;
 
 // Estrutura para guardar os file descriptors originais
 struct s_redir
@@ -39,6 +40,7 @@ int		m_exec_redir_command(t_tree *node, t_mini *mini);
 int		m_check_permissions(char *cmd_path);
 int		m_sort_status(int status);
 int		m_validate_path(char *cmd_path, char **node_cmd, char **env);
+int		m_empty_cmd(void);
 void	m_close_fds(t_mini *mini);
 
 #endif

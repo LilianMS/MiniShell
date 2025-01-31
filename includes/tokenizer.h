@@ -4,7 +4,6 @@
 //Libs
 # include "minishell.h"
 # include "parser.h"
-# include "debug.h"
 # include "ast.h"
 
 //Structs
