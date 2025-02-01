@@ -6,6 +6,7 @@ BIN= ./bin/
 SRC_D= ./src/
 CC = cc
 LIBS = $(LIBFT)/libft.a -lreadline
+LIBFT_A = $(LIBFT)/libft.a
 
 SRC= minishell.c \
 	 tokenizer/tokenizer.c \
@@ -63,21 +64,21 @@ MAGEN   = \033[0;35m
 CYAN    = \033[1;36m
 RESET   = \033[0m
 
-all: libft $(NAME)
-	@echo "${YELLOW}    --    Compiled Program >>> ${GREEN}./$(NAME)${YELLOW}    --${RESET}"
+all: $(NAME)
 
-libft:
+$(LIBFT_A):
 	@make -C $(LIBFT)/ --no-print-directory
 
 $(BIN)%.o: $(SRC_D)%.c
 	@mkdir -p $(BIN)
 	@$(CC) $(FLAGS) -o $@ -c $< && echo "${YELLOW}Compiling:${RESET} $(notdir $<)"
 
-$(NAME): $(OBJS)
+$(NAME): $(LIBFT_A) $(OBJS)
 	@echo " "
 	@echo "Creating file $(NAME) ..."
 	@echo " "
 	@$(CC) $(FLAGS) $(OBJS) $(INCLUDES) -o $(NAME) $(LIBS)
+	@echo "${YELLOW}    --    Compiled Program >>> ${GREEN}./$(NAME)${YELLOW}    --${RESET}"
 
 clean:
 	@make clean -C $(LIBFT)/ --no-print-directory
