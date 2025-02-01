@@ -6,9 +6,13 @@ static char	**m_find_env_paths(char **envp)
 	char	**paths;
 
 	i = 0;
+	paths = NULL;
+	if (!envp)
+		return (NULL);
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
-	if (envp[i])
+	if (envp[i] && envp[i][4] != '\0' \
+		&& envp[i][5] != '\0')
 	{
 		paths = ft_split(envp[i] + 5, ':');
 		return (paths);
@@ -36,7 +40,6 @@ char	*m_find_executable_path(char *cmd_path, char **node_cmd, char **env_paths)
 	}
 	return (NULL);
 }
-
 
 char	*m_create_path(char *cmd_path, char **node_cmd, char **env)
 {
@@ -84,8 +87,11 @@ char	**m_env_list_to_array(t_env *env_list)
 	{
 		envp[i] = ft_strjoin(env_list->name, "=");
 		tmp_str = envp[i];
-		envp[i] = ft_strjoin(envp[i], env_list->value);
-		free(tmp_str);
+		if (env_list->value)
+		{
+			envp[i] = ft_strjoin(envp[i], env_list->value);
+			free(tmp_str);
+		}
 		env_list = env_list->next;
 		i++;
 	}
