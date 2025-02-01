@@ -62,15 +62,12 @@ char	*m_create_path(char *cmd_path, char **node_cmd, char **env)
 	char	**env_paths;
 
 	if (m_find_directory(node_cmd[0]))
-	{
-		cmd_path = ft_strdup(node_cmd[0]);
-		return (node_cmd[0]);
-	}
+		return (ft_strdup(node_cmd[0]));
 	else
 	{
 		env_paths = m_find_env_paths(env);
 		if (env_paths == NULL)
-			return (node_cmd[0]);
+			return (ft_strdup(node_cmd[0]));
 		cmd_path = m_find_executable_path(cmd_path, node_cmd, env_paths);
 		if (cmd_path)
 			return (cmd_path);

@@ -14,12 +14,15 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
 	status = m_validate_path(cmd_path, tree_node_cmd, env);
 	if (status)
+	{
+		free(cmd_path);
 		return (status);
+	} 
 	else
 	{
 		if (execve(cmd_path, tree_node_cmd, env))
 		{
-			status = m_check_permissions(cmd_path);
+			// status = m_check_permissions(cmd_path);
 			free(cmd_path);
 			free_cmd_array(env);
 			return (status);
