@@ -44,6 +44,7 @@ int	m_empty_cmd(void)
 
 int	m_validate_path(char *cmd_path, char **node_cmd, char **env)
 {
+	(void)env;
 	if (cmd_path == NULL)
 	{
 		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
@@ -58,6 +59,12 @@ int	m_validate_path(char *cmd_path, char **node_cmd, char **env)
 		ft_putendl_fd(": no such file or directory", STDERR_FILENO);
 		free_cmd_array(env);
 		return (127);
+	}
+	else if (is_directory(cmd_path) == 1 \
+			&& m_check_permissions(cmd_path) == 126)
+	{
+		// free_cmd_array(env);
+		return (126);
 	}
 	else if (is_directory(cmd_path) == 1)
 	{

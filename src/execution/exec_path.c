@@ -41,11 +41,31 @@ char	*m_find_executable_path(char *cmd_path, char **node_cmd, char **env_paths)
 	return (NULL);
 }
 
+int	m_find_directory(char *cmd)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	tmp = cmd;
+	while (tmp[i])
+	{
+		if (tmp[i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 char	*m_create_path(char *cmd_path, char **node_cmd, char **env)
 {
 	char	**env_paths;
-	if (m_is_absolute_path(node_cmd[0]) == 0)
+
+	if (m_find_directory(node_cmd[0]))
+	{
+		cmd_path = ft_strdup(node_cmd[0]);
 		return (node_cmd[0]);
+	}
 	else
 	{
 		env_paths = m_find_env_paths(env);

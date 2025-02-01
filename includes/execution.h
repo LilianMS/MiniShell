@@ -24,6 +24,7 @@ struct s_redir
 };
 
 //Functions
+int		m_find_directory(char *cmd);
 int		m_execution(t_tree *node, t_mini *mini);
 int		m_simple_command(t_tree *node, t_mini *mini);
 int		m_execute_command(char **tree_node_cmd, t_mini *mini);
