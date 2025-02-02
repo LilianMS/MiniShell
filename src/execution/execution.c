@@ -92,7 +92,8 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 	}
 	if (execve(cmd_path, cleaned_cmd_array, env))
 	{
-		// status = m_check_permissions(cmd_path);
+		status = m_check_permissions(cmd_path);
+		free_cmd_array(cleaned_cmd_array);
 		free(cmd_path);
 		free_cmd_array(env);
 		return (status);
