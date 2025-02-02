@@ -35,6 +35,7 @@ struct s_mini
 	char			*line;
 	int				backup_fd_in;
 	int				exit_status;
+	int				expand_empty;
 	pid_t			current_pid;
 	t_env			*env_list;
 	t_tree			*tree;

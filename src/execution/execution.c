@@ -1,35 +1,135 @@
 #include "../../includes/minishell.h"
 
+int	m_count_non_empty_strings(char **cmd_array)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (cmd_array[i] != NULL)
+	{
+		if (cmd_array[i][0] != '\0')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int	m_fill_cleaned_array(char **cmd_array, char **cleaned_array)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (cmd_array[i] != NULL)
+	{
+		if (cmd_array[i][0] != '\0')
+		{
+			cleaned_array[j] = ft_strdup(cmd_array[i]);
+			if (!cleaned_array[j])
+			{
+				while (j > 0)
+					free(cleaned_array[--j]);
+				free(cleaned_array);
+				return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	cleaned_array[j] = NULL;
+	return (1);
+}
+
+char	**m_remove_empty_strings(char **cmd_array)
+{
+	char	**cleaned_array;
+	int		count;
+
+	count = m_count_non_empty_strings(cmd_array);
+	cleaned_array = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!cleaned_array)
+		return (NULL);
+	if (!m_fill_cleaned_array(cmd_array, cleaned_array))
+		return (NULL);
+	return (cleaned_array);
+}
+
+int m_prepare_command(char **tree_node_cmd, char ***cleaned_cmd_array, t_mini *mini)
+{
+	if (tree_node_cmd[0][0] == '\0' && !tree_node_cmd[1] && mini->expand_empty)
+		return (0);
+	else
+		*cleaned_cmd_array = m_remove_empty_strings(tree_node_cmd);
+	if (!*cleaned_cmd_array)
+		return (0);
+	return (1);
+}
+
 int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 {
 	int		status;
 	char	*cmd_path;
 	char	**env;
+	char	**cleaned_cmd_array;
 
 	status = 0;
 	cmd_path = NULL;
-	if (tree_node_cmd[0][0] == '\0')
+	if (tree_node_cmd[0][0] == '\0' && !tree_node_cmd[1] && !mini->expand_empty)
 		return (m_empty_cmd());
+	if (!m_prepare_command(tree_node_cmd, &cleaned_cmd_array, mini))
+		return (0);
 	env = m_env_list_to_array(mini->env_list);
-	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
-	status = m_validate_path(cmd_path, tree_node_cmd, env);
+	cmd_path = m_create_path(cmd_path, cleaned_cmd_array, env);
+	status = m_validate_path(cmd_path, cleaned_cmd_array, env);
 	if (status)
 	{
+		free_cmd_array(cleaned_cmd_array);
 		free(cmd_path);
 		return (status);
-	} 
-	else
+	}
+	if (execve(cmd_path, cleaned_cmd_array, env))
 	{
-		if (execve(cmd_path, tree_node_cmd, env))
-		{
-			// status = m_check_permissions(cmd_path);
-			free(cmd_path);
-			free_cmd_array(env);
-			return (status);
-		}
+		// status = m_check_permissions(cmd_path);
+		free(cmd_path);
+		free_cmd_array(env);
+		return (status);
 	}
 	return (status);
 }
+
+// int	m_execute_command(char **tree_node_cmd, t_mini *mini)
+// {
+// 	int		status;
+// 	char	*cmd_path;
+// 	char	**env;
+
+// 	status = 0;
+// 	cmd_path = NULL;
+// 	if (tree_node_cmd[0][0] == '\0')
+// 		return (m_empty_cmd());
+// 	env = m_env_list_to_array(mini->env_list);
+// 	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
+// 	status = m_validate_path(cmd_path, tree_node_cmd, env);
+// 	if (status)
+// 	{
+// 		free(cmd_path);
+// 		return (status);
+// 	}
+// 	else
+// 	{
+// 		if (execve(cmd_path, tree_node_cmd, env))
+// 		{
+// 			// status = m_check_permissions(cmd_path);
+// 			free(cmd_path);
+// 			free_cmd_array(env);
+// 			return (status);
+// 		}
+// 	}
+// 	return (status);
+// }
 
 int	m_sort_status(int status)
 {

@@ -11,6 +11,7 @@ void	update_mini(t_mini *mini)
 {
 	m_update_nb_lines(1);
 	g_signal_status = 0;
+	mini->expand_empty = 0;
 	m_init_signals();
 	dup2(mini->backup_fd_in, STDIN_FILENO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &mini->term);

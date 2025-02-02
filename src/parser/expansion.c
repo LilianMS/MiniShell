@@ -42,6 +42,18 @@ static char	*m_extract_before_dollar(char *lexeme)
 	return (before_dollar);
 }
 
+void	m_check_expand_empty(char *result, t_mini *mini)
+{
+	if (result && result[0] == '\0')
+	{
+		mini->expand_empty = 1;
+	}
+	else
+	{
+		mini->expand_empty = 0;
+	}
+}
+
 char	*m_get_expand_string(char *lexeme, t_mini *mini)
 {
 	char	*temp_cleaned_lexeme;
@@ -65,6 +77,7 @@ char	*m_get_expand_string(char *lexeme, t_mini *mini)
 	free(temp_cleaned_lexeme);
 	free(before_dollar);
 	free(processed_part);
+	m_check_expand_empty(result, mini);
 	return (result);
 }
 

@@ -4,6 +4,7 @@ void	init_minishell(t_mini *mini, char **envp)
 {
 	ft_bzero(mini, sizeof(t_mini));
 	mini->line = NULL;
+	mini->expand_empty = 0;
 	mini->env_list = m_create_env_list(envp);
 	mini->tree = NULL;
 	mini->current_pid = m_get_process_id();
