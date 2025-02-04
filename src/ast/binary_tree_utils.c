@@ -15,25 +15,18 @@ void	m_tree_cleaner(t_tree *tree_node)
 	}
 }
 
-void	m_grow_tree(t_tree *root, t_token **joint)
+void	m_add_parent(t_tree *root)
 {
-	t_token	*right;
-	t_token	*left;
-
-	right = NULL;
-	left = NULL;
-	if (!root || !*joint)
+	if (!root)
 		return ;
-	right = (*joint)->next;
-	if (right)
-		right->prev = NULL;
-	if ((*joint)->prev)
-		left = (*joint)->prev;
-	if (left)
-		left->next = NULL;
-	root->type = (*joint)->type;
-	if ((*joint)->lexeme)
-		root->content = ft_strdup((*joint)->lexeme);
-	root->right = m_tree_builder(right);
-	root->left = m_tree_builder(left);
+	if (root->left)
+	{
+		root->left->parent = root;
+		m_add_parent(root->left);
+	}
+	if (root->right)
+	{
+		root->right->parent = root;
+		m_add_parent(root->right);
+	}
 }

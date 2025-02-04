@@ -54,11 +54,3 @@ long long int	m_update_nb_lines(long long int num)
 		nb_lines += num;
 	return (nb_lines);
 }
-
-void	m_close_fds(t_mini *mini)
-{
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
-	close(mini->backup_fd_in);
-}

@@ -17,3 +17,15 @@ void	m_restore_redirect(t_redir *redir_fd)
 	close(redir_fd->stdout_backup);
 	close(redir_fd->stderr_backup);
 }
+
+void	m_close_fds(t_mini *mini)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	close(103);
+	close(39);
+	close(38);
+	close(37);
+	close(mini->backup_fd_in);
+}

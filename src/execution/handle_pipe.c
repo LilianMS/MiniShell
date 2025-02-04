@@ -7,13 +7,6 @@ int	m_handle_fork_error(int *pipefd)
 	return (1);
 }
 
-int	m_is_absolute_path(char *cmd_path)
-{
-	if (access(cmd_path, F_OK) == 0)
-		return (0);
-	return (1);
-}
-
 int	m_children_process(int *pipefd, t_tree *node, int pid_index, t_mini *mini)
 {
 	int	status;

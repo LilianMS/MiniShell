@@ -73,13 +73,9 @@ int	m_execute_all_redirs(t_redir *redir_fd, t_tree *node)
 		current = current->parent;
 	while (current && m_is_redir(current->type))
 	{
-		if (current->type == REDIR_IN)
+		if (current->type == REDIR_IN || current->type == REDIR_HEREDOC)
 			status = m_execute_redir_in(current, redir_fd);
-		else if (current->type == REDIR_HEREDOC)
-			status = m_execute_redir_in(current, redir_fd);
-		else if (current->type == REDIR_OUT)
-			status = m_execute_redir_out_append(current, redir_fd);
-		else if (current->type == REDIR_APPEND)
+		else if (current->type == REDIR_OUT || current->type == REDIR_APPEND)
 			status = m_execute_redir_out_append(current, redir_fd);
 		current = current->parent;
 		if (status == 1)

@@ -1,18 +1,19 @@
 #include "../../includes/minishell.h"
 
-void	m_free_everything(t_mini *mini)
+int	m_find_directory(char *cmd)
 {
-	if (mini->line)
-		free(mini->line);
-	if (mini->env_list)
-		m_free_env_list(mini->env_list);
-	if (mini->tree)
-		m_tree_cleaner(mini->tree);
-	if (mini->hdoc->filename)
-		free(mini->hdoc->filename);
-	if (mini->hdoc)
-		free(mini->hdoc);
-	m_close_fds(mini);
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	tmp = cmd;
+	while (tmp[i])
+	{
+		if (tmp[i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	m_check_permissions(char *cmd_path)

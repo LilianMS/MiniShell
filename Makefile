@@ -39,16 +39,19 @@ SRC= minishell.c \
 	 builtin/exit.c \
 	 builtin/builtin_utils.c \
 	 execution/execution.c \
-	 execution/execution_aux.c \
-	 execution/exec_path.c \
-	 execution/exec_utils.c \
-	 execution/redirects.c \
-	 execution/heredoc.c \
-	 execution/heredoc_aux.c \
-	 execution/heredoc_utils.c \
-	 execution/heredoc_history.c \
-	 execution/fds.c \
+	 execution/execution_utils.c \
+	 execution/exit_status_utils.c \
 	 execution/get_pid.c \
+	 execution/handle_exec_path.c \
+	 execution/handle_path_env.c \
+	 execution/handle_path_utils.c \
+	 execution/handle_fds.c \
+	 execution/handle_pipe.c \
+	 execution/handle_redirects.c \
+	 execution/heredoc_aux.c \
+	 execution/heredoc_history.c \
+	 execution/heredoc_utils.c \
+	 execution/heredoc.c \
 
 SRC:= $(addprefix $(SRC_D),$(SRC))
 
@@ -79,6 +82,24 @@ $(NAME): $(LIBFT_A) $(OBJS)
 	@echo " "
 	@$(CC) $(FLAGS) $(OBJS) $(INCLUDES) -o $(NAME) $(LIBS)
 	@echo "${YELLOW}    -- Compiled Program >>> ${GREEN}./$(NAME)${YELLOW} --${RESET}"
+
+val: readline.supp all
+	@valgrind -q --suppressions=readline.supp \
+				--leak-check=full \
+				--show-leak-kinds=all \
+				--track-origins=yes \
+				--track-fds=yes \
+				--trace-children=yes \
+				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
+				./${NAME}
+
+readline.supp:
+	@echo '{' > $@
+	@echo '   ignore_libreadline_memory_errors' >> $@
+	@echo '   Memcheck:Leak' >> $@
+	@echo '   ...' >> $@
+	@echo '   obj:*/libreadline.so.*' >> $@
+	@echo '}' >> $@
 
 clean:
 	@make clean -C $(LIBFT)/ --no-print-directory

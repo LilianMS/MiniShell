@@ -46,6 +46,29 @@ void	m_allocate_command(t_tree **root, t_token *parsed_list)
 	(*root)->command[i] = NULL;
 }
 
+void	m_grow_tree(t_tree *root, t_token **joint)
+{
+	t_token	*right;
+	t_token	*left;
+
+	right = NULL;
+	left = NULL;
+	if (!root || !*joint)
+		return ;
+	right = (*joint)->next;
+	if (right)
+		right->prev = NULL;
+	if ((*joint)->prev)
+		left = (*joint)->prev;
+	if (left)
+		left->next = NULL;
+	root->type = (*joint)->type;
+	if ((*joint)->lexeme)
+		root->content = ft_strdup((*joint)->lexeme);
+	root->right = m_tree_builder(right);
+	root->left = m_tree_builder(left);
+}
+
 t_tree	*m_tree_builder(t_token *parsed_list)
 {
 	t_token	*joint;
@@ -72,22 +95,6 @@ t_tree	*m_tree_builder(t_token *parsed_list)
 		joint = NULL;
 	}
 	return (root);
-}
-
-void	m_add_parent(t_tree *root)
-{
-	if (!root)
-		return ;
-	if (root->left)
-	{
-		root->left->parent = root;
-		m_add_parent(root->left);
-	}
-	if (root->right)
-	{
-		root->right->parent = root;
-		m_add_parent(root->right);
-	}
 }
 
 t_tree	*m_binary_tree(t_tree *root, t_token **parsed_list)

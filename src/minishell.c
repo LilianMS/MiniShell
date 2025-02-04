@@ -6,13 +6,14 @@ int	main(__attribute__((unused)) int argc, \
 	__attribute__((unused)) char **argv, char **envp)
 {
 	t_mini	mini;
+	const char *line = BPINK "minishell> " RESET;
 
 	init_minishell(&mini, envp);
 	while (1)
 	{
 		g_signal_status = 0;
 		update_mini(&mini);
-		mini.line = readline(PINK_BOLD"minishell> "RESET);
+		mini.line = readline(line);
 		if (m_is_input_null(&mini))
 			break ;
 		m_minishell_on(&mini);
