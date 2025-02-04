@@ -78,7 +78,7 @@ $(NAME): $(LIBFT_A) $(OBJS)
 	@echo "Creating file $(NAME) ..."
 	@echo " "
 	@$(CC) $(FLAGS) $(OBJS) $(INCLUDES) -o $(NAME) $(LIBS)
-	@echo "${YELLOW}    --    Compiled Program >>> ${GREEN}./$(NAME)${YELLOW}    --${RESET}"
+	@echo "${YELLOW}    -- Compiled Program >>> ${GREEN}./$(NAME)${YELLOW} --${RESET}"
 
 clean:
 	@make clean -C $(LIBFT)/ --no-print-directory

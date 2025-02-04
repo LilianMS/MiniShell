@@ -19,6 +19,9 @@
 # include "builtin.h"
 
 # define LLONG_MAX 9223372036854775807LL
+#define PINK_BOLD "\033[1;35m"
+#define CYAN_BOLD "\033[1;36m"
+#define RESET "\033[0m"
 
 extern volatile sig_atomic_t	g_signal_status;
 

@@ -101,37 +101,6 @@ int	m_execute_command(char **tree_node_cmd, t_mini *mini)
 	return (status);
 }
 
-// int	m_execute_command(char **tree_node_cmd, t_mini *mini)
-// {
-// 	int		status;
-// 	char	*cmd_path;
-// 	char	**env;
-
-// 	status = 0;
-// 	cmd_path = NULL;
-// 	if (tree_node_cmd[0][0] == '\0')
-// 		return (m_empty_cmd());
-// 	env = m_env_list_to_array(mini->env_list);
-// 	cmd_path = m_create_path(cmd_path, tree_node_cmd, env);
-// 	status = m_validate_path(cmd_path, tree_node_cmd, env);
-// 	if (status)
-// 	{
-// 		free(cmd_path);
-// 		return (status);
-// 	}
-// 	else
-// 	{
-// 		if (execve(cmd_path, tree_node_cmd, env))
-// 		{
-// 			// status = m_check_permissions(cmd_path);
-// 			free(cmd_path);
-// 			free_cmd_array(env);
-// 			return (status);
-// 		}
-// 	}
-// 	return (status);
-// }
-
 int	m_sort_status(int status)
 {
 	if (WIFSIGNALED(status))
