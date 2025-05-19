@@ -1,9 +1,10 @@
+<hr>
+
 <p align="right">
   <a href="#-minishell">🇺🇸</a> | <a href="#-minishell-em-português">🇧🇷</a>
 </p>
 
 # 🐚 Minishell
-
 **Minishell** is a project developed at 42 São Paulo with the goal of recreating a minimalist shell, capable of interpreting and executing commands in a terminal — just like Bash.
 
 This is one of the most challenging and fundamental projects in the 42 core curriculum, requiring a deep understanding of process management, memory handling, data structures, and command interpretation.
@@ -51,11 +52,12 @@ Built in collaboration: [@Letícia Sampietro](https://github.com/lesampietro) an
 
 ---
 
-# 🐚 Minishell em português
 
 <p align="right">
   <a href="#-minishell">🇺🇸</a> | <a href="#-minishell-em-português">🇧🇷</a>
 </p>
+
+# 🐚 Minishell em português
 
 **Minishell** é um projeto desenvolvido na 42 São Paulo com o objetivo de recriar um shell minimalista, capaz de interpretar e executar comandos no terminal — assim como o Bash.
 
