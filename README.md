@@ -4,7 +4,7 @@
 
 This is one of the most challenging and fundamental projects in the 42 core curriculum, requiring a deep understanding of process management, memory handling, data structures, and command interpretation.
 
-Built in collaboration with [@Lilian](https://github.com/lilian-user).
+Built in collaboration with [@Lilian](https://github.com/LilianMS).
 
 ---
 
