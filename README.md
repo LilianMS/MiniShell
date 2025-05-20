@@ -41,7 +41,9 @@ Built in collaboration: [@Letícia Sampietro](https://github.com/lesampietro) an
 
 ### 4. Abstract Syntax Tree (AST)
 - Tokens are organized into a **binary tree**, where:
-  - Each node represents a command, operator, or redirection
+  - Each node represents a command or an operator (pipe or redirect) and bifurcates into other two (when possible)
+  - If there is a pipe, it will always be the first node, followed by any other operators
+  - Commands will always be on the left side branch of operators
   - Execution begins recursively from the leftmost node
 
 ### 5. Execution
@@ -94,9 +96,11 @@ Desenvolvido em colaboração: [@Letícia Sampietro](https://github.com/lesampie
   - Processamento de pipes e redirecionamentos, incluindo heredoc
 
 ### 4. Árvore de Sintaxe Abstrata (AST)
-- Tokens são organizados em uma **árvore binária**, onde:
-  - Cada nó representa um comando, operador ou redirecionamento
-  - A execução começa recursivamente pelo nó mais à esquerda
+- Os tokens são organizados em uma **árvore binária**, onde:
+  - Cada nó representa um comando ou um operador (pipe ou redirecionamento) e se bifurca em outros dois (quando possível)
+  - Se houver um pipe, ele será sempre o primeiro nó, seguido por quaisquer outros operadores
+  - Os comandos estarão sempre no ramo esquerdo dos operadores
+  - A execução começa recursivamente a partir do nó mais à esquerda
 
 ### 5. Execução
 - Percurso recursivo da AST:
